@@ -1,36 +1,40 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import FadeIn from './FadeIn';
-import { StaggerContainer, StaggerItem } from './StaggerContainer';
 
 const TrustStrip = () => {
-  const logos = ['ACME CORP', 'GLOBEX', 'SOYLENT', 'INITECH', 'UMBRELLA', 'STARK IND', 'WAYNE ENT'];
-  
-  // Double the logos for seamless loop
-  const duplicatedLogos = [...logos, ...logos];
+  const capabilities = [
+    "Security Assessment",
+    "Threat Detection",
+    "Vulnerability Management",
+    "Security Engineering",
+    "Incident Readiness"
+  ];
 
   return (
-    <section className="trust-strip theme-dark" style={{ overflow: 'hidden' }}>
+    <section className="trust-strip theme-dark" style={{ padding: '1.5rem 0', borderBottom: '1px solid var(--border-dark)', background: 'var(--bg-dark-elevated)' }}>
       <div className="wrap">
-        <FadeIn style={{ textAlign: 'center', marginBottom: '3rem', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-light-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-          Trusted by security-first enterprises globally
-        </FadeIn>
-      </div>
-      
-      {/* Marquee container */}
-      <div style={{ display: 'flex', overflow: 'hidden', whiteSpace: 'nowrap', width: '100vw', position: 'relative', left: '50%', right: '50%', marginLeft: '-50vw', marginRight: '-50vw' }}>
         <FadeIn yOffset={0}>
-          <motion.div
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ repeat: Infinity, ease: "linear", duration: 25 }}
-            style={{ display: 'flex', gap: '4rem', paddingLeft: '4rem', alignItems: 'center' }}
-          >
-            {duplicatedLogos.map((logo, i) => (
-              <div key={i} className="trust-logo" style={{ flexShrink: 0, opacity: 0.5 }}>
-                {logo}
-              </div>
+          <div style={{
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center', 
+            flexWrap: 'wrap',
+            gap: '1.5rem',
+            color: 'var(--text-light-muted)',
+            fontSize: '0.9rem',
+            letterSpacing: '0.05em',
+            textTransform: 'uppercase',
+            fontWeight: 500
+          }}>
+            {capabilities.map((cap, i) => (
+              <React.Fragment key={i}>
+                <span style={{ whiteSpace: 'nowrap' }}>{cap}</span>
+                {i < capabilities.length - 1 && (
+                  <span style={{ color: 'rgba(255, 255, 255, 0.15)' }}>|</span>
+                )}
+              </React.Fragment>
             ))}
-          </motion.div>
+          </div>
         </FadeIn>
       </div>
     </section>

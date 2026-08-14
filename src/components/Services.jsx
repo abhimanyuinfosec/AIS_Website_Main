@@ -1,71 +1,126 @@
 import React from 'react';
-import { Sword, Target, Activity, Cloud, FileCheck2, Radar } from 'lucide-react';
+import { 
+  ShieldAlert, 
+  Globe, 
+  Network, 
+  Bug, 
+  Activity, 
+  Settings, 
+  Search, 
+  ShieldCheck, 
+  ArrowRight 
+} from 'lucide-react';
+import FadeIn from './FadeIn';
+import { StaggerContainer, StaggerItem } from './StaggerContainer';
 
 const Services = () => {
   const servicesData = [
     {
-      icon: <Sword strokeWidth={1.5} size={28} />,
-      title: 'Penetration Testing',
-      desc: 'Manual, adversary-style testing of networks, web apps, APIs, and cloud environments — delivering actionable reports engineers can actually use.',
-      tag: '01 / Offense'
+      icon: <ShieldAlert size={32} strokeWidth={1.5} />,
+      title: 'Security Assessment',
+      desc: 'Identify vulnerabilities and security weaknesses across systems and applications.'
     },
     {
-      icon: <Target strokeWidth={1.5} size={28} />,
-      title: 'Red Team Exercises',
-      desc: 'Full-scope simulated intrusions that test people, processes, and technology together against a defined objective to map actual blast radius.',
-      tag: '02 / Offense'
+      icon: <Globe size={32} strokeWidth={1.5} />,
+      title: 'Web Application Security',
+      desc: 'Security testing, vulnerability assessment, OWASP-focused testing, and remediation guidance.'
     },
     {
-      icon: <Activity strokeWidth={1.5} size={28} />,
-      title: 'Incident Response',
-      desc: 'Rapid containment and forensic investigation when a breach occurs, plus a hardened path back to normal, secure operations.',
-      tag: '03 / Response'
+      icon: <Network size={32} strokeWidth={1.5} />,
+      title: 'Network Security',
+      desc: 'Network assessment, exposed service analysis, configuration review, and security hardening.'
     },
     {
-      icon: <Cloud strokeWidth={1.5} size={28} />,
-      title: 'Cloud & Infra Security',
-      desc: 'Configuration review and hardening across AWS, Azure, and GCP — covering IAM, network segmentation, and secrets management.',
-      tag: '04 / Defense'
+      icon: <Bug size={32} strokeWidth={1.5} />,
+      title: 'Vulnerability Assessment & Pen Testing',
+      desc: 'Identify exploitable weaknesses before attackers do.'
     },
     {
-      icon: <FileCheck2 strokeWidth={1.5} size={28} />,
-      title: 'Compliance Readiness',
-      desc: 'Gap assessments and evidence collection mapped to SOC 2, ISO 27001, and HIPAA — built to survive the actual audit.',
-      tag: '05 / Governance'
+      icon: <Activity size={32} strokeWidth={1.5} />,
+      title: 'Threat Detection & Monitoring',
+      desc: 'Monitor security events and identify suspicious activity.'
     },
     {
-      icon: <Radar strokeWidth={1.5} size={28} />,
-      title: 'Managed Detection',
-      desc: "Continuous log and endpoint monitoring with human analysis behind every critical alert, ensuring your team isn't triaging noise alone.",
-      tag: '06 / Defense'
+      icon: <Search size={32} strokeWidth={1.5} />,
+      title: 'OSINT & Attack Surface Intelligence',
+      desc: 'Identify publicly exposed assets, domains, subdomains, services, credentials exposure, and external attack surface.'
     }
   ];
 
   return (
-    <section className="services section-padding" id="services">
+    <section className="section-padding theme-dark" id="services" style={{ background: 'var(--bg-dark)' }}>
       <div className="wrap">
-        <div className="sec-head fade-up">
-          <div className="eyebrow">Capabilities</div>
-          <h2>Security work that holds up under pressure</h2>
-          <p>
-            Each engagement is scoped around what an adversary would actually try — prioritizing real
-            business risk over generic vulnerability checklists.
-          </p>
-        </div>
+        <FadeIn>
+          <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 4rem auto' }}>
+            <div className="mono-label" style={{ color: 'var(--accent-primary)', marginBottom: '1rem' }}>
+              Cybersecurity Services
+            </div>
+            <h2>Comprehensive protection tailored to your business</h2>
+            <p className="muted" style={{ fontSize: '1.1rem', marginTop: '1.5rem' }}>
+              We offer a wide range of specialized services to help you understand your risks, harden your infrastructure, and maintain a resilient security posture.
+            </p>
+          </div>
+        </FadeIn>
 
-        <div className="service-grid fade-up">
+        <StaggerContainer style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '2rem' }}>
           {servicesData.map((service, index) => (
-            <article key={index} className="service-card glass">
-              <div className="icon">
+            <StaggerItem key={index} className="card service-interactive-card" style={{ display: 'flex', flexDirection: 'column', height: '100%', position: 'relative', overflow: 'hidden' }}>
+              <div style={{ 
+                color: 'var(--accent-primary)', 
+                marginBottom: '1.5rem', 
+                background: 'var(--accent-primary-alpha)',
+                width: '64px',
+                height: '64px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 'var(--radius-md)'
+              }}>
                 {service.icon}
               </div>
-              <h3>{service.title}</h3>
-              <p>{service.desc}</p>
-              <span className="tag">{service.tag}</span>
-            </article>
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>{service.title}</h3>
+              <p className="muted" style={{ fontSize: '0.95rem', flexGrow: 1, marginBottom: '2rem' }}>{service.desc}</p>
+              
+              <div className="service-link" style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '0.5rem', 
+                color: 'var(--accent-primary)', 
+                fontWeight: 600, 
+                fontSize: '0.9rem',
+                marginTop: 'auto',
+                transition: 'var(--transition-fast)'
+              }}>
+                Learn More <ArrowRight size={16} className="link-arrow" />
+              </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
+
+      <style dangerouslySetInnerHTML={{__html: `
+        .service-interactive-card {
+          cursor: pointer;
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+        }
+        .service-interactive-card:hover {
+          border-color: var(--accent-primary);
+          transform: translateY(-8px);
+          box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 20px rgba(2, 132, 199, 0.15);
+        }
+        .service-interactive-card .service-link {
+          opacity: 0.8;
+        }
+        .service-interactive-card:hover .service-link {
+          opacity: 1;
+        }
+        .service-interactive-card .link-arrow {
+          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .service-interactive-card:hover .link-arrow {
+          transform: translateX(6px);
+        }
+      `}} />
     </section>
   );
 };
