@@ -29,11 +29,11 @@ const PainPoints = () => {
 
         <StaggerContainer style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginBottom: '4rem' }}>
           {questions.map((q, idx) => (
-            <StaggerItem key={idx} className="card" style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', padding: '1.5rem', background: 'var(--bg-dark-elevated)' }}>
-              <div style={{ color: 'var(--accent-primary)', flexShrink: 0, marginTop: '2px', opacity: 0.8 }}>
-                <HelpCircle size={24} strokeWidth={1.5} />
+            <StaggerItem key={idx} className="card" style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', padding: '1.5rem 1.75rem', background: '#0d1526', borderColor: 'rgba(255,255,255,0.07)' }}>
+              <div style={{ color: 'var(--accent-primary)', flexShrink: 0, marginTop: '2px', opacity: 0.9 }}>
+                <HelpCircle size={22} strokeWidth={1.5} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', margin: 0, fontWeight: 500, lineHeight: 1.5, color: 'var(--text-light)' }}>
+              <h4 style={{ fontSize: '1rem', margin: 0, fontWeight: 500, lineHeight: 1.55, color: 'var(--text-light)', fontFamily: 'Cinzel, serif' }}>
                 "{q}"
               </h4>
             </StaggerItem>
@@ -43,13 +43,11 @@ const PainPoints = () => {
         <FadeIn yOffset={20} delay={0.4}>
           <div style={{ 
             textAlign: 'center', 
-            padding: '3rem 2rem', 
-            background: 'var(--accent-gradient)', 
-            borderRadius: 'var(--radius-lg)',
-            border: '1px solid var(--accent-primary)',
-            boxShadow: '0 10px 30px var(--accent-primary-alpha)'
+            padding: '2.5rem 2rem', 
+            background: '#1a7dc4', 
+            borderRadius: '12px',
           }}>
-            <h3 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', margin: '0', color: 'white' }}>
+            <h3 style={{ fontSize: 'clamp(1.4rem, 2.5vw, 1.9rem)', margin: '0', color: 'white' }}>
               We help you find the answers before an attacker does.
             </h3>
           </div>

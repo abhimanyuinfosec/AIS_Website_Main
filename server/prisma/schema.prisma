@@ -1,0 +1,416 @@
+// Prisma Schema for Abhimanyu InfoSec (AIS) Backend
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ──────────────────────────────────────────────
+// 1. IDENTITY & ACCESS CONTROL
+// ──────────────────────────────────────────────
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+  AUTHOR
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  role         Role      @default(EDITOR)
+  isActive     Boolean   @default(true)
+  twoFASecret  String?
+  twoFAEnabled Boolean   @default(false)
+  lastLogin    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  auditLogs AuditLog[]
+  blogPosts BlogPost[]
+
+  @@map("users")
+}
+
+// ──────────────────────────────────────────────
+// 2. CYBERSECURITY SERVICES
+// ──────────────────────────────────────────────
+
+model Service {
+  id           String   @id @default(cuid())
+  name         String
+  slug         String   @unique
+  icon         String?
+  shortDesc    String
+  detailedDesc String   @db.Text
+  problem      String?  @db.Text
+  objectives   String[]
+  features     String[]
+  methodology  String?  @db.Text
+  deliverables String[]
+  tools        String[]
+  cta          String?
+  featured     Boolean  @default(false)
+  isActive     Boolean  @default(true)
+  displayOrder Int      @default(0)
+  seoTitle     String?
+  seoDesc      String?
+  ogImage      String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("services")
+}
+
+// ──────────────────────────────────────────────
+// 3. SECURITY PROJECTS & CASE STUDIES
+// ──────────────────────────────────────────────
+
+enum PublishStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model Project {
+  id             String        @id @default(cuid())
+  name           String
+  slug           String        @unique
+  logoUrl        String?
+  featuredImage  String?
+  shortDesc      String
+  detailedDesc   String        @db.Text
+  category       String
+  status         PublishStatus @default(DRAFT)
+  featured       Boolean       @default(false)
+  displayOrder   Int           @default(0)
+  startDate      DateTime?
+  completionDate DateTime?
+  publishedAt    DateTime?
+  problem        String?       @db.Text
+  solution       String?       @db.Text
+  architecture   String?       @db.Text
+  keyFeatures    String[]
+  techStack      String[]
+  securityMech   String[]
+  githubUrl      String?
+  liveUrl        String?
+  docsUrl        String?
+  paperUrl       String?
+  tags           String[]
+  seoTitle       String?
+  seoDesc        String?
+  ogImage        String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  images ProjectImage[]
+
+  @@map("projects")
+}
+
+model ProjectImage {
+  id        String  @id @default(cuid())
+  projectId String
+  url       String
+  alt       String?
+  order     Int     @default(0)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("project_images")
+}
+
+// ──────────────────────────────────────────────
+// 4. SECURITY PRODUCTS & TOOLS
+// ──────────────────────────────────────────────
+
+enum ProductStatus {
+  CONCEPT
+  PROTOTYPE
+  DEVELOPMENT
+  BETA
+  PRODUCTION
+  DEPRECATED
+}
+
+model Product {
+  id           String        @id @default(cuid())
+  name         String
+  slug         String        @unique
+  logoUrl      String?
+  shortDesc    String
+  detailedDesc String        @db.Text
+  problem      String?       @db.Text
+  keyFeatures  String[]
+  architecture String?       @db.Text
+  techStack    String[]
+  methodology  String?       @db.Text
+  githubUrl    String?
+  demoUrl      String?
+  docsUrl      String?
+  version      String?
+  status       ProductStatus @default(CONCEPT)
+  releaseDate  DateTime?
+  changelog    String?       @db.Text
+  featured     Boolean       @default(false)
+  publishedAt  DateTime?
+  seoTitle     String?
+  seoDesc      String?
+  ogImage      String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  images ProductImage[]
+
+  @@map("products")
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  url       String
+  alt       String?
+  order     Int     @default(0)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_images")
+}
+
+// ──────────────────────────────────────────────
+// 5. SECURITY RESEARCH & PUBLICATIONS
+// ──────────────────────────────────────────────
+
+model Research {
+  id            String        @id @default(cuid())
+  title         String
+  slug          String        @unique
+  authors       String[]
+  abstract      String        @db.Text
+  description   String?       @db.Text
+  keywords      String[]
+  category      String
+  publishedAt   DateTime?
+  journal       String?
+  doi           String?
+  paperUrl      String?
+  datasetUrl    String?
+  githubUrl     String?
+  citation      String?       @db.Text
+  featuredImage String?
+  featured      Boolean       @default(false)
+  status        PublishStatus @default(DRAFT)
+  seoTitle      String?
+  seoDesc       String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@map("research")
+}
+
+// ──────────────────────────────────────────────
+// 6. BLOG & CYBER INTELLIGENCE
+// ──────────────────────────────────────────────
+
+model BlogPost {
+  id            String        @id @default(cuid())
+  title         String
+  slug          String        @unique
+  authorId      String
+  author        User          @relation(fields: [authorId], references: [id])
+  featuredImage String?
+  excerpt       String
+  content       String        @db.Text
+  category      BlogCategory  @relation(fields: [categoryId], references: [id])
+  categoryId    String
+  tags          BlogTag[]
+  status        PublishStatus @default(DRAFT)
+  featured      Boolean       @default(false)
+  readingTime   Int?
+  publishedAt   DateTime?
+  scheduledAt   DateTime?
+  seoTitle      String?
+  seoDesc       String?
+  ogImage       String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@map("blog_posts")
+}
+
+model BlogCategory {
+  id    String     @id @default(cuid())
+  name  String     @unique
+  slug  String     @unique
+  posts BlogPost[]
+
+  @@map("blog_categories")
+}
+
+model BlogTag {
+  id    String     @id @default(cuid())
+  name  String     @unique
+  slug  String     @unique
+  posts BlogPost[]
+
+  @@map("blog_tags")
+}
+
+// ──────────────────────────────────────────────
+// 7. TEAM MANAGEMENT
+// ──────────────────────────────────────────────
+
+model TeamMember {
+  id           String   @id @default(cuid())
+  name         String
+  role         String
+  profileImage String?
+  shortBio     String
+  detailedBio  String?  @db.Text
+  skills       String[]
+  expertise    String[]
+  linkedin     String?
+  github       String?
+  email        String?
+  otherLinks   Json?
+  displayOrder Int      @default(0)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("team_members")
+}
+
+// ──────────────────────────────────────────────
+// 8. TESTIMONIALS & REVIEWS
+// ──────────────────────────────────────────────
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  PUBLISHED
+}
+
+model Review {
+  id           String       @id @default(cuid())
+  reviewerName String
+  profileImage String?
+  designation  String?
+  organization String?
+  reviewText   String       @db.Text
+  rating       Int?
+  source       String?
+  date         DateTime?
+  verified     Boolean      @default(false)
+  status       ReviewStatus @default(PENDING)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@map("reviews")
+}
+
+// ──────────────────────────────────────────────
+// 9. CLIENT INQUIRIES & LEADS
+// ──────────────────────────────────────────────
+
+enum InquiryStatus {
+  NEW
+  READ
+  CONTACTED
+  IN_PROGRESS
+  CONVERTED
+  CLOSED
+  SPAM
+}
+
+model Inquiry {
+  id           String        @id @default(cuid())
+  name         String
+  email        String
+  organization String?
+  phone        String?
+  service      String?
+  message      String        @db.Text
+  status       InquiryStatus @default(NEW)
+  assignedTo   String?
+  notes        String?       @db.Text
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("inquiries")
+}
+
+// ──────────────────────────────────────────────
+// 10. MEDIA LIBRARY
+// ──────────────────────────────────────────────
+
+model Media {
+  id         String   @id @default(cuid())
+  filename   String
+  url        String
+  mimeType   String
+  size       Int
+  folder     String   @default("general")
+  alt        String?
+  uploadedBy String?
+  createdAt  DateTime @default(now())
+
+  @@map("media")
+}
+
+// ──────────────────────────────────────────────
+// 11. SITE SETTINGS (CMS)
+// ──────────────────────────────────────────────
+
+model SiteSetting {
+  key       String   @id
+  value     String   @db.Text
+  type      String   @default("string") // string | json | boolean | number
+  updatedAt DateTime @updatedAt
+
+  @@map("site_settings")
+}
+
+// ──────────────────────────────────────────────
+// 12. ADMIN NOTIFICATIONS
+// ──────────────────────────────────────────────
+
+model Notification {
+  id          String   @id @default(cuid())
+  title       String
+  message     String
+  type        String
+  isRead      Boolean  @default(false)
+  relatedType String?
+  relatedId   String?
+  createdAt   DateTime @default(now())
+
+  @@map("notifications")
+}
+
+// ──────────────────────────────────────────────
+// 13. AUDIT LOGGING
+// ──────────────────────────────────────────────
+
+model AuditLog {
+  id           String   @id @default(cuid())
+  userId       String?
+  user         User?    @relation(fields: [userId], references: [id])
+  action       String
+  resourceType String?
+  resourceId   String?
+  ipAddress    String?
+  userAgent    String?
+  result       String   @default("SUCCESS")
+  metadata     Json?
+  createdAt    DateTime @default(now())
+
+  @@map("audit_logs")
+}

@@ -1,269 +1,168 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-
-const navData = [
-  {
-    name: 'Services',
-    links: [
-      { name: 'Security Assessment', href: '/services/security-assessment' },
-      { name: 'Web Application Security', href: '/services/web-application-security' },
-      { name: 'Network Security', href: '/services/network-security' },
-      { name: 'Penetration Testing', href: '/services/penetration-testing' },
-      { name: 'Threat Detection', href: '/services/threat-detection' },
-      { name: 'Security Hardening', href: '/services/security-hardening' },
-      { name: 'Attack Surface Intelligence', href: '/services/attack-surface-intelligence' },
-      { name: 'Incident Readiness', href: '/services/incident-readiness' }
-    ]
-  },
-  {
-    name: 'Solutions',
-    links: [
-      { name: 'Website Security', href: '/solutions/website-security' },
-      { name: 'Web Application Security', href: '/solutions/web-application-security' },
-      { name: 'Network Protection', href: '/solutions/network-protection' },
-      { name: 'Attack Surface Visibility', href: '/solutions/attack-surface-visibility' },
-      { name: 'Threat Detection', href: '/solutions/threat-detection' },
-      { name: 'Incident Readiness', href: '/solutions/incident-readiness' },
-      { name: 'SME/MSME Security', href: '/solutions/sme-msme-security' }
-    ]
-  },
-  {
-    name: 'Technology',
-    links: [
-      { name: 'Hybrid IDS', href: '/technology/hybrid-ids' },
-      { name: 'AutoRed APT', href: '/technology/autored-apt' },
-      { name: 'IP Intelligence', href: '/technology/ip-intelligence' },
-      { name: 'Security Engineering', href: '/technology/security-engineering' },
-      { name: 'Research & Development', href: '/technology/research-development' }
-    ]
-  },
-  {
-    name: 'Insights',
-    links: [
-      { name: 'Cybersecurity', href: '/insights/cybersecurity' },
-      { name: 'Web Security', href: '/insights/web-security' },
-      { name: 'Network Security', href: '/insights/network-security' },
-      { name: 'Threat Intelligence', href: '/insights/threat-intelligence' },
-      { name: 'SME Security', href: '/insights/sme-security' },
-      { name: 'Security Research', href: '/insights/security-research' }
-    ]
-  },
-  {
-    name: 'About',
-    links: [
-      { name: 'Our Mission', href: '/about/our-mission' },
-      { name: 'Our Approach', href: '/about/our-approach' },
-      { name: 'Why Abhimanyu', href: '/about/why-abhimanyu' },
-      { name: 'Team', href: '/about/team' }
-    ]
-  }
-];
+import { Menu, X } from 'lucide-react';
 
 const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState(null);
   const location = useLocation();
 
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const isHome = location.pathname === '/';
 
-  // Close mobile menu on route change
-  useEffect(() => {
-    setMobileMenuOpen(false);
-    setOpenDropdown(null);
-  }, [location]);
+  const navLinks = [
+    { name: 'Product', href: isHome ? '#product' : '/#product' },
+    { name: 'About', href: '/about' },
+    { 
+      name: 'Business', 
+      href: '/solutions',
+      badge: 'New' 
+    },
+    { name: 'How it works', href: isHome ? '#how-it-works' : '/#how-it-works' },
+    { name: 'Platform', href: isHome ? '#telemetry' : '/technology' },
+    { name: 'FAQ', href: isHome ? '#faq' : '/#faq' },
+    { name: 'Contact', href: '/contact' },
+  ];
 
   return (
-    <header 
-      style={{
-        position: 'fixed',
-        top: 0, left: 0, right: 0,
-        zIndex: 100,
-        background: isScrolled || mobileMenuOpen ? 'rgba(5, 7, 10, 0.85)' : 'rgba(5, 7, 10, 1)',
-        backdropFilter: isScrolled || mobileMenuOpen ? 'blur(16px)' : 'none',
-        WebkitBackdropFilter: isScrolled || mobileMenuOpen ? 'blur(16px)' : 'none',
-        borderBottom: isScrolled || mobileMenuOpen ? '1px solid rgba(255, 255, 255, 0.05)' : '1px solid transparent',
-        transition: 'all 0.3s ease-in-out'
-      }}
-    >
-      <div className="wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '80px' }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', zIndex: 101 }}>
-          <img src="/logo.png" alt="Abhimanyu InfoSec" style={{ height: '48px' }} />
-        </Link>
-        
-        {/* Desktop Nav */}
-        <nav className="nav-links" style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-          {navData.map((category) => (
-            <div 
-              key={category.name}
-              className="nav-item-dropdown"
-              style={{ position: 'relative', height: '80px', display: 'flex', alignItems: 'center' }}
-              onMouseEnter={() => setOpenDropdown(category.name)}
-              onMouseLeave={() => setOpenDropdown(null)}
+    <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#070b1e]/65 border-b border-white/[0.12] shadow-glass-nav transition-all" data-purpose="site-header">
+      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        {/* Brand Logo & Name */}
+        <Link 
+          to="/" 
+          aria-label="Abhimanyu Cyber Defense Home" 
+          className="flex items-center gap-3 group" 
+          data-purpose="brand-logo"
+        >
+          {/* Shield/Fortress Geometric SVG Icon with Glass Rim */}
+          <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 via-brand-600 to-indigo-700 shadow-glow-blue border border-white/25 group-hover:scale-105 group-hover:shadow-glow-cyan transition-all duration-300">
+            <svg 
+              className="w-5 h-5 text-white filter drop-shadow" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth="2.2" 
+              viewBox="0 0 24 24"
             >
-              <span style={{ 
-                color: 'var(--text-light)', 
-                fontSize: '0.95rem', 
-                fontWeight: 500,
-                opacity: openDropdown === category.name ? 1 : 0.8,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-                transition: 'opacity 0.2s ease'
-              }}>
-                {category.name} <ChevronDown size={14} style={{ opacity: 0.6 }} />
-              </span>
-              
-              {/* Desktop Dropdown Panel */}
-              <div style={{
-                position: 'absolute',
-                top: '100%',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                background: 'rgba(12, 18, 29, 0.95)', // Deep navy
-                backdropFilter: 'blur(12px)',
-                border: '1px solid var(--border-dark)',
-                borderRadius: 'var(--radius-md)',
-                padding: '1rem',
-                minWidth: '260px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.5rem',
-                opacity: openDropdown === category.name ? 1 : 0,
-                visibility: openDropdown === category.name ? 'visible' : 'hidden',
-                transition: 'all 0.2s ease-out',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
-              }}>
-                {category.links.map(link => (
-                  <Link 
-                    key={link.name} 
-                    to={link.href}
-                    className="dropdown-link"
-                    style={{
-                      color: 'var(--text-light-muted)',
-                      padding: '0.5rem 1rem',
-                      borderRadius: 'var(--radius-sm)',
-                      fontSize: '0.9rem',
-                      transition: 'all 0.15s ease'
-                    }}
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-              </div>
-            </div>
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <path d="M9 12l2 2 4-4" strokeWidth="2"></path>
+            </svg>
+            <span className="absolute inset-0 rounded-xl bg-cyan-400/20 opacity-0 group-hover:opacity-100 transition-opacity blur-sm"></span>
+          </div>
+          <span className="text-xl font-bold tracking-tight text-white flex items-center gap-2 drop-shadow-sm">
+            <span className="abhimanyu-gradient-animated">Abhimanyu</span>
+            <span className="inline-block w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_#00f0ff] animate-pulse"></span>
+          </span>
+        </Link>
+
+        {/* Navigation Links with Glass Hover Pills */}
+        <nav aria-label="Primary Navigation" className="hidden lg:flex items-center gap-1.5 text-sm font-medium text-slate-300 bg-white/[0.03] px-3 py-1.5 rounded-full border border-white/[0.08] backdrop-blur-md">
+          {navLinks.map((item) => (
+            item.href.startsWith('#') || item.href.startsWith('/#') ? (
+              <a
+                key={item.name}
+                href={item.href}
+                className="hover:text-white flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-white/[0.06] transition-all"
+              >
+                <span>{item.name}</span>
+                {item.badge && (
+                  <span className="px-1.5 py-0.5 text-[9px] font-bold tracking-wide uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 rounded-full shadow-[0_0_6px_rgba(16,185,129,0.3)]">
+                    {item.badge}
+                  </span>
+                )}
+              </a>
+            ) : (
+              <Link
+                key={item.name}
+                to={item.href}
+                className="hover:text-white flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-white/[0.06] transition-all"
+              >
+                <span>{item.name}</span>
+                {item.badge && (
+                  <span className="px-1.5 py-0.5 text-[9px] font-bold tracking-wide uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 rounded-full shadow-[0_0_6px_rgba(16,185,129,0.3)]">
+                    {item.badge}
+                  </span>
+                )}
+              </Link>
+            )
           ))}
         </nav>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', zIndex: 101 }}>
-          {/* Desktop CTA */}
-          <Link 
-            to="/services/security-assessment" 
-            className="btn btn-primary desktop-nav-cta" 
-            style={{ padding: '0.6rem 1.5rem', fontSize: '0.9rem' }}
+        {/* Right Actions: Pricing Pill & User Profile */}
+        <div className="flex items-center gap-3.5" data-purpose="nav-actions">
+          <a 
+            className="btn-shimmer px-5 py-2 text-xs font-semibold uppercase tracking-wider text-white bg-gradient-to-r from-blue-600 via-brand-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-full shadow-glow-blue border border-white/20 transition-all hover:scale-105 active:scale-95" 
+            href={isHome ? "#pricing" : "/#pricing"}
           >
-            Get Security Assessment
+            Pricing
+          </a>
+          <Link
+            to="/admin/login"
+            aria-label="Account sign in" 
+            className="w-9 h-9 rounded-full border border-white/15 hover:border-cyan-400/60 flex items-center justify-center text-slate-300 hover:text-white bg-slate-900/60 hover:bg-white/[0.08] backdrop-blur-md transition-all shadow-inner"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" strokeLinecap="round" strokeLinejoin="round"></path>
+            </svg>
           </Link>
-          
-          {/* Mobile Menu Button */}
-          <button 
-            className="mobile-menu-btn"
-            style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer' }}
+
+          {/* Mobile hamburger button */}
+          <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="lg:hidden p-2 rounded-lg border border-white/15 text-slate-300 hover:text-white bg-slate-900/60 hover:bg-white/[0.08] transition-all"
+            aria-label="Toggle navigation menu"
           >
-            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
-      <div style={{
-        position: 'absolute',
-        top: '100%', left: 0, right: 0,
-        background: 'rgba(5, 7, 10, 0.98)',
-        backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-        padding: mobileMenuOpen ? '1rem 2rem 2rem 2rem' : '0 2rem',
-        maxHeight: mobileMenuOpen ? 'calc(100vh - 80px)' : '0',
-        opacity: mobileMenuOpen ? 1 : 0,
-        visibility: mobileMenuOpen ? 'visible' : 'hidden',
-        overflowY: 'auto',
-        transition: 'all 0.3s ease-in-out',
-        boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
-      }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {navData.map((category) => (
-            <div key={category.name} style={{ borderBottom: '1px solid var(--border-dark)', paddingBottom: '1rem' }}>
-              <div 
-                style={{ 
-                  color: '#fff', 
-                  fontSize: '1.1rem', 
-                  fontWeight: 600, 
-                  display: 'flex', 
-                  justifyContent: 'space-between', 
-                  alignItems: 'center',
-                  padding: '1rem 0',
-                  cursor: 'pointer'
-                }}
-                onClick={() => setOpenDropdown(openDropdown === category.name ? null : category.name)}
-              >
-                {category.name}
-                <ChevronDown size={18} style={{ transform: openDropdown === category.name ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }} />
-              </div>
-              
-              <div style={{ 
-                display: 'flex', 
-                flexDirection: 'column', 
-                gap: '0.75rem',
-                maxHeight: openDropdown === category.name ? '500px' : '0',
-                overflow: 'hidden',
-                transition: 'max-height 0.3s ease-in-out',
-                paddingLeft: '1rem'
-              }}>
-                {category.links.map(link => (
-                  <Link 
-                    key={link.name}
-                    to={link.href} 
-                    style={{ color: 'var(--text-light-muted)', fontSize: '0.95rem' }}
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          ))}
-          
-          <Link 
-            to="/services/security-assessment" 
-            className="btn btn-primary" 
-            style={{ width: '100%', marginTop: '1rem' }}
-          >
-            Get Security Assessment
-          </Link>
+      {/* Mobile Drawer Menu */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden border-t border-white/[0.1] bg-[#070b1e]/95 backdrop-blur-2xl px-6 py-6 space-y-4">
+          <div className="flex flex-col gap-2">
+            {navLinks.map((item) => (
+              item.href.startsWith('#') || item.href.startsWith('/#') ? (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-4 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-white/[0.06] flex items-center justify-between"
+                >
+                  <span>{item.name}</span>
+                  {item.badge && (
+                    <span className="px-1.5 py-0.5 text-[9px] font-bold tracking-wide uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 rounded-full">
+                      {item.badge}
+                    </span>
+                  )}
+                </a>
+              ) : (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-4 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-white/[0.06] flex items-center justify-between"
+                >
+                  <span>{item.name}</span>
+                  {item.badge && (
+                    <span className="px-1.5 py-0.5 text-[9px] font-bold tracking-wide uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 rounded-full">
+                      {item.badge}
+                    </span>
+                  )}
+                </Link>
+              )
+            ))}
+          </div>
+          <div className="pt-3 border-t border-white/[0.08]">
+            <a
+              href="#pricing"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block w-full py-2.5 text-center text-xs font-semibold uppercase tracking-wider text-white bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full shadow-glow-blue"
+            >
+              View Pricing
+            </a>
+          </div>
         </div>
-      </div>
-
-      <style dangerouslySetInnerHTML={{__html: `
-        .dropdown-link:hover {
-          background: rgba(2, 132, 199, 0.1);
-          color: #fff !important;
-        }
-        @media (max-width: 1024px) {
-          .nav-links { display: none !important; }
-          .mobile-menu-btn { display: block !important; }
-          .desktop-nav-cta { display: none !important; }
-        }
-        @media (min-width: 1025px) {
-          .mobile-menu-btn { display: none !important; }
-          .desktop-nav-cta { display: inline-flex !important; }
-        }
-      `}} />
+      )}
     </header>
   );
 };

@@ -1,27 +1,27 @@
 import React from 'react';
-import Hero from '../components/Hero';
-import TrustStrip from '../components/TrustStrip';
-import PainPoints from '../components/PainPoints';
-import WhyUs from '../components/WhyUs';
-import Services from '../components/Services';
-import Lifecycle from '../components/Lifecycle';
-import SecurityEngineering from '../components/SecurityEngineering';
-import ThreatVisualization from '../components/ThreatVisualization';
-import CTABand from '../components/CTABand';
+import HeroSection from '../components/HeroSection';
+import ClientLogosSection from '../components/ClientLogosSection';
+import ValuePropositionSection from '../components/ValuePropositionSection';
+import HowItWorksArchitecture from '../components/HowItWorksArchitecture';
+import DetailedProtectionGrid from '../components/DetailedProtectionGrid';
+import DeviceManagementSection from '../components/DeviceManagementSection';
+import PricingSection from '../components/PricingSection';
+import FAQSection from '../components/FAQSection';
+import CallToActionBanner from '../components/CallToActionBanner';
 
 const Home = () => {
   return (
-    <main>
-      <Hero />
-      <TrustStrip />
-      <PainPoints />
-      <WhyUs />
-      <Services />
-      <Lifecycle />
-      <SecurityEngineering />
-      <ThreatVisualization />
-      <CTABand />
-    </main>
+    <>
+      <HeroSection />
+      <ClientLogosSection />
+      <ValuePropositionSection />
+      <HowItWorksArchitecture />
+      <DetailedProtectionGrid />
+      <DeviceManagementSection />
+      <PricingSection />
+      <FAQSection />
+      <CallToActionBanner />
+    </>
   );
 };
 
