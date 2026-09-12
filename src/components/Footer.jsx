@@ -8,17 +8,13 @@ const Footer = () => {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
           {/* Brand Info */}
           <div className="col-span-2 space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-brand-600 text-white shadow-glow-blue border border-white/20">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                </svg>
-              </div>
-              <span className="text-lg font-bold text-white tracking-tight flex items-center gap-1.5">
-                Abhimanyu
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-              </span>
-            </div>
+            <Link to="/" className="inline-block group">
+              <img 
+                src="/logo.png" 
+                alt="Abhimanyu InfoSec" 
+                className="h-13 sm:h-16 w-auto max-w-[260px] sm:max-w-[300px] object-contain filter drop-shadow-[0_2px_16px_rgba(6,182,212,0.4)] group-hover:drop-shadow-[0_2px_24px_rgba(6,182,212,0.7)] transition-all duration-300"
+              />
+            </Link>
             <p className="text-slate-300 text-xs leading-relaxed max-w-sm font-normal">
               Next-generation autonomous cloud firewall &amp; zero-trust network perimeter. Engineered to defend distributed teams, enterprise systems, and remote endpoints.
             </p>

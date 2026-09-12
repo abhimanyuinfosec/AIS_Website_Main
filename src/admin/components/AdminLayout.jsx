@@ -96,13 +96,15 @@ export const AdminLayout = () => {
         {/* Brand Header */}
         <div className="h-16 flex items-center justify-between px-4 border-b border-cyan-500/10">
           <Link to="/admin" className="flex items-center gap-3 overflow-hidden">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-black font-black text-lg shadow-[0_0_15px_rgba(6,182,212,0.4)] flex-shrink-0">
-              A
-            </div>
-            {sidebarOpen && (
-              <div className="flex flex-col">
-                <span className="font-bold text-sm tracking-wider text-white">AIS CONTROL</span>
-                <span className="text-[10px] text-cyan-400 font-mono tracking-widest">CYBER ADMIN</span>
+            {sidebarOpen ? (
+              <img
+                src="/logo.png"
+                alt="Abhimanyu InfoSec"
+                className="h-12 w-auto max-w-[210px] object-contain filter drop-shadow-[0_2px_14px_rgba(6,182,212,0.45)]"
+              />
+            ) : (
+              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-black font-black text-lg shadow-[0_0_15px_rgba(6,182,212,0.4)] flex-shrink-0">
+                A
               </div>
             )}
           </Link>
