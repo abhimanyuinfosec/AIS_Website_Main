@@ -17,6 +17,8 @@
     --text-light-muted: #94A3B8;
     --border-dark: rgba(255, 255, 255, 0.12);
     --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-display: 'Space Grotesk', system-ui, sans-serif;
+    --font-heading: 'Space Grotesk', system-ui, sans-serif;
 
     /* Crystal Glass Tokens */
     --crystal-bg: rgba(12, 18, 38, .48);
@@ -33,11 +35,51 @@
     background-color: #030611;
     color: #e2e8f0;
     font-family: var(--font-body);
+    font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
     min-height: 100vh;
     cursor: default;
+  }
+
+  /* Typography Hierarchy Specifications */
+  h1, .hero-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  h2, .section-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  h3, h4, .card-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  nav, .nav-link {
+    font-family: var(--font-body);
+    font-weight: 500;
+  }
+
+  button, .btn, [type="button"], [type="submit"] {
+    font-family: var(--font-body);
+    font-weight: 600;
+  }
+
+  label, .badge-label, .meta-label {
+    font-family: var(--font-display);
+    font-weight: 500;
+  }
+
+  .pricing-amount, .price-val {
+    font-family: var(--font-display);
+    font-weight: 700;
   }
 
   body::before {
@@ -228,25 +270,25 @@
   100% { transform: translate3d(var(--drift-x, 0px), -110vh, 0); opacity: 0; }
 }
 
-/* Animated Golden-Orange-Red Text Gradient matching user reference */
+/* Premium White-to-Blue Enterprise Brand Gradient matching AIS logo */
 .abhimanyu-gradient-animated {
   background: linear-gradient(
-    90deg,
-    #ffc700 0%,
-    #ff9500 20%,
-    #ff5e00 45%,
-    #e62800 68%,
-    #ff7a00 86%,
-    #ffc700 100%
+    115deg,
+    #FFFFFF 0%,
+    #FFFFFF 25%,
+    #38BDF8 50%,
+    #2563EB 75%,
+    #38BDF8 88%,
+    #FFFFFF 100%
   );
   background-size: 250% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
-  animation: abhimanyuFlow 4s ease-in-out infinite alternate;
+  animation: abhimanyuFlow 5s ease-in-out infinite alternate;
   display: inline-block;
-  filter: drop-shadow(0 0 20px rgba(255, 120, 0, 0.38));
+  filter: drop-shadow(0 2px 14px rgba(37, 99, 235, 0.28));
 }
 
 @keyframes abhimanyuFlow {

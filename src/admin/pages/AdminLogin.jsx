@@ -81,7 +81,7 @@ export const AdminLogin = () => {
                 <img
                   src="/logo.png"
                   alt="Abhimanyu InfoSec"
-                  className="h-16 sm:h-20 w-auto max-w-[280px] sm:max-w-[340px] object-contain filter drop-shadow-[0_2px_20px_rgba(6,182,212,0.6)] hover:drop-shadow-[0_2px_28px_rgba(6,182,212,0.85)] hover:scale-[1.02] transition-all duration-300"
+                  className="h-20 sm:h-24 w-auto max-w-[320px] sm:max-w-[380px] object-contain mix-blend-screen filter drop-shadow-[0_2px_22px_rgba(0,240,255,0.55)] hover:drop-shadow-[0_2px_32px_rgba(0,240,255,0.85)] hover:scale-[1.02] transition-all duration-300"
                 />
               </Link>
               <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono">

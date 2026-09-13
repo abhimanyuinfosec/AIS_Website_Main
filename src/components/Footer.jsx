@@ -12,7 +12,7 @@ const Footer = () => {
               <img 
                 src="/logo.png" 
                 alt="Abhimanyu InfoSec" 
-                className="h-13 sm:h-16 w-auto max-w-[260px] sm:max-w-[300px] object-contain filter drop-shadow-[0_2px_16px_rgba(6,182,212,0.4)] group-hover:drop-shadow-[0_2px_24px_rgba(6,182,212,0.7)] transition-all duration-300"
+                className="h-16 sm:h-20 w-auto max-w-[300px] sm:max-w-[360px] object-contain mix-blend-screen filter drop-shadow-[0_2px_18px_rgba(0,240,255,0.35)] group-hover:drop-shadow-[0_2px_26px_rgba(0,240,255,0.65)] transition-all duration-300"
               />
             </Link>
             <p className="text-slate-300 text-xs leading-relaxed max-w-sm font-normal">

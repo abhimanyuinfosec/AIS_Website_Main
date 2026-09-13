@@ -15,12 +15,12 @@ const HeroSection = () => {
             </span>
             <span className="text-xs font-semibold tracking-wider text-cyan-300 uppercase">Next-Gen Cyber Defense</span>
             <span className="w-1 h-1 rounded-full bg-slate-500"></span>
-            <span className="text-[11px] text-slate-300 font-medium">Zero-Day Shield</span>
+            <span className="text-[11px] text-slate-300 font-medium">For SME's & MSME's</span>
           </div>
 
           {/* Main Hero Headline */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.12]">
-            <span className="abhimanyu-gradient-animated">Abhimanyu</span> <br className="hidden sm:inline" />
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display tracking-tight text-white leading-[1.12]">
+            <span className="abhimanyu-gradient-animated whitespace-normal lg:whitespace-nowrap">Abhimanyu InfoSec</span> <br className="hidden sm:inline" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-cyan-200">
               The first cloud-firewall, built for WFH &amp; Enterprise.
             </span>
@@ -33,14 +33,14 @@ const HeroSection = () => {
 
           {/* Primary Actions with Shimmer & Glow */}
           <div className="pt-3 flex flex-wrap items-center gap-4 sm:gap-5">
-            <Link 
-              className="btn-shimmer px-8 py-3.5 text-sm font-bold tracking-wide text-white bg-gradient-to-r from-blue-600 via-brand-500 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-full shadow-glow-blue border border-white/25 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 text-center" 
+            <Link
+              className="btn-shimmer px-8 py-3.5 text-sm font-bold tracking-wide text-white bg-gradient-to-r from-blue-600 via-brand-500 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-full shadow-glow-blue border border-white/25 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 text-center"
               to="/contact"
             >
               SIGN UP NOW
             </Link>
-            <a 
-              className="glass-surface-interactive px-8 py-3.5 text-sm font-semibold tracking-wide text-slate-200 hover:text-white rounded-full transition-all text-center border border-white/15 hover:border-cyan-400/40" 
+            <a
+              className="glass-surface-interactive px-8 py-3.5 text-sm font-semibold tracking-wide text-slate-200 hover:text-white rounded-full transition-all text-center border border-white/15 hover:border-cyan-400/40"
               href="#how-it-works"
             >
               READ MORE

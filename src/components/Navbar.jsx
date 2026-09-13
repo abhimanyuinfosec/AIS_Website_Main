@@ -35,7 +35,7 @@ const Navbar = () => {
           <img 
             src="/logo.png" 
             alt="Abhimanyu InfoSec" 
-            className="h-14 sm:h-16 md:h-18 w-auto max-w-[240px] sm:max-w-[300px] md:max-w-[340px] object-contain filter drop-shadow-[0_2px_18px_rgba(6,182,212,0.45)] group-hover:drop-shadow-[0_2px_26px_rgba(6,182,212,0.75)] group-hover:scale-[1.03] transition-all duration-300"
+            className="h-16 sm:h-20 md:h-22 w-auto max-w-[270px] sm:max-w-[340px] md:max-w-[380px] object-contain mix-blend-screen filter drop-shadow-[0_2px_20px_rgba(0,240,255,0.4)] group-hover:drop-shadow-[0_2px_30px_rgba(0,240,255,0.7)] group-hover:scale-[1.03] transition-all duration-300"
           />
         </Link>
 
