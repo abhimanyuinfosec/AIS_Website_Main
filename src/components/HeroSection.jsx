@@ -44,7 +44,7 @@ const HeroSection = () => {
               className="glass-surface-interactive px-8 py-3.5 text-sm font-semibold tracking-wide text-slate-200 hover:text-white rounded-full transition-all text-center border border-white/15 hover:border-cyan-400/40"
               href="#how-it-works"
             >
-              READ MORE
+              EXPLORE
             </a>
           </div>
         </div>

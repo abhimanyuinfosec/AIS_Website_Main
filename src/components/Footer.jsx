@@ -29,23 +29,23 @@ const Footer = () => {
           <div className="space-y-3">
             <div className="font-bold text-white text-xs uppercase tracking-wider">Product</div>
             <ul className="space-y-2">
-              <li><Link className="hover:text-cyan-300 transition-colors" to="/technology">Cloud Firewall</Link></li>
-              <li><Link className="hover:text-cyan-300 transition-colors" to="/solutions">Zero-Trust Network</Link></li>
-              <li><Link className="hover:text-cyan-300 transition-colors" to="/services">Endpoint Sandboxing</Link></li>
-              <li><Link className="hover:text-cyan-300 transition-colors" to="/technology">AI Threat Detection</Link></li>
+              <li><Link className="hover:text-cyan-300 transition-colors" to="/products/hybrid-ids">Hybrid IDS Engine</Link></li>
+              <li><Link className="hover:text-cyan-300 transition-colors" to="/products/autored-apt">AutoRed APT</Link></li>
+              <li><Link className="hover:text-cyan-300 transition-colors" to="/products/ip-intelligence">IP Intelligence</Link></li>
+              <li><Link className="hover:text-cyan-300 transition-colors" to="/services/threat-detection">Threat Detection</Link></li>
               <li><Link className="hover:text-cyan-300 transition-colors" to="/contact">Security Assessment</Link></li>
             </ul>
           </div>
 
-          {/* Column 2: Solutions */}
+          {/* Column 2: Services */}
           <div className="space-y-3">
-            <div className="font-bold text-white text-xs uppercase tracking-wider">Solutions</div>
+            <div className="font-bold text-white text-xs uppercase tracking-wider">Services</div>
             <ul className="space-y-2">
-              <li><Link className="hover:text-cyan-300 transition-colors" to="/solutions">Distributed Teams</Link></li>
-              <li><Link className="hover:text-cyan-300 transition-colors" to="/solutions">Work From Home</Link></li>
-              <li><Link className="hover:text-cyan-300 transition-colors" to="/solutions">FinTech Security</Link></li>
-              <li><Link className="hover:text-cyan-300 transition-colors" to="/solutions">HealthTech Compliance</Link></li>
-              <li><Link className="hover:text-cyan-300 transition-colors" to="/solutions">Enterprise Migration</Link></li>
+              <li><Link className="hover:text-cyan-300 transition-colors" to="/services/vulnerability-assessment">Vulnerability Assessment</Link></li>
+              <li><Link className="hover:text-cyan-300 transition-colors" to="/services/web-security">Web Security</Link></li>
+              <li><Link className="hover:text-cyan-300 transition-colors" to="/services/network-security">Network Security</Link></li>
+              <li><Link className="hover:text-cyan-300 transition-colors" to="/services/penetration-testing">Penetration Testing</Link></li>
+              <li><Link className="hover:text-cyan-300 transition-colors" to="/services/security-hardening">Security Hardening</Link></li>
             </ul>
           </div>
 
@@ -53,10 +53,10 @@ const Footer = () => {
           <div className="space-y-3">
             <div className="font-bold text-white text-xs uppercase tracking-wider">Company</div>
             <ul className="space-y-2">
-              <li><Link className="hover:text-cyan-300 transition-colors" to="/about">About Abhimanyu</Link></li>
-              <li><Link className="hover:text-cyan-300 transition-colors" to="/about">Careers <span className="text-[10px] text-cyan-400 font-bold ml-1">HIRING</span></Link></li>
-              <li><Link className="hover:text-cyan-300 transition-colors" to="/insights">Security Research</Link></li>
-              <li><Link className="hover:text-cyan-300 transition-colors" to="/insights">Press &amp; Media</Link></li>
+              <li><Link className="hover:text-cyan-300 transition-colors" to="/about/mission">Our Mission</Link></li>
+              <li><Link className="hover:text-cyan-300 transition-colors" to="/about/approach">Our Approach</Link></li>
+              <li><Link className="hover:text-cyan-300 transition-colors" to="/about/why-ais">Why AIS</Link></li>
+              <li><Link className="hover:text-cyan-300 transition-colors" to="/about/team">Team</Link></li>
               <li><Link className="hover:text-cyan-300 transition-colors" to="/contact">Contact Support</Link></li>
             </ul>
           </div>

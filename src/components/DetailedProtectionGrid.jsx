@@ -7,6 +7,7 @@ const servicesData = [
     title: 'Vulnerability Assessment and Penetration Testing',
     shortName: 'VAPT',
     slug: 'penetration-testing',
+    link: '/services/penetration-testing',
     description:
       'Rigorous black-box and grey-box adversary simulation to discover, exploit, and remediate zero-day vulnerabilities across your entire ecosystem before attackers do.',
     icon: Bug,
@@ -19,6 +20,7 @@ const servicesData = [
     title: 'Network Security',
     shortName: 'NetSec',
     slug: 'network-security',
+    link: '/services/network-security',
     description:
       'Architectural zero-trust defense, deep packet inspection, encrypted perimeter gateways, and lateral movement segmentation shielding high-value network assets.',
     icon: Network,
@@ -30,7 +32,8 @@ const servicesData = [
   {
     title: 'Web Application Security',
     shortName: 'AppSec',
-    slug: 'web-application-security',
+    slug: 'web-security',
+    link: '/services/web-security',
     description:
       'Deep architectural API fuzzing, business-logic validation, authorization flaw discovery, and runtime protection for modern distributed web applications.',
     icon: Globe,
@@ -43,6 +46,7 @@ const servicesData = [
     title: 'Security Monitoring',
     shortName: 'SOC / SecOps',
     slug: 'threat-detection',
+    link: '/services/threat-detection',
     description:
       'Continuous 24/7 telemetry monitoring, real-time threat intelligence correlation, anomaly detection, and rapid automated incident containment.',
     icon: Activity,
@@ -113,7 +117,7 @@ const DetailedProtectionGrid = () => {
                   </div>
 
                   <Link
-                    to={`/services/${service.slug}`}
+                    to={service.link}
                     className="inline-flex items-center text-xs font-semibold text-cyan-400 hover:text-cyan-300 group-hover:translate-x-0.5 transition-all gap-1"
                   >
                     <span>Explore Capability</span>

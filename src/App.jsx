@@ -7,13 +7,34 @@ import CrystalGlassEffects from './components/CrystalGlassEffects';
 import Home from './pages/Home';
 
 // Dedicated Dynamic Public Pages
-import ServicesPage from './pages/ServicesPage';
-import SolutionsPage from './pages/SolutionsPage';
-import TechnologyPage from './pages/TechnologyPage';
-import InsightsPage from './pages/InsightsPage';
-import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import NotFoundPage from './pages/NotFoundPage';
+
+// Individual Subsection Pages - Services
+import VulnerabilityAssessmentPage from './pages/services/VulnerabilityAssessmentPage';
+import WebSecurityPage from './pages/services/WebSecurityPage';
+import NetworkSecurityPage from './pages/services/NetworkSecurityPage';
+import PenetrationTestingPage from './pages/services/PenetrationTestingPage';
+import ThreatDetectionPage from './pages/services/ThreatDetectionPage';
+import SecurityHardeningPage from './pages/services/SecurityHardeningPage';
+
+// Individual Subsection Pages - Products
+import AutoRedAptPage from './pages/products/AutoRedAptPage';
+import IpIntelligencePage from './pages/products/IpIntelligencePage';
+import HybridIdsPage from './pages/products/HybridIdsPage';
+
+// Individual Subsection Pages - Insights
+import InsightsWebSecurityPage from './pages/insights/InsightsWebSecurityPage';
+import InsightsNetworkSecurityPage from './pages/insights/InsightsNetworkSecurityPage';
+import InsightsCyberSecurityPage from './pages/insights/InsightsCyberSecurityPage';
+import InsightsThreatIntelligencePage from './pages/insights/InsightsThreatIntelligencePage';
+import InsightsSmeSecurityPage from './pages/insights/InsightsSmeSecurityPage';
+
+// Individual Subsection Pages - About
+import OurMissionPage from './pages/about/OurMissionPage';
+import OurApproachPage from './pages/about/OurApproachPage';
+import WhyAisPage from './pages/about/WhyAisPage';
+import TeamPage from './pages/about/TeamPage';
 
 // Admin Module & Auth
 import { AuthProvider } from './context/AuthContext';
@@ -33,12 +54,22 @@ import AdminMedia from './admin/pages/AdminMedia';
 import AdminSettings from './admin/pages/AdminSettings';
 import AdminAuditLogs from './admin/pages/AdminAuditLogs';
 
-// Scroll to top on route change
+// Scroll to top or anchor on route change
 const ScrollToTop = () => {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (hash) {
+      setTimeout(() => {
+        const el = document.querySelector(hash);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+          return;
+        }
+      }, 50);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
   return null;
 };
 
@@ -49,7 +80,7 @@ const PublicLayout = () => {
       <AmbientBackdrop />
       <CrystalGlassEffects />
       <Navbar />
-      <main className="relative z-10">
+      <main className="relative z-10 pt-20 md:pt-24">
         <Outlet />
       </main>
       <Footer />
@@ -67,28 +98,38 @@ function App() {
           <Route element={<PublicLayout />}>
             <Route path="/" element={<Home />} />
             
-            {/* Services */}
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/services/:slug" element={<ServicesPage />} />
+            {/* Services Routes */}
+            <Route path="/services" element={<VulnerabilityAssessmentPage />} />
+            <Route path="/services/vulnerability-assessment" element={<VulnerabilityAssessmentPage />} />
+            <Route path="/services/web-security" element={<WebSecurityPage />} />
+            <Route path="/services/network-security" element={<NetworkSecurityPage />} />
+            <Route path="/services/penetration-testing" element={<PenetrationTestingPage />} />
+            <Route path="/services/threat-detection" element={<ThreatDetectionPage />} />
+            <Route path="/services/security-hardening" element={<SecurityHardeningPage />} />
 
-            {/* Solutions */}
-            <Route path="/solutions" element={<SolutionsPage />} />
-            <Route path="/solutions/:slug" element={<SolutionsPage />} />
+            {/* Products Routes */}
+            <Route path="/technology" element={<AutoRedAptPage />} />
+            <Route path="/products" element={<AutoRedAptPage />} />
+            <Route path="/products/autored-apt" element={<AutoRedAptPage />} />
+            <Route path="/products/ip-intelligence" element={<IpIntelligencePage />} />
+            <Route path="/products/hybrid-ids" element={<HybridIdsPage />} />
 
-            {/* Technology & Products */}
-            <Route path="/technology" element={<TechnologyPage />} />
-            <Route path="/technology/:slug" element={<TechnologyPage />} />
+            {/* Insights Routes */}
+            <Route path="/insights" element={<InsightsWebSecurityPage />} />
+            <Route path="/insights/web-security" element={<InsightsWebSecurityPage />} />
+            <Route path="/insights/network-security" element={<InsightsNetworkSecurityPage />} />
+            <Route path="/insights/cyber-security" element={<InsightsCyberSecurityPage />} />
+            <Route path="/insights/threat-intelligence" element={<InsightsThreatIntelligencePage />} />
+            <Route path="/insights/sme-security" element={<InsightsSmeSecurityPage />} />
 
-            {/* Insights & Research & Blog */}
-            <Route path="/insights" element={<InsightsPage />} />
-            <Route path="/insights/:slug" element={<InsightsPage />} />
-            <Route path="/blog/:slug" element={<InsightsPage />} />
+            {/* About Us Routes */}
+            <Route path="/about" element={<OurMissionPage />} />
+            <Route path="/about/mission" element={<OurMissionPage />} />
+            <Route path="/about/approach" element={<OurApproachPage />} />
+            <Route path="/about/why-ais" element={<WhyAisPage />} />
+            <Route path="/about/team" element={<TeamPage />} />
 
-            {/* About Us */}
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/about/:section" element={<AboutPage />} />
-
-            {/* Contact */}
+            {/* Contact / How to Buy */}
             <Route path="/contact" element={<ContactPage />} />
 
             {/* 404 Public */}

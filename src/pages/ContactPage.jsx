@@ -44,7 +44,7 @@ export const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#070b14] text-slate-200 pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#070b14] text-slate-200 pt-12 pb-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
