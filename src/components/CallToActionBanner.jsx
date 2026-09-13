@@ -5,10 +5,10 @@ const CallToActionBanner = () => {
   return (
     <section className="py-24 relative overflow-hidden" data-purpose="cta-banner" id="trial">
       <div className="max-w-5xl mx-auto px-6">
-        <div className="relative rounded-3xl p-10 sm:p-16 bg-gradient-to-b from-[#121c3b]/80 via-[#0a1029]/80 to-[#060a1a]/95 border border-cyan-400/30 text-center space-y-6 shadow-glow-blue overflow-hidden backdrop-blur-2xl">
-          {/* Floating Neon Flare Spots inside Banner */}
-          <div className="absolute -top-24 -left-24 w-56 h-56 bg-cyan-500/25 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute -bottom-24 -right-24 w-56 h-56 bg-blue-600/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '-1.5s' }}></div>
+        <div className="relative rounded-3xl p-10 sm:p-16 glass-cta-panel text-center space-y-6 overflow-hidden">
+          {/* Subtle Deep Blue / Cyan Ambient Aura Spots behind Banner */}
+          <div className="absolute -top-20 -left-20 w-64 h-64 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight relative z-10">
             Ready to shield your enterprise in under 3 minutes?

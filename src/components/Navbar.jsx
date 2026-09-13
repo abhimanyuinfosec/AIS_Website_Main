@@ -9,32 +9,27 @@ const Navbar = () => {
   const isHome = location.pathname === '/';
 
   const navLinks = [
-    { name: 'Product', href: isHome ? '#product' : '/#product' },
-    { name: 'About', href: '/about' },
-    { 
-      name: 'Business', 
-      href: '/solutions',
-      badge: 'New' 
-    },
-    { name: 'How it works', href: isHome ? '#how-it-works' : '/#how-it-works' },
-    { name: 'Platform', href: isHome ? '#telemetry' : '/technology' },
-    { name: 'FAQ', href: isHome ? '#faq' : '/#faq' },
-    { name: 'Contact', href: '/contact' },
+    { name: 'Home', href: '/' },
+    { name: 'Services', href: isHome ? '#product' : '/#product' },
+    { name: 'Products', href: '/about' },
+    { name: 'Insights', href: isHome ? '#how-it-works' : '/#how-it-works' },
+    { name: 'About Us', href: isHome ? '#telemetry' : '/technology' },
+    { name: 'How to Buy', href: isHome ? '#faq' : '/#faq' }
   ];
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#070b1e]/65 border-b border-white/[0.12] shadow-glass-nav transition-all" data-purpose="site-header">
+    <header className="sticky top-0 z-50 glass-navbar transition-all" data-purpose="site-header">
       <div className="max-w-7xl mx-auto px-6 h-20 md:h-24 flex items-center justify-between">
         {/* Brand Logo & Name */}
-        <Link 
-          to="/" 
-          aria-label="Abhimanyu Cyber Defense Home" 
-          className="flex items-center gap-3 group py-1" 
+        <Link
+          to="/"
+          aria-label="Abhimanyu Cyber Defense Home"
+          className="flex items-center gap-3 group py-1"
           data-purpose="brand-logo"
         >
-          <img 
-            src="/logo.png" 
-            alt="Abhimanyu InfoSec" 
+          <img
+            src="/logo.png"
+            alt="Abhimanyu InfoSec"
             className="h-16 sm:h-20 md:h-22 w-auto max-w-[270px] sm:max-w-[340px] md:max-w-[380px] object-contain mix-blend-screen filter drop-shadow-[0_2px_20px_rgba(0,240,255,0.4)] group-hover:drop-shadow-[0_2px_30px_rgba(0,240,255,0.7)] group-hover:scale-[1.03] transition-all duration-300"
           />
         </Link>
@@ -72,17 +67,17 @@ const Navbar = () => {
           ))}
         </nav>
 
-        {/* Right Actions: Pricing Pill & User Profile */}
+        {/* Right Actions: Assessment CTA & User Profile */}
         <div className="flex items-center gap-3.5" data-purpose="nav-actions">
-          <a 
-            className="btn-shimmer px-5 py-2 text-xs font-semibold uppercase tracking-wider text-white bg-gradient-to-r from-blue-600 via-brand-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-full shadow-glow-blue border border-white/20 transition-all hover:scale-105 active:scale-95" 
-            href={isHome ? "#pricing" : "/#pricing"}
+          <Link
+            className="btn-shimmer px-5 py-2 text-xs font-semibold uppercase tracking-wider text-white bg-gradient-to-r from-blue-600 via-brand-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-full shadow-glow-blue border border-white/20 transition-all hover:scale-105 active:scale-95"
+            to="/contact"
           >
-            Pricing
-          </a>
+            Start Here
+          </Link>
           <Link
             to="/admin/login"
-            aria-label="Account sign in" 
+            aria-label="Account sign in"
             className="w-9 h-9 rounded-full border border-white/15 hover:border-cyan-400/60 flex items-center justify-center text-slate-300 hover:text-white bg-slate-900/60 hover:bg-white/[0.08] backdrop-blur-md transition-all shadow-inner"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -138,13 +133,13 @@ const Navbar = () => {
             ))}
           </div>
           <div className="pt-3 border-t border-white/[0.08]">
-            <a
-              href="#pricing"
+            <Link
+              to="/contact"
               onClick={() => setMobileMenuOpen(false)}
               className="block w-full py-2.5 text-center text-xs font-semibold uppercase tracking-wider text-white bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full shadow-glow-blue"
             >
-              View Pricing
-            </a>
+              Get Security Assessment
+            </Link>
           </div>
         </div>
       )}

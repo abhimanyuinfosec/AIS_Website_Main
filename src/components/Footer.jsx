@@ -33,7 +33,7 @@ const Footer = () => {
               <li><Link className="hover:text-cyan-300 transition-colors" to="/solutions">Zero-Trust Network</Link></li>
               <li><Link className="hover:text-cyan-300 transition-colors" to="/services">Endpoint Sandboxing</Link></li>
               <li><Link className="hover:text-cyan-300 transition-colors" to="/technology">AI Threat Detection</Link></li>
-              <li><a className="hover:text-cyan-300 transition-colors" href="/#pricing">Pricing &amp; Plans</a></li>
+              <li><Link className="hover:text-cyan-300 transition-colors" to="/contact">Security Assessment</Link></li>
             </ul>
           </div>
 

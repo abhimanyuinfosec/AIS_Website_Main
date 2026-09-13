@@ -1,68 +1,128 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Bug, Network, Globe, Activity, ArrowUpRight, ShieldCheck } from 'lucide-react';
+
+const servicesData = [
+  {
+    title: 'Vulnerability Assessment and Penetration Testing',
+    shortName: 'VAPT',
+    slug: 'penetration-testing',
+    description:
+      'Rigorous black-box and grey-box adversary simulation to discover, exploit, and remediate zero-day vulnerabilities across your entire ecosystem before attackers do.',
+    icon: Bug,
+    accentColor: 'rose',
+    iconBg: 'bg-rose-500/20 text-rose-400 border-rose-400/30 shadow-[0_0_15px_rgba(244,63,94,0.25)]',
+    hoverBorder: 'hover:border-rose-500/40',
+    tags: ['OWASP Top 10', 'Red Teaming', 'Exploitation Analysis'],
+  },
+  {
+    title: 'Network Security',
+    shortName: 'NetSec',
+    slug: 'network-security',
+    description:
+      'Architectural zero-trust defense, deep packet inspection, encrypted perimeter gateways, and lateral movement segmentation shielding high-value network assets.',
+    icon: Network,
+    accentColor: 'cyan',
+    iconBg: 'bg-cyan-500/20 text-cyan-400 border-cyan-400/30 shadow-[0_0_15px_rgba(0,240,255,0.25)]',
+    hoverBorder: 'hover:border-cyan-500/40',
+    tags: ['Zero-Trust', 'Firewall Audits', 'Segment Isolation'],
+  },
+  {
+    title: 'Web Application Security',
+    shortName: 'AppSec',
+    slug: 'web-application-security',
+    description:
+      'Deep architectural API fuzzing, business-logic validation, authorization flaw discovery, and runtime protection for modern distributed web applications.',
+    icon: Globe,
+    accentColor: 'blue',
+    iconBg: 'bg-blue-500/20 text-blue-400 border-blue-400/30 shadow-[0_0_15px_rgba(59,130,246,0.25)]',
+    hoverBorder: 'hover:border-blue-500/40',
+    tags: ['API Hardening', 'SSRF/XSS/SQLi', 'Token Security'],
+  },
+  {
+    title: 'Security Monitoring',
+    shortName: 'SOC / SecOps',
+    slug: 'threat-detection',
+    description:
+      'Continuous 24/7 telemetry monitoring, real-time threat intelligence correlation, anomaly detection, and rapid automated incident containment.',
+    icon: Activity,
+    accentColor: 'emerald',
+    iconBg: 'bg-emerald-500/20 text-emerald-400 border-emerald-400/30 shadow-[0_0_15px_rgba(16,185,129,0.25)]',
+    hoverBorder: 'hover:border-emerald-500/40',
+    tags: ['24/7 Telemetry', 'AI Anomaly Detection', 'SIEM & SOAR'],
+  },
+];
 
 const DetailedProtectionGrid = () => {
   return (
-    <section className="py-24 bg-[#030611] relative" data-purpose="security-matrix">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center max-w-xl mx-auto mb-16">
-          <div className="text-xs font-bold tracking-widest text-cyan-400 uppercase mb-2">Maximum Assurance</div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+    <section className="py-24 bg-[#030611] relative" id="services" data-purpose="security-matrix">
+      {/* Subtle background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-cyan-500/5 blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-mono mb-3 tracking-wider uppercase">
+            <ShieldCheck size={13} />
+            Services & Data Protection
+          </div>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
             How Abhimanyu can protect my data?
           </h2>
+          <p className="mt-3 text-sm sm:text-base text-slate-400">
+            Comprehensive offensive and defensive security capabilities engineered to safeguard mission-critical digital infrastructure.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Matrix Item 1 */}
-          <div className="glass-surface glass-surface-interactive p-6 rounded-2xl group">
-            <div className="w-9 h-9 rounded-xl bg-orange-500/20 text-orange-400 border border-orange-400/30 flex items-center justify-center mb-4 shadow-[0_0_12px_rgba(251,146,60,0.2)]">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" strokeLinecap="round" strokeLinejoin="round"></path>
-              </svg>
-            </div>
-            <h4 className="text-sm font-bold text-white mb-2 group-hover:text-orange-200 transition-colors">Secure end to end data encryption</h4>
-            <p className="text-xs text-slate-300 leading-relaxed">
-              Military-grade AES-256 and ChaCha20 protocols secure data being transmitted without your intervention.
-            </p>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {servicesData.map((service, index) => {
+            const Icon = service.icon;
+            return (
+              <div
+                key={service.title}
+                className={`glass-feature-card p-7 rounded-2xl flex flex-col justify-between group transition-all duration-300 ${service.hoverBorder}`}
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-5">
+                    <div className={`w-11 h-11 rounded-xl border flex items-center justify-center transition-transform group-hover:scale-105 duration-300 ${service.iconBg}`}>
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded-full bg-slate-800/80 text-slate-400 border border-slate-700/60">
+                      0{index + 1}
+                    </span>
+                  </div>
 
-          {/* Matrix Item 2 */}
-          <div className="glass-surface glass-surface-interactive p-6 rounded-2xl group">
-            <div className="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-400/30 flex items-center justify-center mb-4 shadow-[0_0_12px_rgba(0,240,255,0.2)]">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7C5 4 4 5 4 7z" strokeLinecap="round" strokeLinejoin="round"></path>
-              </svg>
-            </div>
-            <h4 className="text-sm font-bold text-white mb-2 group-hover:text-cyan-200 transition-colors">Data protection at rest and in transit</h4>
-            <p className="text-xs text-slate-300 leading-relaxed">
-              Zero persistent disk footprint. Ephemeral encryption keys ensure no logs exist to be compromised.
-            </p>
-          </div>
+                  <h3 className="text-base font-bold text-white mb-2.5 leading-snug group-hover:text-cyan-200 transition-colors">
+                    {service.title}
+                  </h3>
 
-          {/* Matrix Item 3 */}
-          <div className="glass-surface glass-surface-interactive p-6 rounded-2xl group">
-            <div className="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 flex items-center justify-center mb-4 shadow-[0_0_12px_rgba(99,102,241,0.25)]">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" strokeLinecap="round" strokeLinejoin="round"></path>
-              </svg>
-            </div>
-            <h4 className="text-sm font-bold text-white mb-2 group-hover:text-indigo-200 transition-colors">Advanced machine learning protection</h4>
-            <p className="text-xs text-slate-300 leading-relaxed">
-              Neural network heuristics adapt to zero-day attack surfaces before signature databases are released.
-            </p>
-          </div>
+                  <p className="text-xs text-slate-300 leading-relaxed mb-6">
+                    {service.description}
+                  </p>
+                </div>
 
-          {/* Matrix Item 4 */}
-          <div className="glass-surface glass-surface-interactive p-6 rounded-2xl group">
-            <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-400/30 flex items-center justify-center mb-4 shadow-[0_0_12px_rgba(52,211,153,0.2)]">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round"></path>
-              </svg>
-            </div>
-            <h4 className="text-sm font-bold text-white mb-2 group-hover:text-emerald-200 transition-colors">Individual user silos to air-gap data</h4>
-            <p className="text-xs text-slate-300 leading-relaxed">
-              Granular isolation preventing lateral movement from infected team devices to company core servers.
-            </p>
-          </div>
+                <div className="pt-4 border-t border-slate-800/70">
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {service.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900/90 text-slate-400 border border-slate-800"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <Link
+                    to={`/services/${service.slug}`}
+                    className="inline-flex items-center text-xs font-semibold text-cyan-400 hover:text-cyan-300 group-hover:translate-x-0.5 transition-all gap-1"
+                  >
+                    <span>Explore Capability</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </Link>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

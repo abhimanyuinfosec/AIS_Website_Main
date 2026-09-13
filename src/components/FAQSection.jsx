@@ -42,7 +42,7 @@ const FAQSection = () => {
             return (
               <div 
                 key={i}
-                className="glass-surface rounded-2xl overflow-hidden border border-white/10 transition-all duration-300"
+                className={`glass-faq-item rounded-2xl overflow-hidden ${isOpen ? 'is-open' : ''}`}
               >
                 <button
                   onClick={() => setOpenIdx(isOpen ? null : i)}
@@ -57,7 +57,7 @@ const FAQSection = () => {
                   </div>
                 </button>
                 {isOpen && (
-                  <div className="px-6 pb-6 pt-1 text-sm text-slate-300 leading-relaxed border-t border-white/[0.06]">
+                  <div className="px-6 pb-6 pt-1 text-sm text-slate-300 leading-relaxed border-t border-white/[0.08]">
                     {faq.a}
                   </div>
                 )}

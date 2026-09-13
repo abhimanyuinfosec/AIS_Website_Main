@@ -1,25 +1,34 @@
 import React from 'react';
 import HeroSection from '../components/HeroSection';
 import ClientLogosSection from '../components/ClientLogosSection';
+import DetailedProtectionGrid from '../components/DetailedProtectionGrid';
 import ValuePropositionSection from '../components/ValuePropositionSection';
 import HowItWorksArchitecture from '../components/HowItWorksArchitecture';
-import DetailedProtectionGrid from '../components/DetailedProtectionGrid';
-import DeviceManagementSection from '../components/DeviceManagementSection';
-import PricingSection from '../components/PricingSection';
 import FAQSection from '../components/FAQSection';
 import CallToActionBanner from '../components/CallToActionBanner';
 
 const Home = () => {
   return (
     <>
+      {/* 1. Hero Section */}
       <HeroSection />
+
+      {/* 2. Trust Strip */}
       <ClientLogosSection />
-      <ValuePropositionSection />
-      <HowItWorksArchitecture />
+
+      {/* 3. Services / How Abhimanyu can protect my data? */}
       <DetailedProtectionGrid />
-      <DeviceManagementSection />
-      <PricingSection />
+
+      {/* 4. Why Abhimanyu InfoSec ? */}
+      <ValuePropositionSection />
+
+      {/* 5. How we Work */}
+      <HowItWorksArchitecture />
+
+      {/* 6. FAQs */}
       <FAQSection />
+
+      {/* Final Action Banner */}
       <CallToActionBanner />
     </>
   );

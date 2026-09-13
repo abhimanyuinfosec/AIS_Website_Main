@@ -20,7 +20,7 @@ const ValuePropositionSection = () => {
         {/* 3 Feature Glass Cards Grid with Hover Sweeps & Specular Glows */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {/* Card 1: Reliable Protection */}
-          <div className="glass-surface glass-surface-interactive rounded-2xl p-8 group" data-purpose="feature-card">
+          <div className="glass-feature-card rounded-2xl p-8 group" data-purpose="feature-card">
             <div className="flex items-center gap-4 mb-5">
               {/* Coral Shield Glow Icon with Glass Well */}
               <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-rose-500 via-pink-500 to-amber-400 p-0.5 shadow-lg shadow-rose-500/25 group-hover:shadow-rose-500/40 transition-shadow">
@@ -40,7 +40,7 @@ const ValuePropositionSection = () => {
           </div>
 
           {/* Card 2: Easy to set up */}
-          <div className="glass-surface glass-surface-interactive rounded-2xl p-8 group" data-purpose="feature-card">
+          <div className="glass-feature-card rounded-2xl p-8 group" data-purpose="feature-card">
             <div className="flex items-center gap-4 mb-5">
               {/* Electric Blue Gear/Cloud Glow Icon */}
               <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-cyan-400 via-blue-500 to-indigo-600 p-0.5 shadow-lg shadow-cyan-500/25 group-hover:shadow-cyan-500/40 transition-shadow">
@@ -60,7 +60,7 @@ const ValuePropositionSection = () => {
           </div>
 
           {/* Card 3: Virus & Threat Protection */}
-          <div className="glass-surface glass-surface-interactive rounded-2xl p-8 group" data-purpose="feature-card">
+          <div className="glass-feature-card rounded-2xl p-8 group" data-purpose="feature-card">
             <div className="flex items-center gap-4 mb-5">
               {/* Amber Threat Defense Icon */}
               <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-400 via-orange-500 to-amber-600 p-0.5 shadow-lg shadow-amber-500/25 group-hover:shadow-amber-500/40 transition-shadow">
