@@ -20,9 +20,11 @@ const HeroSection = () => {
           </div>
 
           {/* Main Hero Headline */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display tracking-tight text-white leading-[1.12]">
-            <span className="abhimanyu-gradient-animated whitespace-normal lg:whitespace-nowrap">Abhimanyu InfoSec</span> <br className="hidden sm:inline" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-cyan-200">
+          <h1 className="space-y-2 text-white">
+            <span className="block text-4xl sm:text-5xl lg:text-6xl font-extrabold font-display tracking-tight leading-[1.1] abhimanyu-gradient-animated whitespace-normal lg:whitespace-nowrap">
+              Abhimanyu InfoSec
+            </span>
+            <span className="block text-xl sm:text-2xl lg:text-3xl font-semibold tracking-tight leading-snug text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-cyan-200">
               Cybersecurity built for businesses that cannot afford to be vulnerable.
             </span>
           </h1>

@@ -30,14 +30,7 @@ const navSections = [
   },
   {
     name: 'Insights',
-    href: '/insights/web-security',
-    items: [
-      { name: 'Web Security', href: '/insights/web-security' },
-      { name: 'Network Security', href: '/insights/network-security' },
-      { name: 'Cyber Security', href: '/insights/cyber-security' },
-      { name: 'Threat Intelligence', href: '/insights/threat-intelligence' },
-      { name: 'SME / MSME Security', href: '/insights/sme-security' },
-    ],
+    href: '/insights',
   },
   {
     name: 'About Us',

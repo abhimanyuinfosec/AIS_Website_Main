@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const WhyAisPage = () => {
+const InsightsPage = () => {
   return (
     <div className="min-h-screen bg-[#030611] text-slate-200 pt-12 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Subtle background glow */}
@@ -13,111 +13,128 @@ const WhyAisPage = () => {
         <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
           <Link to="/" className="hover:text-cyan-400 transition-colors">Home</Link>
           <span>/</span>
-          <span className="text-slate-500">About Us</span>
-          <span>/</span>
-          <span className="text-cyan-400">Why AIS</span>
+          <span className="text-cyan-400">Insights</span>
         </div>
 
         {/* 1. HERO SECTION */}
         <div className="space-y-6 max-w-3xl">
           <div className="inline-block px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-400 text-xs font-mono tracking-wider uppercase">
-            Abhimanyu AIS • Innovation
+            Knowledge • Threat Research
           </div>
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.15]">
-            Intelligence-driven cybersecurity for the next generation of threats.
+            Security knowledge that helps you stay ahead.
           </h1>
           <p className="text-slate-300 text-base sm:text-lg leading-relaxed font-normal">
-            Abhimanyu AIS represents our focus on combining cybersecurity with artificial intelligence to improve detection, analysis and security automation.
+            Practical cybersecurity insights for businesses, developers and security teams.
           </p>
           <div className="pt-2">
             <Link
               to="/contact"
               className="inline-flex items-center justify-center px-7 py-3 rounded-full text-xs font-semibold uppercase tracking-wider text-white bg-gradient-to-r from-blue-600 via-brand-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-glow-blue border border-white/20 transition-all hover:scale-105 active:scale-95"
             >
-              Explore our security innovation →
+              Explore Security Insights →
             </Link>
           </div>
         </div>
 
-        {/* 2. AREAS OF FOCUS */}
+        {/* 2. CATEGORIES */}
         <div className="space-y-8">
           <div>
             <div className="text-xs font-bold font-mono tracking-widest text-cyan-400 uppercase mb-2">
-              Next-Gen Capabilities
+              Focus Domains
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-              Areas of Focus
+              Categories
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               {
-                title: 'AI-Assisted Security Analysis',
-                desc: 'Use intelligent systems to analyze security data and identify meaningful patterns.',
+                name: 'Web Security',
+                desc: 'Understand vulnerabilities, application security and secure development.',
               },
               {
-                title: 'Threat Detection',
-                desc: 'Improve the ability to identify suspicious behavior across large volumes of security data.',
+                name: 'Network Security',
+                desc: 'Learn how attackers discover and exploit network weaknesses.',
               },
               {
-                title: 'Security Automation',
-                desc: 'Reduce repetitive security operations through intelligent workflows.',
+                name: 'Cybersecurity',
+                desc: 'Practical security concepts, strategies and defensive practices.',
               },
               {
-                title: 'Predictive Security',
-                desc: 'Explore how security data can be used to anticipate potential threats.',
+                name: 'Threat Intelligence',
+                desc: 'Understand emerging threats, indicators and attacker behavior.',
               },
-            ].map((focus, idx) => (
+              {
+                name: 'SME / MSME Security',
+                desc: 'Security guidance designed around the realities of smaller organizations.',
+              },
+            ].map((category, idx) => (
               <div
-                key={focus.title}
-                className="p-7 rounded-2xl bg-[rgba(8,24,45,0.55)] border border-[rgba(100,190,255,0.14)] backdrop-blur-md flex flex-col justify-between"
+                key={category.name}
+                className="p-6 rounded-2xl bg-[rgba(8,24,45,0.55)] border border-[rgba(100,190,255,0.14)] backdrop-blur-md flex flex-col justify-between"
               >
                 <div>
                   <div className="text-xs font-mono font-bold text-cyan-400 uppercase mb-2">
-                    Focus 0{idx + 1}
+                    Category 0{idx + 1}
                   </div>
-                  <h3 className="text-lg font-bold text-white mb-2.5 leading-snug">
-                    {focus.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    {focus.desc}
-                  </p>
+                  <h3 className="text-lg font-bold text-white mb-2 leading-snug">{category.name}</h3>
+                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">{category.desc}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* 3. OUR RESEARCH DIRECTION */}
+        {/* 3. EXAMPLE ARTICLE CARDS */}
         <div className="space-y-8">
           <div>
             <div className="text-xs font-bold font-mono tracking-widest text-cyan-400 uppercase mb-2">
-              R&D Pipeline
+              Featured Publications
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-              Our Research Direction
+              Example Article Cards
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
-              'Intrusion detection',
-              'Threat intelligence',
-              'Attack forecasting',
-              'Automated security assessment',
-              'Security analytics',
-              'AI-assisted SOC operations',
-            ].map((research, idx) => (
+              {
+                badge: 'Web Security',
+                title: '5 Web Security Risks Every Business Should Know',
+                desc: 'Learn how common application vulnerabilities can impact your business.',
+              },
+              {
+                badge: 'SME Security',
+                title: 'Why SMEs Are Becoming Targets for Cyber Attacks',
+                desc: 'Understanding why smaller organizations need practical security controls.',
+              },
+              {
+                badge: 'Defensive Strategy',
+                title: 'What Is Attack Surface Management?',
+                desc: 'A practical introduction to discovering and reducing exposed assets.',
+              },
+              {
+                badge: 'Assessment Guide',
+                title: 'Vulnerability Assessment vs Penetration Testing',
+                desc: 'Understand the difference and when your organization needs each.',
+              },
+            ].map((article) => (
               <div
-                key={research}
-                className="p-5 rounded-2xl bg-[rgba(8,24,45,0.55)] border border-[rgba(100,190,255,0.14)] backdrop-blur-md flex flex-col justify-between"
+                key={article.title}
+                className="p-7 rounded-2xl bg-[rgba(8,24,45,0.55)] border border-[rgba(100,190,255,0.14)] backdrop-blur-md flex flex-col justify-between"
               >
                 <div>
-                  <div className="text-xs font-mono font-bold text-cyan-400 uppercase mb-2">
-                    Track 0{idx + 1}
+                  <div className="inline-block px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-cyan-400 text-[11px] font-mono mb-3">
+                    {article.badge}
                   </div>
-                  <h3 className="text-sm font-bold text-white leading-snug">{research}</h3>
+                  <h3 className="text-lg font-bold text-white mb-2.5 leading-snug">
+                    {article.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    {article.desc}
+                  </p>
                 </div>
               </div>
             ))}
@@ -127,14 +144,14 @@ const WhyAisPage = () => {
         {/* 4. CALL TO ACTION BANNER */}
         <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-[rgba(10,32,60,0.85)] to-[rgba(7,20,45,0.9)] border border-cyan-400/30 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.7)] text-center space-y-6">
           <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight max-w-2xl mx-auto leading-snug">
-            Partner with us on AI-driven cyber defense research and operations.
+            Ready to strengthen your cybersecurity posture?
           </h2>
           <div>
             <Link
               to="/contact"
               className="inline-flex items-center justify-center px-8 py-3.5 text-xs font-semibold uppercase tracking-wider text-white bg-gradient-to-r from-blue-600 via-brand-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-full shadow-glow-blue border border-white/20 transition-all hover:scale-105 active:scale-95"
             >
-              Explore our security innovation →
+              Explore Security Insights →
             </Link>
           </div>
         </div>
@@ -144,4 +161,4 @@ const WhyAisPage = () => {
   );
 };
 
-export default WhyAisPage;
+export default InsightsPage;

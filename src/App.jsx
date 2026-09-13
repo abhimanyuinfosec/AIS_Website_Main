@@ -24,11 +24,7 @@ import IpIntelligencePage from './pages/products/IpIntelligencePage';
 import HybridIdsPage from './pages/products/HybridIdsPage';
 
 // Individual Subsection Pages - Insights
-import InsightsWebSecurityPage from './pages/insights/InsightsWebSecurityPage';
-import InsightsNetworkSecurityPage from './pages/insights/InsightsNetworkSecurityPage';
-import InsightsCyberSecurityPage from './pages/insights/InsightsCyberSecurityPage';
-import InsightsThreatIntelligencePage from './pages/insights/InsightsThreatIntelligencePage';
-import InsightsSmeSecurityPage from './pages/insights/InsightsSmeSecurityPage';
+import InsightsPage from './pages/insights/InsightsPage';
 
 // Individual Subsection Pages - About
 import OurMissionPage from './pages/about/OurMissionPage';
@@ -115,12 +111,12 @@ function App() {
             <Route path="/products/hybrid-ids" element={<HybridIdsPage />} />
 
             {/* Insights Routes */}
-            <Route path="/insights" element={<InsightsWebSecurityPage />} />
-            <Route path="/insights/web-security" element={<InsightsWebSecurityPage />} />
-            <Route path="/insights/network-security" element={<InsightsNetworkSecurityPage />} />
-            <Route path="/insights/cyber-security" element={<InsightsCyberSecurityPage />} />
-            <Route path="/insights/threat-intelligence" element={<InsightsThreatIntelligencePage />} />
-            <Route path="/insights/sme-security" element={<InsightsSmeSecurityPage />} />
+            <Route path="/insights" element={<InsightsPage />} />
+            <Route path="/insights/web-security" element={<InsightsPage />} />
+            <Route path="/insights/network-security" element={<InsightsPage />} />
+            <Route path="/insights/cyber-security" element={<InsightsPage />} />
+            <Route path="/insights/threat-intelligence" element={<InsightsPage />} />
+            <Route path="/insights/sme-security" element={<InsightsPage />} />
 
             {/* About Us Routes */}
             <Route path="/about" element={<OurMissionPage />} />
