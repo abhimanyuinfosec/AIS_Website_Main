@@ -6,19 +6,19 @@ const ValuePropositionSection = () => {
       <div className="max-w-7xl mx-auto px-6 relative">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto space-y-4 mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-500/10 border border-cyan-400/30 text-xs font-semibold uppercase tracking-widest text-cyan-300 backdrop-blur-md shadow-sm">
+          <div data-anim="fade" className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-500/10 border border-cyan-400/30 text-xs font-semibold uppercase tracking-widest text-cyan-300 backdrop-blur-md shadow-sm">
             Universal Solution
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h2 data-anim="up" className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             Why Abhimanyu?
           </h2>
-          <p className="text-slate-300 text-base font-normal">
+          <p data-anim="up" data-anim-delay="100" className="text-slate-300 text-base font-normal">
             Abhimanyu is the first and only easy to use cloud firewall for distributed enterprises and remote teams.
           </p>
         </div>
 
         {/* 3 Feature Glass Cards Grid with Hover Sweeps & Specular Glows */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+        <div data-anim-child className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {/* Card 1: Reliable Protection */}
           <div className="glass-feature-card rounded-2xl p-8 group" data-purpose="feature-card">
             <div className="flex items-center gap-4 mb-5">

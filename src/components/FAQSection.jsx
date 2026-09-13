@@ -27,16 +27,16 @@ const FAQSection = () => {
     <section className="py-24 relative" id="faq">
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center space-y-3 mb-14">
-          <div className="text-xs font-bold tracking-widest text-cyan-400 uppercase">Knowledge Base</div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
+          <div data-anim="fade" className="text-xs font-bold tracking-widest text-cyan-400 uppercase">Knowledge Base</div>
+          <h2 data-anim="up" className="text-3xl sm:text-4xl font-extrabold text-white">
             Frequently Asked Questions
           </h2>
-          <p className="text-slate-300 text-sm">
+          <p data-anim="up" data-anim-delay="100" className="text-slate-300 text-sm">
             Everything you need to know about autonomous cloud defense and enterprise rollout.
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div data-anim-child className="space-y-4">
           {faqs.map((faq, i) => {
             const isOpen = openIdx === i;
             return (

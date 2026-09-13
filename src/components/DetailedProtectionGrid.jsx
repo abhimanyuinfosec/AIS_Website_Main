@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Bug, Network, Globe, Activity, ArrowUpRight, ShieldCheck } from 'lucide-react';
+import { Bug, Network, Globe, Activity, ArrowUpRight, ShieldCheck, ShieldAlert } from 'lucide-react';
+import api from '../services/api';
 
-const servicesData = [
+const defaultServicesData = [
   {
     title: 'Vulnerability Assessment and Penetration Testing',
     shortName: 'VAPT',
@@ -57,7 +58,68 @@ const servicesData = [
   },
 ];
 
+const iconMap = {
+  ShieldAlert,
+  Bug,
+  Network,
+  Globe,
+  Activity,
+  ShieldCheck,
+};
+
+const styleMap = [
+  {
+    iconBg: 'bg-rose-500/20 text-rose-400 border-rose-400/30 shadow-[0_0_15px_rgba(244,63,94,0.25)]',
+    hoverBorder: 'hover:border-rose-500/40',
+    defaultIcon: Bug,
+  },
+  {
+    iconBg: 'bg-cyan-500/20 text-cyan-400 border-cyan-400/30 shadow-[0_0_15px_rgba(0,240,255,0.25)]',
+    hoverBorder: 'hover:border-cyan-500/40',
+    defaultIcon: Network,
+  },
+  {
+    iconBg: 'bg-blue-500/20 text-blue-400 border-blue-400/30 shadow-[0_0_15px_rgba(59,130,246,0.25)]',
+    hoverBorder: 'hover:border-blue-500/40',
+    defaultIcon: Globe,
+  },
+  {
+    iconBg: 'bg-emerald-500/20 text-emerald-400 border-emerald-400/30 shadow-[0_0_15px_rgba(16,185,129,0.25)]',
+    hoverBorder: 'hover:border-emerald-500/40',
+    defaultIcon: Activity,
+  },
+];
+
 const DetailedProtectionGrid = () => {
+  const [services, setServices] = useState(defaultServicesData);
+
+  useEffect(() => {
+    let isMounted = true;
+    api.get('/services')
+      .then((res) => {
+        if (!isMounted || !res.success || !Array.isArray(res.data) || res.data.length === 0) return;
+        const liveItems = res.data.map((item, idx) => {
+          const style = styleMap[idx % styleMap.length];
+          const IconComponent = (item.icon && iconMap[item.icon]) ? iconMap[item.icon] : style.defaultIcon;
+          return {
+            title: item.name,
+            shortName: item.slug,
+            slug: item.slug,
+            link: `/services/${item.slug}`,
+            description: item.shortDesc || item.detailedDesc,
+            icon: IconComponent,
+            iconBg: style.iconBg,
+            hoverBorder: style.hoverBorder,
+            tags: item.features && item.features.length > 0 ? item.features.slice(0, 3) : ['Zero-Trust', 'Hardening', 'Continuous Defense'],
+          };
+        });
+        setServices(liveItems);
+      })
+      .catch(() => {
+        // Graceful fallback to defaultServicesData on network blip
+      });
+    return () => { isMounted = false; };
+  }, []);
   return (
     <section className="py-24 bg-[#030611] relative" id="services" data-purpose="security-matrix">
       {/* Subtle background glow */}
@@ -65,20 +127,20 @@ const DetailedProtectionGrid = () => {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-mono mb-3 tracking-wider uppercase">
+          <div data-anim="fade" className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-mono mb-3 tracking-wider uppercase">
             <ShieldCheck size={13} />
             Services & Data Protection
           </div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h2 data-anim="up" className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
             How Abhimanyu can protect my data?
           </h2>
-          <p className="mt-3 text-sm sm:text-base text-slate-400">
+          <p data-anim="up" data-anim-delay="100" className="mt-3 text-sm sm:text-base text-slate-400">
             Comprehensive offensive and defensive security capabilities engineered to safeguard mission-critical digital infrastructure.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {servicesData.map((service, index) => {
+        <div data-anim-child className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {services.map((service, index) => {
             const Icon = service.icon;
             return (
               <div

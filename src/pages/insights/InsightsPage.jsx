@@ -1,7 +1,55 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../../services/api';
+
+const defaultArticles = [
+  {
+    badge: 'Web Security',
+    title: '5 Web Security Risks Every Business Should Know',
+    desc: 'Learn how common application vulnerabilities can impact your business.',
+    slug: '5-web-security-risks-every-business-should-know',
+  },
+  {
+    badge: 'SME Security',
+    title: 'Why SMEs Are Becoming Targets for Cyber Attacks',
+    desc: 'Understanding why smaller organizations need practical security controls.',
+    slug: 'why-smes-are-becoming-targets-for-cyber-attacks',
+  },
+  {
+    badge: 'Defensive Strategy',
+    title: 'What Is Attack Surface Management?',
+    desc: 'A practical introduction to discovering and reducing exposed assets.',
+    slug: 'what-is-attack-surface-management',
+  },
+  {
+    badge: 'Assessment Guide',
+    title: 'Vulnerability Assessment vs Penetration Testing',
+    desc: 'Understand the difference and when your organization needs each.',
+    slug: 'vulnerability-assessment-vs-penetration-testing',
+  },
+];
 
 const InsightsPage = () => {
+  const [articles, setArticles] = useState(defaultArticles);
+
+  useEffect(() => {
+    let isMounted = true;
+    api.get('/blog')
+      .then((res) => {
+        if (!isMounted || !res.success || !Array.isArray(res.data) || res.data.length === 0) return;
+        const liveArticles = res.data.map((post) => ({
+          badge: post.category?.name || 'Security Insight',
+          title: post.title,
+          desc: post.excerpt || (post.content ? post.content.substring(0, 120) + '...' : ''),
+          slug: post.slug,
+          readingTime: post.readingTime,
+        }));
+        setArticles(liveArticles);
+      })
+      .catch(() => {});
+    return () => { isMounted = false; };
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#030611] text-slate-200 pt-12 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Subtle background glow */}
@@ -94,42 +142,28 @@ const InsightsPage = () => {
               Featured Publications
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-              Example Article Cards
+              Latest Security Articles
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[
-              {
-                badge: 'Web Security',
-                title: '5 Web Security Risks Every Business Should Know',
-                desc: 'Learn how common application vulnerabilities can impact your business.',
-              },
-              {
-                badge: 'SME Security',
-                title: 'Why SMEs Are Becoming Targets for Cyber Attacks',
-                desc: 'Understanding why smaller organizations need practical security controls.',
-              },
-              {
-                badge: 'Defensive Strategy',
-                title: 'What Is Attack Surface Management?',
-                desc: 'A practical introduction to discovering and reducing exposed assets.',
-              },
-              {
-                badge: 'Assessment Guide',
-                title: 'Vulnerability Assessment vs Penetration Testing',
-                desc: 'Understand the difference and when your organization needs each.',
-              },
-            ].map((article) => (
+            {articles.map((article) => (
               <div
                 key={article.title}
-                className="p-7 rounded-2xl bg-[rgba(8,24,45,0.55)] border border-[rgba(100,190,255,0.14)] backdrop-blur-md flex flex-col justify-between"
+                className="p-7 rounded-2xl bg-[rgba(8,24,45,0.55)] border border-[rgba(100,190,255,0.14)] backdrop-blur-md flex flex-col justify-between group hover:border-cyan-400/40 transition-all duration-300"
               >
                 <div>
-                  <div className="inline-block px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-cyan-400 text-[11px] font-mono mb-3">
-                    {article.badge}
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="inline-block px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-cyan-400 text-[11px] font-mono">
+                      {article.badge}
+                    </span>
+                    {article.readingTime && (
+                      <span className="text-[11px] font-mono text-slate-400">
+                        {article.readingTime} min read
+                      </span>
+                    )}
                   </div>
-                  <h3 className="text-lg font-bold text-white mb-2.5 leading-snug">
+                  <h3 className="text-lg font-bold text-white mb-2.5 leading-snug group-hover:text-cyan-200 transition-colors">
                     {article.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../../services/api';
 
-const teamMembers = [
+const defaultTeamMembers = [
   {
     name: 'Founder & Cybersecurity Lead',
     role: 'Founder / Cybersecurity Lead',
@@ -33,6 +34,26 @@ const teamMembers = [
 ];
 
 const TeamPage = () => {
+  const [members, setMembers] = useState(defaultTeamMembers);
+
+  useEffect(() => {
+    let isMounted = true;
+    api.get('/team')
+      .then((res) => {
+        if (!isMounted || !res.success || !Array.isArray(res.data) || res.data.length === 0) return;
+        const liveMembers = res.data.map((m) => ({
+          name: m.name,
+          role: m.role,
+          desc: m.shortBio || m.detailedBio,
+          linkedin: m.linkedin || 'https://linkedin.com',
+          github: m.github || 'https://github.com',
+          profileImage: m.profileImage,
+        }));
+        setMembers(liveMembers);
+      })
+      .catch(() => {});
+    return () => { isMounted = false; };
+  }, []);
   return (
     <div className="min-h-screen bg-[#030611] text-slate-200 pt-12 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Subtle background glow */}
@@ -82,20 +103,26 @@ const TeamPage = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {teamMembers.map((member) => (
+            {members.map((member) => (
               <div
                 key={member.name}
                 className="p-6 rounded-2xl bg-[rgba(8,24,45,0.55)] border border-[rgba(100,190,255,0.14)] backdrop-blur-md flex flex-col justify-between"
               >
                 <div>
                   {/* Photo Space Container */}
-                  <div className="w-full aspect-square rounded-xl bg-slate-900/80 border border-dashed border-cyan-400/30 flex flex-col items-center justify-center text-center p-4 mb-5">
-                    <span className="text-[11px] font-mono text-cyan-400 uppercase tracking-wider font-semibold">
-                      Photo
-                    </span>
-                    <span className="text-[10px] text-slate-500 mt-1">
-                      Member Portrait
-                    </span>
+                  <div className="w-full aspect-square rounded-xl bg-slate-900/80 border border-dashed border-cyan-400/30 flex flex-col items-center justify-center text-center p-4 mb-5 overflow-hidden">
+                    {member.profileImage ? (
+                      <img src={member.profileImage} alt={member.name} className="w-full h-full object-cover rounded-lg" />
+                    ) : (
+                      <>
+                        <span className="text-[11px] font-mono text-cyan-400 uppercase tracking-wider font-semibold">
+                          Photo
+                        </span>
+                        <span className="text-[10px] text-slate-500 mt-1">
+                          Member Portrait
+                        </span>
+                      </>
+                    )}
                   </div>
 
                   {/* Name & Role */}

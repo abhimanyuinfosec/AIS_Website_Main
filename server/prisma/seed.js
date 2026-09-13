@@ -162,7 +162,151 @@ async function main() {
       create: p,
     });
   }
-  console.log(`✅ Initial security products seeded (${initialProducts.length} products).`);
+  // 5. Seed Initial Team Members
+  const initialTeam = [
+    {
+      name: 'Dr. Vikramaditya Sharma',
+      role: 'Founder / Cybersecurity Lead',
+      shortBio: 'Responsible for cybersecurity strategy, security research, product direction and technical development.',
+      detailedBio: 'Over 14 years of offensive and defensive security experience. Spearheaded enterprise defense architecture across Fortune 500 networks.',
+      skills: ['Zero-Trust Architecture', 'Red Teaming', 'Cloud Security', 'VAPT'],
+      expertise: ['Offensive Security', 'Threat Modeling'],
+      linkedin: 'https://linkedin.com',
+      github: 'https://github.com',
+      email: 'lead@abhimanyuinfosec.com',
+      displayOrder: 1,
+      isActive: true,
+    },
+    {
+      name: 'Aarav Patel',
+      role: 'Offensive Security Researcher & Pen Tester',
+      shortBio: 'Specializes in web application penetration testing, zero-day vulnerability discovery, and exploit validation.',
+      detailedBio: 'Prolific bug hunter and offensive security specialist certified with OSCP and CRTO.',
+      skills: ['OWASP Top 10', 'API Fuzzing', 'Reverse Engineering', 'Burp Suite Pro'],
+      expertise: ['Web App Penetration Testing', 'API Security'],
+      linkedin: 'https://linkedin.com',
+      github: 'https://github.com',
+      email: 'research@abhimanyuinfosec.com',
+      displayOrder: 2,
+      isActive: true,
+    },
+    {
+      name: 'Rohan Deshmukh',
+      role: 'Cloud & Network Security Lead',
+      shortBio: 'Focuses on network hardening, micro-segmentation, and automated perimeter threat detection.',
+      detailedBio: 'Architects fault-tolerant, air-gapped network security infrastructure across AWS, Azure, and private cloud enclaves.',
+      skills: ['Network Hardening', 'Firewall Auditing', 'Kubernetes Security', 'eBPF'],
+      expertise: ['Perimeter Defense', 'Infrastructure Hardening'],
+      linkedin: 'https://linkedin.com',
+      github: 'https://github.com',
+      email: 'infra@abhimanyuinfosec.com',
+      displayOrder: 3,
+      isActive: true,
+    },
+    {
+      name: 'Meera Nambiar',
+      role: 'AI & Security Systems Developer',
+      shortBio: 'Builds intelligent intrusion detection pipelines, real-time telemetry correlation, and autonomous mitigation bots.',
+      detailedBio: 'Specializes in machine learning application for high-throughput network packet analysis and anomaly detection.',
+      skills: ['Python', 'FastAPI', 'Machine Learning', 'ELK Stack', 'Rust'],
+      expertise: ['AI Cyber Defense', 'SIEM / SOAR Automation'],
+      linkedin: 'https://linkedin.com',
+      github: 'https://github.com',
+      email: 'ai-sec@abhimanyuinfosec.com',
+      displayOrder: 4,
+      isActive: true,
+    },
+  ];
+
+  for (const t of initialTeam) {
+    const existing = await prisma.teamMember.findFirst({ where: { name: t.name } });
+    if (!existing) {
+      await prisma.teamMember.create({ data: t });
+    }
+  }
+  console.log(`✅ Initial team members seeded (${initialTeam.length} members).`);
+
+  // 6. Seed Blog Categories & Posts
+  const categories = [
+    { name: 'Web Security', slug: 'web-security' },
+    { name: 'Network Security', slug: 'network-security' },
+    { name: 'Threat Intelligence', slug: 'threat-intelligence' },
+    { name: 'SME / MSME Security', slug: 'sme-security' },
+  ];
+
+  const createdCategories = {};
+  for (const cat of categories) {
+    const c = await prisma.blogCategory.upsert({
+      where: { slug: cat.slug },
+      update: {},
+      create: cat,
+    });
+    createdCategories[cat.slug] = c.id;
+  }
+  console.log(`✅ Blog categories seeded (${categories.length} categories).`);
+
+  const adminUser = await prisma.user.findFirst();
+  if (adminUser) {
+    const initialPosts = [
+      {
+        title: '5 Web Security Risks Every Business Should Know in 2026',
+        slug: '5-web-security-risks-every-business-should-know',
+        excerpt: 'Learn how modern application vulnerabilities, broken access controls, and API authorization flaws can compromise sensitive corporate data.',
+        content: 'Modern web applications are increasingly distributed, utilizing microservices and headless architectures that expand the exposed attack surface...',
+        categoryId: createdCategories['web-security'],
+        authorId: adminUser.id,
+        status: 'PUBLISHED',
+        featured: true,
+        readingTime: 5,
+        publishedAt: new Date(),
+      },
+      {
+        title: 'Why SMEs & MSMEs Are Becoming Primary Targets for Cyber Attacks',
+        slug: 'why-smes-are-becoming-targets-for-cyber-attacks',
+        excerpt: 'Understanding why smaller organizations need practical zero-trust security controls without requiring multi-million dollar IT budgets.',
+        content: 'Small and medium enterprises often assume threat actors only target enterprise giants. In reality, automated botnets and ransomware syndicates target SMEs...',
+        categoryId: createdCategories['sme-security'],
+        authorId: adminUser.id,
+        status: 'PUBLISHED',
+        featured: true,
+        readingTime: 4,
+        publishedAt: new Date(),
+      },
+      {
+        title: 'What Is Attack Surface Management (ASM) & Why It Matters',
+        slug: 'what-is-attack-surface-management',
+        excerpt: 'A practical, engineering-first guide to discovering, monitoring, and reducing exposed shadow IT assets and cloud perimeters.',
+        content: 'Attack Surface Management is the continuous discovery, analysis, and remediation of cybersecurity vulnerabilities across an organization digital footprint...',
+        categoryId: createdCategories['threat-intelligence'],
+        authorId: adminUser.id,
+        status: 'PUBLISHED',
+        featured: true,
+        readingTime: 6,
+        publishedAt: new Date(),
+      },
+      {
+        title: 'Vulnerability Assessment vs Penetration Testing: The Comprehensive Guide',
+        slug: 'vulnerability-assessment-vs-penetration-testing',
+        excerpt: 'Understand the key differences between automated vulnerability scanning and deep adversary simulation, and when your team needs each.',
+        content: 'While both vulnerability assessment and penetration testing aim to find security flaws, their goals, methodologies, and depth are distinct...',
+        categoryId: createdCategories['network-security'],
+        authorId: adminUser.id,
+        status: 'PUBLISHED',
+        featured: true,
+        readingTime: 7,
+        publishedAt: new Date(),
+      },
+    ];
+
+    for (const post of initialPosts) {
+      await prisma.blogPost.upsert({
+        where: { slug: post.slug },
+        update: {},
+        create: post,
+      });
+    }
+    console.log(`✅ Blog posts seeded (${initialPosts.length} posts).`);
+  }
 
   console.log('✨ Database seeding completed successfully.');
 }
@@ -175,3 +319,4 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
+

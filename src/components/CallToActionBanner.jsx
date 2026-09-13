@@ -5,7 +5,7 @@ const CallToActionBanner = () => {
   return (
     <section className="py-24 relative overflow-hidden" data-purpose="cta-banner" id="trial">
       <div className="max-w-5xl mx-auto px-6">
-        <div className="relative rounded-3xl p-10 sm:p-16 glass-cta-panel text-center space-y-6 overflow-hidden">
+        <div data-anim="scale-up" className="relative rounded-3xl p-10 sm:p-16 glass-cta-panel text-center space-y-6 overflow-hidden">
           {/* Subtle Deep Blue / Cyan Ambient Aura Spots behind Banner */}
           <div className="absolute -top-20 -left-20 w-64 h-64 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
           <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>

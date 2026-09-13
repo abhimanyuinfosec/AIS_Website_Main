@@ -16,7 +16,7 @@ const HeroSection = () => {
             </span>
             <span className="text-xs font-semibold tracking-wider text-cyan-300 uppercase">Next-Gen Cyber Defense</span>
             <span className="w-1 h-1 rounded-full bg-slate-500"></span>
-            <span className="text-[11px] text-slate-300 font-medium">For SME's & MSME's</span>
+            <span className="text-[11px] text-slate-300 font-medium">For SME's &amp; MSME's</span>
           </div>
 
           {/* Main Hero Headline */}
@@ -54,6 +54,14 @@ const HeroSection = () => {
         {/* Hero Cybersecurity Network Hops 3D Topology Visualization */}
         <div className="lg:col-span-6 relative flex justify-center items-center" data-purpose="hero-network-visual" data-depth="hero">
           <NetworkTopologyVisualizer />
+        </div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-scroll-hint" aria-hidden="true">
+        <span className="text-[10px] tracking-[0.2em] uppercase text-slate-500 font-medium">Scroll</span>
+        <div className="scroll-mouse">
+          <div className="scroll-mouse-wheel"></div>
         </div>
       </div>
     </section>

@@ -56,6 +56,26 @@ const workflowSteps = [
 const HowItWorksArchitecture = () => {
   // Sync state between the 3D Animation and the compact workflow cards
   const [activeStep, setActiveStep] = useState(0);
+  const [selectedHotspot, setSelectedHotspot] = useState(null);
+
+  const hotspots = [
+    {
+      id: 'firewall',
+      stepIndex: 2,
+      label: 'Zero-Trust Cloud Perimeter',
+      title: 'Autonomous Wire-Speed Firewall',
+      desc: 'Sanitizes and decrypts payloads at wire speed with sub-millisecond edge latency and strict cryptographic isolation.',
+      positionClass: 'top-[36%] -left-2 sm:left-4',
+    },
+    {
+      id: 'monitoring',
+      stepIndex: 3,
+      label: 'Autonomous Threat Telemetry',
+      title: 'Real-Time Anomaly Containment',
+      desc: 'Continuous 24/7 SIEM/SOAR telemetry intelligence stops lateral movement before attackers reach your assets.',
+      positionClass: 'bottom-[22%] -right-2 sm:right-4',
+    },
+  ];
 
   return (
     <section
@@ -69,32 +89,100 @@ const HowItWorksArchitecture = () => {
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
           
-          {/* Left Column: 3D Stack Animation (Untouched, primary visual element) */}
-          <div className="lg:col-span-6 flex justify-center items-center">
-            <SecurityStackWorkflowVisualizer
-              externalActiveStep={activeStep}
-              onStepChange={(step) => setActiveStep(step)}
-            />
+          {/* Left Column: 3D Stack Animation with SkyFort Interactive Node Hotspots */}
+          <div data-anim="slide-left" className="lg:col-span-6 flex flex-col justify-center items-center relative">
+            <div className="relative w-full flex justify-center items-center">
+              <SecurityStackWorkflowVisualizer
+                externalActiveStep={activeStep}
+                onStepChange={(step) => setActiveStep(step)}
+              />
+
+              {/* SkyFort Interactive Hotspot 1: Firewall (Left) */}
+              <div className="absolute top-[35%] left-2 sm:left-6 z-20 group">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedHotspot(selectedHotspot === 'firewall' ? null : 'firewall');
+                    setActiveStep(2);
+                  }}
+                  className={`skyfort-node-btn ${selectedHotspot === 'firewall' ? 'is-active' : ''}`}
+                  title="Toggle Zero-Trust Firewall Info"
+                  aria-label="Toggle Zero-Trust Firewall Info"
+                >
+                  <span className="skyfort-node-radar" />
+                  <span className="text-base font-bold select-none leading-none">
+                    {selectedHotspot === 'firewall' ? '−' : '+'}
+                  </span>
+                </button>
+
+                {/* Floating Glass Callout Popup */}
+                {selectedHotspot === 'firewall' && (
+                  <div className="absolute left-10 top-0 w-64 p-3.5 rounded-xl bg-[#08182f]/95 border border-cyan-400/60 shadow-[0_0_25px_rgba(0,240,255,0.25)] backdrop-blur-xl z-30 transition-all duration-300">
+                    <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold tracking-wider text-cyan-400 uppercase mb-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                      FIREWALL ENGINE
+                    </div>
+                    <h4 className="text-xs font-bold text-white mb-1">Autonomous Wire-Speed Defense</h4>
+                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                      Deep packet inspection with sub-millisecond edge latency and strict zero-trust isolation.
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* SkyFort Interactive Hotspot 2: Threat Telemetry (Right) */}
+              <div className="absolute top-[20%] right-2 sm:right-6 z-20 group">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedHotspot(selectedHotspot === 'monitoring' ? null : 'monitoring');
+                    setActiveStep(3);
+                  }}
+                  className={`skyfort-node-btn ${selectedHotspot === 'monitoring' ? 'is-active' : ''}`}
+                  title="Toggle Telemetry Monitoring Info"
+                  aria-label="Toggle Telemetry Monitoring Info"
+                >
+                  <span className="skyfort-node-radar" />
+                  <span className="text-base font-bold select-none leading-none">
+                    {selectedHotspot === 'monitoring' ? '−' : '+'}
+                  </span>
+                </button>
+
+                {/* Floating Glass Callout Popup */}
+                {selectedHotspot === 'monitoring' && (
+                  <div className="absolute right-10 top-0 w-64 p-3.5 rounded-xl bg-[#08182f]/95 border border-emerald-400/60 shadow-[0_0_25px_rgba(52,211,153,0.25)] backdrop-blur-xl z-30 transition-all duration-300">
+                    <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold tracking-wider text-emerald-400 uppercase mb-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      SOC &amp; MONITORING
+                    </div>
+                    <h4 className="text-xs font-bold text-white mb-1">Real-Time Threat Telemetry</h4>
+                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                      Continuous machine-intelligence correlation detecting anomaly spikes before lateral penetration.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
           {/* Right Column: Section Header, 4 Compact Synchronized Cards, and CTA */}
-          <div className="lg:col-span-6 flex flex-col justify-center space-y-6">
+          <div data-anim="slide-right" className="lg:col-span-6 flex flex-col justify-center space-y-6">
             
             {/* Header Content */}
             <div className="space-y-2.5">
-              <div className="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-cyan-400 uppercase font-mono">
+              <div data-anim="fade" className="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-cyan-400 uppercase font-mono">
                 OUR SECURITY APPROACH
               </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
+              <h2 data-anim="up" className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
                 How We Work
               </h2>
-              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-normal max-w-xl">
+              <p data-anim="up" data-anim-delay="100" className="text-slate-300 text-xs sm:text-sm leading-relaxed font-normal max-w-xl">
                 Security starts with understanding your environment. Abhimanyu InfoSec follows a continuous four-step approach to connect, identify risks, strengthen your security, and monitor for emerging threats.
               </p>
             </div>
 
             {/* Workflow Cards Grid (Desktop 2x2 compact grid / Mobile vertical list) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+            <div data-anim-child className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
               {workflowSteps.map((item) => {
                 const isActive = activeStep === item.stepIndex || activeStep === 4;
 
