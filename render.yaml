@@ -1,0 +1,47 @@
+services:
+  # Backend REST API Service
+  - type: web
+    name: ais-backend
+    runtime: node
+    plan: starter # or free
+    rootDir: server
+    buildCommand: npm install && npx prisma generate
+    startCommand: npm run start:prod
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: DATABASE_URL
+        sync: false
+      - key: CORS_ORIGIN
+        sync: false
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: JWT_ACCESS_EXPIRY
+        value: 15m
+      - key: JWT_REFRESH_EXPIRY
+        value: 7d
+      - key: UPLOAD_DIR
+        value: ./uploads
+      - key: MAX_FILE_SIZE_MB
+        value: 10
+
+  # (Optional) Frontend Static Site on Render
+  # If hosting frontend on Vercel or Cloudflare, you can omit or keep this as backup
+  - type: web
+    name: ais-frontend
+    runtime: static
+    plan: free
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        sync: false

@@ -1,0 +1,24 @@
+services:
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: ais_backend
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - DATABASE_URL=${DATABASE_URL}
+      - CORS_ORIGIN=${CORS_ORIGIN}
+      - JWT_ACCESS_SECRET=${JWT_ACCESS_SECRET}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
+      - JWT_ACCESS_EXPIRY=15m
+      - JWT_REFRESH_EXPIRY=7d
+    ports:
+      - "5000:5000"
+    volumes:
+      - ais_uploads:/app/uploads
+
+volumes:
+  ais_uploads:
+    driver: local

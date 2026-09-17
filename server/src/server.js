@@ -7,6 +7,9 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import { fileURLToPath } from 'url';
 
+import rateLimit from 'express-rate-limit';
+import prisma from './config/db.js';
+
 // Route Imports
 import healthRoutes from './routes/health.js';
 import authRoutes from './routes/auth.js';
@@ -35,6 +38,9 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Trust reverse proxy (Render, Railway, Nginx, Cloudflare)
+app.set('trust proxy', 1);
+
 // Security & Utility Middlewares
 app.use(
   helmet({
@@ -42,15 +48,33 @@ app.use(
   })
 );
 
+// Dynamic, multi-origin CORS handling
+const allowedOrigins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(',').map((o) => o.trim().replace(/\/$/, ''))
+  : ['http://localhost:5173', 'http://localhost:3000'];
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow localhost frontend or any local port during dev
-      if (!origin || /^http:\/\/localhost(:\d+)?$/.test(origin) || origin === process.env.CORS_ORIGIN) {
-        callback(null, true);
-      } else {
-        callback(null, true); // Permissive for local testing
+      // Allow requests with no origin (like mobile apps, curl, server-to-server)
+      if (!origin) return callback(null, true);
+
+      const normalizedOrigin = origin.replace(/\/$/, '');
+      const isLocal = /^http:\/\/localhost(:\d+)?$/.test(origin);
+      const isAllowed = allowedOrigins.includes(normalizedOrigin);
+
+      if (process.env.NODE_ENV === 'production') {
+        if (isAllowed) {
+          return callback(null, true);
+        }
+        return callback(new Error(`CORS policy blocked access from origin: ${origin}`));
       }
+
+      // Development / Staging mode: allow localhost and configured origins
+      if (isLocal || isAllowed) {
+        return callback(null, true);
+      }
+      return callback(null, true);
     },
     credentials: true,
   })
@@ -65,6 +89,19 @@ if (process.env.NODE_ENV === 'development') {
 } else {
   app.use(morgan('combined'));
 }
+
+// Global API Rate Limiter
+const globalApiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 500, // Limit each IP to 500 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: 'Too many requests from this IP address. Please try again after 15 minutes.',
+  },
+});
+app.use('/api', globalApiLimiter);
 
 // Static files (uploads)
 const uploadDir = path.resolve(__dirname, '../uploads');
@@ -93,9 +130,33 @@ app.use(notFoundHandler);
 app.use(errorHandler);
 
 // Start Server
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`🛡️ Abhimanyu InfoSec API Engine running on http://localhost:${PORT}`);
   console.log(`⚡ Environment: ${process.env.NODE_ENV || 'development'}`);
 });
+
+// Graceful Shutdown for Cloud Containers (Render / Docker)
+const handleShutdown = async (signal) => {
+  console.log(`\n🛑 Received ${signal}. Starting graceful shutdown...`);
+  server.close(async () => {
+    console.log('🔒 HTTP server closed.');
+    try {
+      await prisma.$disconnect();
+      console.log('💾 Prisma database connections closed.');
+    } catch (err) {
+      console.error('Error disconnecting from database:', err);
+    }
+    process.exit(0);
+  });
+
+  // Force shutdown if cleanup hangs
+  setTimeout(() => {
+    console.error('⚠️ Forcefully terminating after timeout.');
+    process.exit(1);
+  }, 10000);
+};
+
+process.on('SIGTERM', () => handleShutdown('SIGTERM'));
+process.on('SIGINT', () => handleShutdown('SIGINT'));
 
 export default app;
