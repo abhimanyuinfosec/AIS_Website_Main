@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { ChevronDown, User, Shield, LogOut } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+
 
 const navSections = [
   {
@@ -47,12 +50,27 @@ const navSections = [
   },
 ];
 
-const Navbar = () => {
+export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState(null);
   const [mobileExpandedSection, setMobileExpandedSection] = useState(null);
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const dropdownTimeoutRef = useRef(null);
+  const userDropdownRef = useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const { user, isAuthenticated, isAdmin, logout } = useAuth();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) {
+        setUserDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -155,8 +173,81 @@ const Navbar = () => {
           })}
         </nav>
 
-        {/* Right Actions: Assessment CTA */}
-        <div className="flex items-center gap-3.5" data-purpose="nav-actions">
+        {/* Right Actions: Auth & Assessment CTA */}
+        <div className="flex items-center gap-2.5 sm:gap-3" data-purpose="nav-actions">
+          {isAuthenticated ? (
+            <div className="relative" ref={userDropdownRef}>
+              <button
+                type="button"
+                onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-cyan-500/30 text-white text-xs font-medium transition select-none shadow-sm"
+              >
+                {user?.avatarUrl ? (
+                  <img
+                    src={user.avatarUrl}
+                    alt={user.name}
+                    className="w-5 h-5 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-[10px]">
+                    {user?.name?.charAt(0).toUpperCase() || 'U'}
+                  </div>
+                )}
+                <span className="max-w-[100px] truncate hidden sm:inline">{user?.name}</span>
+                <ChevronDown size={12} className={`transition-transform ${userDropdownOpen ? 'rotate-180 text-cyan-400' : 'text-slate-400'}`} />
+              </button>
+
+              {userDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 rounded-xl bg-[#0B1120] border border-slate-700/80 shadow-2xl p-1.5 z-50 animate-in fade-in-50 duration-150">
+                  <div className="px-3 py-2 border-b border-slate-800 text-[11px]">
+                    <p className="font-semibold text-white truncate">{user?.name}</p>
+                    <p className="text-slate-400 font-mono text-[10px] truncate">{user?.email}</p>
+                  </div>
+
+                  {isAdmin && (
+                    <Link
+                      to="/admin"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-slate-200 hover:text-cyan-300 hover:bg-white/[0.06] transition"
+                    >
+                      <Shield size={13} className="text-cyan-400" />
+                      <span>Admin Console</span>
+                    </Link>
+                  )}
+
+                  <Link
+                    to="/portal"
+                    onClick={() => setUserDropdownOpen(false)}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-slate-200 hover:text-cyan-300 hover:bg-white/[0.06] transition"
+                  >
+                    <User size={13} className="text-blue-400" />
+                    <span>My Account</span>
+                  </Link>
+
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      setUserDropdownOpen(false);
+                      await logout();
+                      navigate('/');
+                    }}
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-rose-400 hover:bg-rose-500/10 transition text-left"
+                  >
+                    <LogOut size={13} />
+                    <span>Sign Out</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              className="px-3.5 py-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] rounded-full border border-white/[0.1] transition-all"
+            >
+              Sign In
+            </Link>
+          )}
+
           <Link
             className="px-5 py-2 text-xs font-semibold uppercase tracking-wider text-white bg-blue-600 hover:bg-blue-500 active:bg-blue-700 rounded-lg border border-blue-500/30 transition-colors"
             to="/contact"
@@ -234,7 +325,46 @@ const Navbar = () => {
             })}
           </div>
 
-          <div className="pt-3 border-t border-slate-800">
+          <div className="pt-3 border-t border-slate-800 space-y-2">
+            {isAuthenticated ? (
+              <div className="space-y-1.5">
+                <Link
+                  to="/portal"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block w-full py-2.5 text-center text-xs font-semibold uppercase tracking-wider text-cyan-300 bg-slate-900 border border-cyan-500/30 rounded-lg"
+                >
+                  My Account ({user?.name})
+                </Link>
+                {isAdmin && (
+                  <Link
+                    to="/admin"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block w-full py-2.5 text-center text-xs font-semibold uppercase tracking-wider text-white bg-slate-800 rounded-lg"
+                  >
+                    Admin Console
+                  </Link>
+                )}
+                <button
+                  type="button"
+                  onClick={async () => {
+                    setMobileMenuOpen(false);
+                    await logout();
+                    navigate('/');
+                  }}
+                  className="block w-full py-2 text-center text-xs text-rose-400 hover:bg-rose-500/10 rounded-lg"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block w-full py-2.5 text-center text-xs font-semibold uppercase tracking-wider text-slate-200 bg-slate-900 border border-slate-700 rounded-lg"
+              >
+                Sign In / Register
+              </Link>
+            )}
             <Link
               to="/contact"
               onClick={() => setMobileMenuOpen(false)}

@@ -9,6 +9,97 @@ const loginSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters'),
 });
 
+const registerSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters').max(80),
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+});
+
+// ──────────────────────────────────────────────
+// User Registration (Email & Password)
+// ──────────────────────────────────────────────
+export const register = async (req, res, next) => {
+  try {
+    const parsed = registerSchema.parse(req.body);
+    const { name, email, password } = parsed;
+
+    const normalizedEmail = email.toLowerCase().trim();
+
+    // Check if user already exists
+    const existing = await prisma.user.findUnique({
+      where: { email: normalizedEmail },
+    });
+
+    if (existing) {
+      return res.status(409).json({
+        success: false,
+        message: 'An account with this email address already exists. Please log in or use OAuth.',
+      });
+    }
+
+    const salt = await bcrypt.genSalt(12);
+    const passwordHash = await bcrypt.hash(password, salt);
+
+    const user = await prisma.user.create({
+      data: {
+        name: name.trim(),
+        email: normalizedEmail,
+        passwordHash,
+        role: 'USER',
+        provider: 'LOCAL',
+        isActive: true,
+        lastLogin: new Date(),
+      },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+        provider: true,
+        avatarUrl: true,
+      },
+    });
+
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+
+    const isProduction = process.env.NODE_ENV === 'production';
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
+    await logAudit({
+      userId: user.id,
+      action: 'AUTH_REGISTER_SUCCESS',
+      resourceType: 'User',
+      resourceId: user.id,
+      req,
+      result: 'SUCCESS',
+      metadata: { email: normalizedEmail, role: user.role },
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: 'Account created successfully.',
+      data: {
+        token: accessToken,
+        user,
+      },
+    });
+  } catch (error) {
+    if (error.name === 'ZodError') {
+      return res.status(400).json({ success: false, message: error.errors[0]?.message || 'Validation error' });
+    }
+    next(error);
+  }
+};
+
+// ──────────────────────────────────────────────
+// User & Admin Login (Email & Password)
+// ──────────────────────────────────────────────
 export const login = async (req, res, next) => {
   try {
     const parsed = loginSchema.parse(req.body);
@@ -27,6 +118,14 @@ export const login = async (req, res, next) => {
         metadata: { email },
       });
       return res.status(401).json({ success: false, message: 'Invalid credentials or inactive account.' });
+    }
+
+    // If account was created via OAuth and has no password
+    if (!user.passwordHash) {
+      return res.status(400).json({
+        success: false,
+        message: `This account is linked with ${user.provider || 'OAuth'}. Please sign in using the "${user.provider || 'OAuth'}" button above.`,
+      });
     }
 
     const isMatch = await bcrypt.compare(password, user.passwordHash);
@@ -53,7 +152,7 @@ export const login = async (req, res, next) => {
 
     const isProduction = process.env.NODE_ENV === 'production';
 
-    // Set refresh token in httpOnly cookie (supports cross-origin like Vercel frontend + Render backend)
+    // Set refresh token in httpOnly cookie
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: isProduction,
@@ -80,6 +179,8 @@ export const login = async (req, res, next) => {
           email: user.email,
           name: user.name,
           role: user.role,
+          provider: user.provider,
+          avatarUrl: user.avatarUrl,
         },
       },
     });
@@ -101,7 +202,7 @@ export const refresh = async (req, res, next) => {
     const decoded = verifyRefreshToken(token);
     const user = await prisma.user.findUnique({
       where: { id: decoded.id },
-      select: { id: true, email: true, name: true, role: true, isActive: true },
+      select: { id: true, email: true, name: true, role: true, provider: true, avatarUrl: true, isActive: true },
     });
 
     if (!user || !user.isActive) {
@@ -111,10 +212,11 @@ export const refresh = async (req, res, next) => {
     const newAccessToken = generateAccessToken(user);
     const newRefreshToken = generateRefreshToken(user);
 
+    const isProduction = process.env.NODE_ENV === 'production';
     res.cookie('refreshToken', newRefreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 

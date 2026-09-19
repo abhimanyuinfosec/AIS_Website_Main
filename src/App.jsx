@@ -37,6 +37,9 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './admin/components/ProtectedRoute';
 import AdminLayout from './admin/components/AdminLayout';
 import AdminLogin from './admin/pages/AdminLogin';
+import LoginPage from './pages/LoginPage';
+import OAuthCallback from './pages/OAuthCallback';
+import UserPortalPage from './pages/UserPortalPage';
 import AdminDashboard from './admin/pages/AdminDashboard';
 import AdminServices from './admin/pages/AdminServices';
 import AdminProjects from './admin/pages/AdminProjects';
@@ -131,6 +134,19 @@ function App() {
             {/* 404 Public */}
             <Route path="*" element={<NotFoundPage />} />
           </Route>
+
+          {/* Universal Authentication (Email, Google, GitHub) */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<LoginPage />} />
+          <Route path="/auth/callback" element={<OAuthCallback />} />
+          <Route
+            path="/portal"
+            element={
+              <ProtectedRoute>
+                <UserPortalPage />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Admin Authentication */}
           <Route path="/admin/login" element={<AdminLogin />} />

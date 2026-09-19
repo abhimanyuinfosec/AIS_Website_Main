@@ -46,6 +46,34 @@ export const AuthProvider = ({ children }) => {
     throw new Error(res.message || 'Login failed');
   };
 
+  const register = async (name, email, password) => {
+    const res = await api.post('/auth/register', { name, email, password });
+    if (res.success && res.data?.token) {
+      api.setToken(res.data.token);
+      setToken(res.data.token);
+      setUser(res.data.user);
+      return res.data.user;
+    }
+    throw new Error(res.message || 'Registration failed');
+  };
+
+  // Called after OAuth redirect to load session from returned JWT
+  const setAuthToken = async (newToken) => {
+    if (!newToken) return null;
+    api.setToken(newToken);
+    setToken(newToken);
+    try {
+      const res = await api.get('/auth/me');
+      if (res.success && res.data?.user) {
+        setUser(res.data.user);
+        return res.data.user;
+      }
+    } catch (err) {
+      console.error('Error fetching user with new token:', err);
+    }
+    return null;
+  };
+
   const logout = async () => {
     try {
       await api.post('/auth/logout').catch(() => {});
@@ -56,14 +84,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const isAdmin = user ? ['SUPER_ADMIN', 'ADMIN', 'EDITOR', 'AUTHOR'].includes(user.role) : false;
+
   return (
     <AuthContext.Provider
       value={{
         user,
         token,
         isAuthenticated: !!user,
+        isAdmin,
         isLoading,
         login,
+        register,
+        setAuthToken,
         logout,
       }}
     >

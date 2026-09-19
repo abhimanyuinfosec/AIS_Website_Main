@@ -25,10 +25,10 @@ services:
         value: 15m
       - key: JWT_REFRESH_EXPIRY
         value: 7d
-      - key: UPLOAD_DIR
-        value: ./uploads
-      - key: MAX_FILE_SIZE_MB
-        value: 10
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
 
   # (Optional) Frontend Static Site on Render
   # If hosting frontend on Vercel or Cloudflare, you can omit or keep this as backup

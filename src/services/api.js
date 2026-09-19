@@ -1,6 +1,6 @@
 // Centralized API Client for Abhimanyu InfoSec
 const rawUrl = (import.meta.env.VITE_API_URL || '/api').trim().replace(/\/$/, '');
-const API_BASE_URL = rawUrl.endsWith('/api') ? rawUrl : `${rawUrl}/api`;
+export const API_BASE_URL = rawUrl.endsWith('/api') ? rawUrl : `${rawUrl}/api`;
 
 class ApiClient {
   constructor() {
