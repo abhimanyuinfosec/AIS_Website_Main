@@ -1,249 +1,187 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import SecurityStackWorkflowVisualizer from './SecurityStackWorkflowVisualizer';
 
-const workflowSteps = [
+const steps = [
   {
-    stepIndex: 0,
     number: '01',
     code: 'ACCESS',
     title: 'Connect Securely',
-    description:
-      'Establish secure access to your applications, devices, and network resources with controlled connectivity.',
-    color: '#38bdf8',
-    glowClass: 'rgba(56, 189, 248, 0.35)',
-    activeBorder: 'border-cyan-400/80',
-    activeBg: 'bg-[rgba(10,32,60,0.85)]',
+    desc: 'Establish secure access to your applications, devices, and network resources with controlled connectivity.',
   },
   {
-    stepIndex: 1,
     number: '02',
     code: 'IDENTIFY',
     title: 'Discover & Assess',
-    description:
-      'Identify exposed assets, vulnerabilities, suspicious activity, and potential security risks across your environment.',
-    color: '#60a5fa',
-    glowClass: 'rgba(96, 165, 250, 0.35)',
-    activeBorder: 'border-blue-400/80',
-    activeBg: 'bg-[rgba(12,30,65,0.85)]',
+    desc: 'Identify exposed assets, vulnerabilities, suspicious activity, and potential security risks across your environment.',
   },
   {
-    stepIndex: 2,
     number: '03',
     code: 'SECURE',
     title: 'Protect & Remediate',
-    description:
-      'Strengthen your security posture by addressing vulnerabilities, enforcing security controls, and reducing attack surfaces.',
-    color: '#00f0ff',
-    glowClass: 'rgba(0, 240, 255, 0.45)',
-    activeBorder: 'border-[#00f0ff]',
-    activeBg: 'bg-[rgba(8,38,72,0.9)]',
+    desc: 'Strengthen your security posture by addressing vulnerabilities, enforcing security controls, and reducing attack surfaces.',
   },
   {
-    stepIndex: 3,
     number: '04',
     code: 'MONITOR',
     title: 'Detect & Respond',
-    description:
-      'Continuously monitor your environment for suspicious behavior and emerging threats so risks can be addressed early.',
-    color: '#34d399',
-    glowClass: 'rgba(52, 211, 153, 0.4)',
-    activeBorder: 'border-emerald-400/80',
-    activeBg: 'bg-[rgba(6,36,55,0.85)]',
+    desc: 'Continuously monitor your environment for suspicious behavior and emerging threats so risks can be addressed early.',
   },
 ];
 
 const HowItWorksArchitecture = () => {
-  // Sync state between the 3D Animation and the compact workflow cards
   const [activeStep, setActiveStep] = useState(0);
-  const [selectedHotspot, setSelectedHotspot] = useState(null);
-
-  const hotspots = [
-    {
-      id: 'firewall',
-      stepIndex: 2,
-      label: 'Zero-Trust Cloud Perimeter',
-      title: 'Autonomous Wire-Speed Firewall',
-      desc: 'Sanitizes and decrypts payloads at wire speed with sub-millisecond edge latency and strict cryptographic isolation.',
-      positionClass: 'top-[36%] -left-2 sm:left-4',
-    },
-    {
-      id: 'monitoring',
-      stepIndex: 3,
-      label: 'Autonomous Threat Telemetry',
-      title: 'Real-Time Anomaly Containment',
-      desc: 'Continuous 24/7 SIEM/SOAR telemetry intelligence stops lateral movement before attackers reach your assets.',
-      positionClass: 'bottom-[22%] -right-2 sm:right-4',
-    },
-  ];
 
   return (
     <section
-      className="py-20 lg:py-24 bg-gradient-to-b from-[#070b1e]/40 to-[#040714]/70 border-t border-white/[0.08] relative overflow-hidden"
-      data-purpose="how-it-works-diagram"
+      className="py-10 lg:py-12 bg-transparent relative overflow-hidden"
       id="how-we-work"
     >
-      {/* Subtle backdrop glow */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[550px] h-[550px] bg-cyan-500/5 blur-[140px] rounded-full pointer-events-none -z-10" />
-
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
-          
-          {/* Left Column: 3D Stack Animation with SkyFort Interactive Node Hotspots */}
-          <div data-anim="slide-left" className="lg:col-span-6 flex flex-col justify-center items-center relative">
-            <div className="relative w-full flex justify-center items-center">
-              <SecurityStackWorkflowVisualizer
-                externalActiveStep={activeStep}
-                onStepChange={(step) => setActiveStep(step)}
-              />
-
-              {/* SkyFort Interactive Hotspot 1: Firewall (Left) */}
-              <div className="absolute top-[35%] left-2 sm:left-6 z-20 group">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSelectedHotspot(selectedHotspot === 'firewall' ? null : 'firewall');
-                    setActiveStep(2);
-                  }}
-                  className={`skyfort-node-btn ${selectedHotspot === 'firewall' ? 'is-active' : ''}`}
-                  title="Toggle Zero-Trust Firewall Info"
-                  aria-label="Toggle Zero-Trust Firewall Info"
-                >
-                  <span className="skyfort-node-radar" />
-                  <span className="text-base font-bold select-none leading-none">
-                    {selectedHotspot === 'firewall' ? '−' : '+'}
-                  </span>
-                </button>
-
-                {/* Floating Glass Callout Popup */}
-                {selectedHotspot === 'firewall' && (
-                  <div className="absolute left-10 top-0 w-64 p-3.5 rounded-xl bg-[#08182f]/95 border border-cyan-400/60 shadow-[0_0_25px_rgba(0,240,255,0.25)] backdrop-blur-xl z-30 transition-all duration-300">
-                    <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold tracking-wider text-cyan-400 uppercase mb-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                      FIREWALL ENGINE
-                    </div>
-                    <h4 className="text-xs font-bold text-white mb-1">Autonomous Wire-Speed Defense</h4>
-                    <p className="text-[11px] text-slate-300 leading-relaxed">
-                      Deep packet inspection with sub-millisecond edge latency and strict zero-trust isolation.
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              {/* SkyFort Interactive Hotspot 2: Threat Telemetry (Right) */}
-              <div className="absolute top-[20%] right-2 sm:right-6 z-20 group">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSelectedHotspot(selectedHotspot === 'monitoring' ? null : 'monitoring');
-                    setActiveStep(3);
-                  }}
-                  className={`skyfort-node-btn ${selectedHotspot === 'monitoring' ? 'is-active' : ''}`}
-                  title="Toggle Telemetry Monitoring Info"
-                  aria-label="Toggle Telemetry Monitoring Info"
-                >
-                  <span className="skyfort-node-radar" />
-                  <span className="text-base font-bold select-none leading-none">
-                    {selectedHotspot === 'monitoring' ? '−' : '+'}
-                  </span>
-                </button>
-
-                {/* Floating Glass Callout Popup */}
-                {selectedHotspot === 'monitoring' && (
-                  <div className="absolute right-10 top-0 w-64 p-3.5 rounded-xl bg-[#08182f]/95 border border-emerald-400/60 shadow-[0_0_25px_rgba(52,211,153,0.25)] backdrop-blur-xl z-30 transition-all duration-300">
-                    <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold tracking-wider text-emerald-400 uppercase mb-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      SOC &amp; MONITORING
-                    </div>
-                    <h4 className="text-xs font-bold text-white mb-1">Real-Time Threat Telemetry</h4>
-                    <p className="text-[11px] text-slate-300 leading-relaxed">
-                      Continuous machine-intelligence correlation detecting anomaly spikes before lateral penetration.
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+        
+        {/* Header Content */}
+        <div className="text-center space-y-4 max-w-3xl mx-auto">
+          <div className="flex items-center justify-center gap-2 text-xs font-mono tracking-widest text-slate-500 uppercase">
+            <span>—</span>
+            <span>OUR APPROACH</span>
+            <span>—</span>
           </div>
 
-          {/* Right Column: Section Header, 4 Compact Synchronized Cards, and CTA */}
-          <div data-anim="slide-right" className="lg:col-span-6 flex flex-col justify-center space-y-6">
-            
-            {/* Header Content */}
-            <div className="space-y-2.5">
-              <div data-anim="fade" className="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-cyan-400 uppercase font-mono">
-                OUR SECURITY APPROACH
-              </div>
-              <h2 data-anim="up" className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
-                How We Work
-              </h2>
-              <p data-anim="up" data-anim-delay="100" className="text-slate-300 text-xs sm:text-sm leading-relaxed font-normal max-w-xl">
-                Security starts with understanding your environment. Abhimanyu InfoSec follows a continuous four-step approach to connect, identify risks, strengthen your security, and monitor for emerging threats.
-              </p>
-            </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
+            How We <span className="text-blue-500">Work</span>
+          </h2>
 
-            {/* Workflow Cards Grid (Desktop 2x2 compact grid / Mobile vertical list) */}
-            <div data-anim-child className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
-              {workflowSteps.map((item) => {
-                const isActive = activeStep === item.stepIndex || activeStep === 4;
+          <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal max-w-2xl mx-auto">
+            Security starts with understanding your environment. Abhimanyu InfoSec follows a continuous four-step approach to connect, identify risks, strengthen your security, and monitor for emerging threats.
+          </p>
+        </div>
 
-                return (
-                  <div
-                    key={item.code}
-                    onClick={() => setActiveStep(item.stepIndex)}
-                    style={{
-                      boxShadow: isActive
-                        ? `0 0 20px -3px ${item.glowClass}, inset 0 1px 1px rgba(255, 255, 255, 0.22)`
-                        : '0 8px 24px -8px rgba(0, 0, 0, 0.55)',
-                    }}
-                    className={`p-4 sm:p-4.5 rounded-xl transition-all duration-300 cursor-pointer select-none backdrop-blur-md border ${
-                      isActive
-                        ? `${item.activeBorder} ${item.activeBg} -translate-y-0.5`
-                        : 'bg-[rgba(8,24,45,0.55)] border-[rgba(100,190,255,0.14)] hover:border-cyan-400/40 hover:bg-[rgba(10,28,52,0.65)]'
+        {/* Desktop Horizontal 4-Step Journey */}
+        <div className="mt-8 sm:mt-10 hidden md:block relative">
+          {/* Continuous Connector Line running through the 4 points */}
+          <div className="absolute top-[52px] left-[12.5%] right-[12.5%] h-[1px] bg-slate-800 pointer-events-none" />
+
+          <div className="grid grid-cols-4 gap-6 lg:gap-8">
+            {steps.map((step, idx) => {
+              const isActive = activeStep === idx;
+
+              return (
+                <div
+                  key={step.code}
+                  onMouseEnter={() => setActiveStep(idx)}
+                  className="flex flex-col items-center text-center cursor-pointer group transition-all duration-300"
+                >
+                  {/* Step Number */}
+                  <span
+                    className={`text-xs font-mono font-bold transition-colors duration-200 ${
+                      isActive ? 'text-blue-400' : 'text-slate-500 group-hover:text-slate-400'
                     }`}
                   >
-                    {/* Step label indicator */}
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-[11px] font-mono font-bold tracking-wider text-cyan-400 uppercase">
-                        {item.number} — {item.code}
-                      </span>
-                      <span
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    {step.number}
+                  </span>
+
+                  {/* Node point sitting on the connector line */}
+                  <div className="h-10 flex items-center justify-center my-1.5">
+                    <div
+                      className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300 ${
+                        isActive
+                          ? 'bg-blue-500/15 border border-blue-400/40 ring-4 ring-blue-500/10'
+                          : 'bg-[#020508] border border-slate-700/80 group-hover:border-slate-500'
+                      }`}
+                    >
+                      <div
+                        className={`w-2.5 h-2.5 rounded-full transition-colors duration-300 ${
                           isActive
-                            ? 'scale-110 shadow-[0_0_8px_currentColor]'
-                            : 'opacity-30'
+                            ? 'bg-blue-400 shadow-[0_0_8px_rgba(59,130,246,0.6)]'
+                            : 'bg-slate-600 group-hover:bg-slate-400'
                         }`}
-                        style={{ backgroundColor: item.color, color: item.color }}
                       />
                     </div>
-
-                    {/* Primary card heading */}
-                    <h3 className="text-sm font-bold text-white mb-1.5 leading-snug">
-                      {item.title}
-                    </h3>
-
-                    {/* Compact description */}
-                    <p className="text-[12px] sm:text-[12.5px] text-slate-300 leading-relaxed font-normal">
-                      {item.description}
-                    </p>
                   </div>
-                );
-              })}
-            </div>
 
-            {/* Subtle CTA Link */}
-            <div className="pt-2">
-              <Link
-                to="/technology"
-                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition-colors group"
-              >
-                <span>Explore our security approach</span>
-                <span className="group-hover:translate-x-1 transition-transform">→</span>
-              </Link>
-            </div>
+                  {/* Step Title */}
+                  <h3
+                    className={`text-sm sm:text-base font-bold tracking-wider uppercase mt-2 transition-colors duration-200 ${
+                      isActive ? 'text-white' : 'text-slate-200 group-hover:text-white'
+                    }`}
+                  >
+                    {step.code}
+                  </h3>
 
+                  {/* Subtitle */}
+                  <p
+                    className={`text-xs sm:text-sm font-medium mt-1 transition-colors duration-200 ${
+                      isActive ? 'text-blue-400' : 'text-slate-300 group-hover:text-slate-200'
+                    }`}
+                  >
+                    {step.title}
+                  </p>
+
+                  {/* Description */}
+                  <p
+                    className={`text-xs sm:text-[13px] leading-relaxed mt-3 max-w-[240px] transition-colors duration-200 ${
+                      isActive ? 'text-slate-300' : 'text-slate-400 group-hover:text-slate-300'
+                    }`}
+                  >
+                    {step.desc}
+                  </p>
+                </div>
+              );
+            })}
           </div>
-
         </div>
+
+        {/* Mobile Vertical 4-Step Journey */}
+        <div className="mt-8 md:hidden relative pl-6 space-y-6 border-l border-slate-800 ml-4">
+          {steps.map((step, idx) => {
+            const isActive = activeStep === idx;
+
+            return (
+              <div
+                key={step.code}
+                onClick={() => setActiveStep(idx)}
+                className="relative pl-6 cursor-pointer"
+              >
+                {/* Node point on the vertical line */}
+                <div
+                  className={`absolute -left-[31px] top-0 w-6 h-6 rounded-full flex items-center justify-center transition-all ${
+                    isActive
+                      ? 'bg-blue-500/20 border border-blue-400'
+                      : 'bg-[#020508] border border-slate-700'
+                  }`}
+                >
+                  <div
+                    className={`w-2 h-2 rounded-full ${
+                      isActive ? 'bg-blue-400' : 'bg-slate-600'
+                    }`}
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <span className="text-xs font-mono font-bold text-blue-400">
+                    {step.number} — {step.code}
+                  </span>
+                  <h3 className="text-base font-bold text-white">
+                    {step.title}
+                  </h3>
+                  <p className="text-xs text-slate-400 leading-relaxed pt-1">
+                    {step.desc}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Bottom Call to Action Button */}
+        <div className="mt-8 sm:mt-10 flex justify-center">
+          <Link
+            to="/technology"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-slate-700 hover:border-slate-500 bg-slate-900/50 hover:bg-slate-900 text-sm font-medium text-slate-300 hover:text-white transition-all shadow-sm"
+          >
+            <span>Explore Our Approach →</span>
+          </Link>
+        </div>
+
       </div>
     </section>
   );

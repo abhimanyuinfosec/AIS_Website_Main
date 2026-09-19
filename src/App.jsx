@@ -72,7 +72,7 @@ const ScrollToTop = () => {
 // Public Website Layout Shell (with Navbar and Footer)
 const PublicLayout = () => {
   return (
-    <div className="bg-[#030611] text-slate-200 font-sans antialiased selection:bg-brand-500 selection:text-white min-h-screen relative overflow-x-hidden">
+    <div className="bg-[#020508] text-slate-200 font-sans antialiased selection:bg-brand-500 selection:text-white min-h-screen relative overflow-x-hidden">
       <AmbientBackdrop />
       <CrystalGlassEffects />
       <Navbar />

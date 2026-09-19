@@ -1,6 +1,7 @@
 import React from 'react';
 import HeroSection from '../components/HeroSection';
 import ClientLogosSection from '../components/ClientLogosSection';
+import SimplifiedSecuritySection from '../components/SimplifiedSecuritySection';
 import DetailedProtectionGrid from '../components/DetailedProtectionGrid';
 import ValuePropositionSection from '../components/ValuePropositionSection';
 import HowItWorksArchitecture from '../components/HowItWorksArchitecture';
@@ -15,6 +16,9 @@ const Home = () => {
 
       {/* 2. Trust Strip */}
       <ClientLogosSection />
+
+      {/* 2.5 Security shouldn't be complicated */}
+      <SimplifiedSecuritySection />
 
       {/* 3. Services / How Abhimanyu can protect my data? */}
       <DetailedProtectionGrid />

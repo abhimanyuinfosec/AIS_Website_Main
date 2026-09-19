@@ -6,7 +6,7 @@ const ClientLogosSection = () => {
       id: 'cgv',
       node: (
         <div className="h-10 flex items-center justify-center font-bold text-xl tracking-tighter text-slate-300 hover:text-white transition-all cursor-default">
-          <span className="text-2xl font-black text-cyan-400 mr-1">C</span>GV<sup className="text-[10px] ml-0.5">®</sup>
+          <span className="text-2xl font-black text-blue-400 mr-1">C</span>GV<sup className="text-[10px] ml-0.5">®</sup>
         </div>
       ),
     },
@@ -53,21 +53,19 @@ const ClientLogosSection = () => {
   ];
 
   return (
-    <section className="py-10 border-y border-white/[0.08] bg-slate-950/50 backdrop-blur-xl relative overflow-hidden" data-purpose="social-proof-strip">
-      <div className="max-w-7xl mx-auto px-6 mb-6 text-center">
-        <p className="text-xs font-semibold tracking-widest text-slate-400 uppercase drop-shadow-sm flex items-center justify-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-          <span>Trusted by 350+ organizations &amp; modern security teams</span>
-          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+    <section className="py-5 sm:py-6 border-y border-white/[0.08] bg-slate-950/50 backdrop-blur-xl relative overflow-hidden" data-purpose="social-proof-strip">
+      <div className="max-w-7xl mx-auto px-6 mb-3 text-center">
+        <p className="text-xs font-semibold tracking-widest text-slate-400 uppercase flex items-center justify-center">
+          Trusted by 350+ organizations &amp; modern security teams
         </p>
       </div>
 
       {/* Horizontal Infinite Marquee Carousel with Left & Right Gradient Fade Masks */}
       <div className="relative w-full overflow-hidden flex items-center">
         {/* Left Edge Gradient Fade */}
-        <div className="absolute top-0 bottom-0 left-0 w-24 sm:w-36 bg-gradient-to-r from-[#030611] via-[#030611]/80 to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 bottom-0 left-0 w-24 sm:w-36 bg-gradient-to-r from-[#020508] via-[#020508]/80 to-transparent z-10 pointer-events-none" />
         {/* Right Edge Gradient Fade */}
-        <div className="absolute top-0 bottom-0 right-0 w-24 sm:w-36 bg-gradient-to-l from-[#030611] via-[#030611]/80 to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 bottom-0 right-0 w-24 sm:w-36 bg-gradient-to-l from-[#020508] via-[#020508]/80 to-transparent z-10 pointer-events-none" />
 
         {/* Scrolling Track: Contains identical dual sets for seamless continuous loop */}
         <div className="animate-horizontal-marquee flex items-center gap-12 sm:gap-20 opacity-80 py-2">

@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown } from 'lucide-react';
 
 const navSections = [
   {
@@ -55,7 +54,6 @@ const Navbar = () => {
   const dropdownTimeoutRef = useRef(null);
   const location = useLocation();
 
-  // Close mobile drawer and dropdowns on route changes
   useEffect(() => {
     setMobileMenuOpen(false);
     setActiveDropdown(null);
@@ -73,9 +71,9 @@ const Navbar = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 w-full z-50 glass-navbar transition-all" data-purpose="site-header">
+    <header className="fixed top-0 left-0 right-0 w-full z-50 bg-[#05080D]/90 border-b border-slate-800/80 backdrop-blur-md transition-all" data-purpose="site-header">
       <div className="max-w-7xl mx-auto px-6 h-20 md:h-24 flex items-center justify-between">
-        {/* Brand Logo & Name */}
+        {/* Brand Logo */}
         <Link
           to="/"
           aria-label="Abhimanyu Cyber Defense Home"
@@ -85,12 +83,12 @@ const Navbar = () => {
           <img
             src="/logo.png"
             alt="Abhimanyu InfoSec"
-            className="h-16 sm:h-20 md:h-22 w-auto max-w-[270px] sm:max-w-[340px] md:max-w-[380px] object-contain mix-blend-screen filter drop-shadow-[0_2px_20px_rgba(0,240,255,0.4)] group-hover:drop-shadow-[0_2px_30px_rgba(0,240,255,0.7)] group-hover:scale-[1.03] transition-all duration-300"
+            className="h-16 sm:h-20 md:h-22 w-auto max-w-[270px] sm:max-w-[340px] md:max-w-[380px] object-contain mix-blend-screen transition-opacity duration-200 group-hover:opacity-90"
           />
         </Link>
 
-        {/* Navigation Links with Glass Hover Pills & Dropdowns */}
-        <nav aria-label="Primary Navigation" className="hidden lg:flex items-center gap-1.5 text-sm font-medium text-slate-300 bg-white/[0.03] px-3 py-1.5 rounded-full border border-white/[0.08] backdrop-blur-md">
+        {/* Navigation Links */}
+        <nav aria-label="Primary Navigation" className="hidden lg:flex items-center gap-1 text-sm font-medium text-slate-300 bg-slate-900/60 px-3 py-1.5 rounded-lg border border-slate-800">
           {navSections.map((section) => {
             const hasDropdown = Boolean(section.items && section.items.length > 0);
             const isSectionActive = section.href === '/'
@@ -105,51 +103,45 @@ const Navbar = () => {
                 onMouseEnter={() => hasDropdown && handleMouseEnter(section.name)}
                 onMouseLeave={() => hasDropdown && handleMouseLeave()}
               >
-                {/* Top-level Nav Button or Link */}
+                {/* Top-level Nav Link */}
                 <Link
                   to={section.href}
-                  className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full transition-all duration-200 select-none ${
+                  className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-md transition-colors duration-150 select-none ${
                     isSectionActive
-                      ? 'text-white bg-white/[0.12] shadow-sm border border-cyan-400/30'
-                      : 'text-slate-300 hover:text-white hover:bg-white/[0.06]'
-                  } ${isOpen ? 'text-cyan-300 bg-white/[0.08]' : ''}`}
+                      ? 'text-white bg-slate-800 font-semibold'
+                      : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+                  } ${isOpen ? 'text-white bg-slate-800/70' : ''}`}
                 >
                   <span>{section.name}</span>
                   {hasDropdown && (
-                    <ChevronDown
-                      size={13}
-                      className={`transition-transform duration-200 text-slate-400 ${
-                        isOpen ? 'rotate-180 text-cyan-300' : ''
-                      }`}
-                    />
+                    <span className="text-[10px] text-slate-500">▾</span>
                   )}
                 </Link>
 
-                {/* Desktop Glass Dropdown Flyout */}
+                {/* Desktop Dropdown Flyout */}
                 {hasDropdown && (
                   <div
-                    className={`absolute top-full left-0 mt-2 transition-all duration-200 z-50 ${
+                    className={`absolute top-full left-0 mt-2 transition-all duration-150 z-50 ${
                       isOpen
                         ? 'opacity-100 translate-y-0 pointer-events-auto visible'
                         : 'opacity-0 -translate-y-2 pointer-events-none invisible'
                     }`}
                     style={{ minWidth: '230px' }}
                   >
-                    {/* Invisible bridge to prevent mouse gap stutter */}
                     <div className="absolute -top-3 left-0 right-0 h-3" />
 
-                    <div className="p-2 rounded-2xl bg-[rgba(6,16,34,0.96)] border border-cyan-500/25 shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_20px_rgba(0,240,255,0.12)] backdrop-blur-2xl">
+                    <div className="p-2 rounded-xl bg-[#070b14] border border-slate-800 shadow-xl">
                       <div className="space-y-0.5">
                         {section.items.map((subItem) => (
                           <Link
                             key={subItem.name}
                             to={subItem.href}
-                            className="flex items-center justify-between px-3.5 py-2.5 rounded-xl hover:bg-white/[0.08] hover:border hover:border-cyan-400/25 border border-transparent transition-all group"
+                            className="flex items-center justify-between px-3.5 py-2.5 rounded-lg hover:bg-slate-800/60 transition-colors group"
                           >
-                            <span className="text-xs font-medium text-slate-200 group-hover:text-cyan-300 transition-colors">
+                            <span className="text-xs font-medium text-slate-300 group-hover:text-white transition-colors">
                               {subItem.name}
                             </span>
-                            <span className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-cyan-400 text-xs font-mono">
+                            <span className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-blue-400 text-xs font-mono">
                               →
                             </span>
                           </Link>
@@ -166,26 +158,26 @@ const Navbar = () => {
         {/* Right Actions: Assessment CTA */}
         <div className="flex items-center gap-3.5" data-purpose="nav-actions">
           <Link
-            className="btn-shimmer px-5 py-2 text-xs font-semibold uppercase tracking-wider text-white bg-gradient-to-r from-blue-600 via-brand-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-full shadow-glow-blue border border-white/20 transition-all hover:scale-105 active:scale-95"
+            className="px-5 py-2 text-xs font-semibold uppercase tracking-wider text-white bg-blue-600 hover:bg-blue-500 active:bg-blue-700 rounded-lg border border-blue-500/30 transition-colors"
             to="/contact"
           >
             Start Here
           </Link>
 
-          {/* Mobile hamburger button */}
+          {/* Mobile menu toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-lg border border-white/15 text-slate-300 hover:text-white bg-slate-900/60 hover:bg-white/[0.08] transition-all"
+            className="lg:hidden px-3 py-1.5 rounded-lg border border-slate-700 text-xs font-semibold text-slate-300 hover:text-white bg-slate-900/80 transition-colors"
             aria-label="Toggle navigation menu"
           >
-            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            {mobileMenuOpen ? 'Close' : 'Menu'}
           </button>
         </div>
       </div>
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-white/[0.1] bg-[#070b1e]/98 backdrop-blur-2xl px-5 py-5 space-y-3 max-h-[82vh] overflow-y-auto">
+        <div className="lg:hidden border-t border-slate-800 bg-[#070b14]/98 px-5 py-5 space-y-3 max-h-[82vh] overflow-y-auto">
           <div className="flex flex-col gap-1.5">
             {navSections.map((section) => {
               const hasDropdown = Boolean(section.items && section.items.length > 0);
@@ -195,13 +187,13 @@ const Navbar = () => {
               const isExpanded = mobileExpandedSection === section.name;
 
               return (
-                <div key={section.name} className="rounded-xl border border-white/[0.06] overflow-hidden bg-white/[0.02]">
+                <div key={section.name} className="rounded-lg border border-slate-800 overflow-hidden bg-slate-900/40">
                   <div className="flex items-center justify-between">
                     <Link
                       to={section.href}
                       onClick={() => !hasDropdown && setMobileMenuOpen(false)}
                       className={`flex-1 px-4 py-2.5 text-sm font-medium transition-colors ${
-                        isSectionActive ? 'text-cyan-300 font-semibold' : 'text-slate-300'
+                        isSectionActive ? 'text-white font-semibold' : 'text-slate-300'
                       }`}
                     >
                       {section.name}
@@ -213,29 +205,26 @@ const Navbar = () => {
                         onClick={() =>
                           setMobileExpandedSection(isExpanded ? null : section.name)
                         }
-                        className="px-4 py-2.5 text-slate-400 hover:text-cyan-300 transition-colors"
+                        className="px-4 py-2.5 text-slate-400 hover:text-white text-sm font-mono"
                         aria-label={`Expand ${section.name}`}
                       >
-                        <ChevronDown
-                          size={16}
-                          className={`transition-transform duration-200 ${isExpanded ? 'rotate-180 text-cyan-300' : ''}`}
-                        />
+                        {isExpanded ? '−' : '+'}
                       </button>
                     )}
                   </div>
 
                   {/* Subsections accordion */}
                   {hasDropdown && isExpanded && (
-                    <div className="px-3 pb-3 pt-1 space-y-1 bg-black/30 border-t border-white/[0.05]">
+                    <div className="px-3 pb-3 pt-1 space-y-1 bg-black/40 border-t border-slate-800">
                       {section.items.map((subItem) => (
                         <Link
                           key={subItem.name}
                           to={subItem.href}
                           onClick={() => setMobileMenuOpen(false)}
-                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs text-slate-300 hover:text-cyan-300 hover:bg-white/[0.06] transition-colors"
+                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors"
                         >
                           <span>{subItem.name}</span>
-                          <span className="text-cyan-400 font-mono text-[10px]">→</span>
+                          <span className="text-blue-400 font-mono text-[10px]">→</span>
                         </Link>
                       ))}
                     </div>
@@ -245,11 +234,11 @@ const Navbar = () => {
             })}
           </div>
 
-          <div className="pt-3 border-t border-white/[0.08]">
+          <div className="pt-3 border-t border-slate-800">
             <Link
               to="/contact"
               onClick={() => setMobileMenuOpen(false)}
-              className="block w-full py-2.5 text-center text-xs font-semibold uppercase tracking-wider text-white bg-gradient-to-r from-blue-600 via-brand-600 to-indigo-600 rounded-full shadow-glow-blue"
+              className="block w-full py-2.5 text-center text-xs font-semibold uppercase tracking-wider text-white bg-blue-600 hover:bg-blue-500 rounded-lg"
             >
               Start Here
             </Link>

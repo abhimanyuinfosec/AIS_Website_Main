@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { CheckCircle, Send, AlertCircle, CheckCircle2 } from 'lucide-react';
 import api from '../services/api';
 
 const Contact = () => {
@@ -50,13 +49,13 @@ const Contact = () => {
           </p>
           <ul style={{ listStyle: 'none', padding: 0, marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <li style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: 'var(--text-main)' }}>
-              <CheckCircle color="var(--gold-1)" size={20} /> Detailed scoping within 24 hours
+              <span className="text-blue-500 font-bold">—</span> Detailed scoping within 24 hours
             </li>
             <li style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: 'var(--text-main)' }}>
-              <CheckCircle color="var(--gold-1)" size={20} /> Executive and engineering-level reporting
+              <span className="text-blue-500 font-bold">—</span> Executive and engineering-level reporting
             </li>
             <li style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: 'var(--text-main)' }}>
-              <CheckCircle color="var(--gold-1)" size={20} /> Dedicated remediation support
+              <span className="text-blue-500 font-bold">—</span> Dedicated remediation support
             </li>
           </ul>
         </div>
@@ -64,7 +63,6 @@ const Contact = () => {
         <div className="lead-form glass">
           {submitted ? (
             <div style={{ padding: '2rem', textAlign: 'center', color: '#10b981' }}>
-              <CheckCircle2 size={48} style={{ margin: '0 auto 1rem' }} />
               <h3 style={{ color: '#fff', marginBottom: '0.5rem' }}>Scoping Request Received</h3>
               <p style={{ color: 'var(--text-dim)', fontSize: '0.875rem' }}>
                 Thank you. Our security analysts will review your environment and contact you within 4 hours.
@@ -123,7 +121,6 @@ const Contact = () => {
               </div>
               <button type="submit" className="btn-primary" disabled={loading}>
                 {loading ? 'Transmitting Request...' : 'Request Assessment'}
-                <Send strokeWidth={2.5} size={18} />
               </button>
             </form>
           )}

@@ -55,21 +55,7 @@ const CrystalGlassEffects = () => {
       }
     });
 
-    // 5. Ambient micro-particles
-    const particleCount = window.matchMedia('(max-width:700px)').matches ? 12 : 22;
-    const particles = [];
-    for (let i = 0; i < particleCount; i++) {
-      const p = document.createElement('span');
-      p.className = 'crystal-particle';
-      p.style.left = `${Math.random() * 100}vw`;
-      p.style.top = `${Math.random() * 100}vh`;
-      p.style.opacity = (0.12 + Math.random() * 0.28).toFixed(2);
-      const driftX = (Math.random() * 80 - 40).toFixed(0);
-      p.style.setProperty('--drift-x', `${driftX}px`);
-      p.style.animation = `particleDrift ${9 + Math.random() * 13}s linear ${-Math.random() * 12}s infinite`;
-      document.body.appendChild(p);
-      particles.push(p);
-    }
+    // 5. Micro-particles removed for clean enterprise presentation
 
     // 6. Smooth active-nav feedback
     const links = [...document.querySelectorAll('header a[href^="#"]')];
@@ -80,9 +66,9 @@ const CrystalGlassEffects = () => {
         (entries) => {
           entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
-            links.forEach((a) => a.classList.remove('text-cyan-300', 'bg-white/[0.06]'));
+            links.forEach((a) => a.classList.remove('text-blue-400', 'bg-white/[0.06]'));
             const active = links.find((a) => a.getAttribute('href') === '#' + entry.target.id);
-            if (active) active.classList.add('text-cyan-300', 'bg-white/[0.06]');
+            if (active) active.classList.add('text-blue-400', 'bg-white/[0.06]');
           });
         },
         { rootMargin: '-35% 0px -55% 0px' }
@@ -198,7 +184,6 @@ const CrystalGlassEffects = () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
       cleanups.forEach((fn) => fn());
-      particles.forEach((p) => p.remove());
     };
   }, [location.pathname]);
 

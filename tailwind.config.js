@@ -31,15 +31,15 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-        display: ['"Space Grotesk"', 'sans-serif'],
-        heading: ['"Space Grotesk"', 'sans-serif'],
+        display: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        heading: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
       },
       boxShadow: {
-        'glow-blue': '0 0 35px -5px rgba(43, 102, 255, 0.55), 0 0 15px rgba(0, 240, 255, 0.3)',
-        'glow-cyan': '0 0 35px -5px rgba(0, 240, 255, 0.45)',
-        'glass-card': 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.16), 0 20px 40px -15px rgba(0, 0, 0, 0.65)',
-        'glass-card-hover': 'inset 0 1px 2px 0 rgba(255, 255, 255, 0.3), 0 25px 50px -10px rgba(43, 102, 255, 0.35)',
-        'glass-nav': 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.1), 0 10px 30px -10px rgba(0, 0, 0, 0.7)',
+        'glow-blue': '0 4px 12px rgba(0, 0, 0, 0.3)',
+        'glow-cyan': '0 4px 12px rgba(0, 0, 0, 0.3)',
+        'glass-card': '0 4px 20px -2px rgba(0, 0, 0, 0.5)',
+        'glass-card-hover': '0 10px 25px -5px rgba(0, 0, 0, 0.6)',
+        'glass-nav': '0 4px 20px -2px rgba(0, 0, 0, 0.7)',
       }
     }
   },
