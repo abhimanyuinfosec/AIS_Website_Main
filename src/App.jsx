@@ -138,6 +138,7 @@ function App() {
           {/* Universal Authentication (Email, Google, GitHub) */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<LoginPage />} />
+          <Route path="/signup" element={<LoginPage />} />
           <Route path="/auth/callback" element={<OAuthCallback />} />
           <Route
             path="/portal"
