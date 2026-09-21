@@ -10,7 +10,7 @@ const IpIntelligencePage = () => {
         <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
           <Link to="/" className="hover:text-blue-400 transition-colors">Home</Link>
           <span>/</span>
-          <span className="text-slate-500">Products</span>
+          <Link to="/products" className="hover:text-blue-400 transition-colors">Products</Link>
           <span>/</span>
           <span className="text-blue-400">IP Intelligence</span>
         </div>

@@ -19,6 +19,8 @@ import ThreatDetectionPage from './pages/services/ThreatDetectionPage';
 import SecurityHardeningPage from './pages/services/SecurityHardeningPage';
 
 // Individual Subsection Pages - Products
+import ProductsPage from './pages/products/ProductsPage';
+import ProductDetailPage from './pages/products/ProductDetailPage';
 import AutoRedAptPage from './pages/products/AutoRedAptPage';
 import IpIntelligencePage from './pages/products/IpIntelligencePage';
 import HybridIdsPage from './pages/products/HybridIdsPage';
@@ -107,11 +109,9 @@ function App() {
             <Route path="/services/security-hardening" element={<SecurityHardeningPage />} />
 
             {/* Products Routes */}
-            <Route path="/technology" element={<AutoRedAptPage />} />
-            <Route path="/products" element={<AutoRedAptPage />} />
-            <Route path="/products/autored-apt" element={<AutoRedAptPage />} />
-            <Route path="/products/ip-intelligence" element={<IpIntelligencePage />} />
-            <Route path="/products/hybrid-ids" element={<HybridIdsPage />} />
+            <Route path="/technology" element={<ProductsPage />} />
+            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/products/:slug" element={<ProductDetailPage />} />
 
             {/* Insights Routes */}
             <Route path="/insights" element={<InsightsPage />} />

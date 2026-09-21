@@ -23,12 +23,7 @@ const navSections = [
   },
   {
     name: 'Products',
-    href: '/products/autored-apt',
-    items: [
-      { name: 'AutoRed APT', href: '/products/autored-apt' },
-      { name: 'IP Intelligence', href: '/products/ip-intelligence' },
-      { name: 'Hybrid IDS', href: '/products/hybrid-ids' },
-    ],
+    href: '/products',
   },
   {
     name: 'Insights',
@@ -85,7 +80,7 @@ export const Navbar = () => {
   const handleMouseLeave = () => {
     dropdownTimeoutRef.current = setTimeout(() => {
       setActiveDropdown(null);
-    }, 150);
+    }, 180);
   };
 
   return (
@@ -112,7 +107,7 @@ export const Navbar = () => {
             const isSectionActive = section.href === '/'
               ? location.pathname === '/'
               : location.pathname.startsWith(section.href);
-            const isOpen = activeDropdown === section.name;
+            const isNormalOpen = activeDropdown === section.name;
 
             return (
               <div
@@ -128,7 +123,7 @@ export const Navbar = () => {
                     isSectionActive
                       ? 'text-white bg-slate-800 font-semibold'
                       : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
-                  } ${isOpen ? 'text-white bg-slate-800/70' : ''}`}
+                  } ${isNormalOpen ? 'text-white bg-slate-800/70' : ''}`}
                 >
                   <span>{section.name}</span>
                   {hasDropdown && (
@@ -136,11 +131,11 @@ export const Navbar = () => {
                   )}
                 </Link>
 
-                {/* Desktop Dropdown Flyout */}
+                {/* Desktop Dropdown Flyout (only for sections with dropdown items like Services and About Us) */}
                 {hasDropdown && (
                   <div
                     className={`absolute top-full left-0 mt-2 transition-all duration-150 z-50 ${
-                      isOpen
+                      isNormalOpen
                         ? 'opacity-100 translate-y-0 pointer-events-auto visible'
                         : 'opacity-0 -translate-y-2 pointer-events-none invisible'
                     }`}
