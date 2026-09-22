@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { BookOpen, Plus, Edit2, Trash2, Search, ExternalLink, FileText } from 'lucide-react';
-import api from '../../services/api';
+import { BookOpen, Plus, Edit2, Trash2, Search, ExternalLink, FileText, Check, X } from 'lucide-react';
+import researchService from '../../services/researchService';
 
 export const AdminResearch = () => {
   const [papers, setPapers] = useState([]);
@@ -28,10 +28,8 @@ export const AdminResearch = () => {
   const fetchPapers = async () => {
     try {
       setLoading(true);
-      const res = await api.get('/research', { all: 'true' });
-      if (res.success) {
-        setPapers(res.data || []);
-      }
+      const data = await researchService.getAll(true);
+      setPapers(data || []);
     } catch (err) {
       console.error('Failed to load research:', err);
     } finally {
@@ -41,6 +39,10 @@ export const AdminResearch = () => {
 
   useEffect(() => {
     fetchPapers();
+    const unsubscribe = researchService.subscribe((updated) => {
+      setPapers(updated);
+    });
+    return () => unsubscribe();
   }, []);
 
   const handleOpenModal = (paper = null) => {
@@ -49,7 +51,7 @@ export const AdminResearch = () => {
       setFormData({
         title: paper.title || '',
         slug: paper.slug || '',
-        authors: Array.isArray(paper.authors) ? paper.authors.join(', ') : '',
+        authors: Array.isArray(paper.authors) ? paper.authors.join(', ') : paper.authors || '',
         category: paper.category || 'Intrusion Detection Systems',
         abstract: paper.abstract || '',
         description: paper.description || '',
@@ -66,11 +68,11 @@ export const AdminResearch = () => {
       setFormData({
         title: '',
         slug: '',
-        authors: 'Abhimanyu Security Research Team',
+        authors: 'Abhimanyu Research Labs, K. S. Verma',
         category: 'Intrusion Detection Systems',
         abstract: '',
         description: '',
-        journal: '',
+        journal: 'IEEE Transactions on Dependable and Secure Computing',
         doi: '',
         paperUrl: '',
         datasetUrl: '',
@@ -104,34 +106,35 @@ export const AdminResearch = () => {
       };
 
       if (editingPaper) {
-        await api.put(`/research/${editingPaper.id}`, payload);
+        await researchService.update(editingPaper.id, payload);
       } else {
-        await api.post('/research', payload);
+        await researchService.create(payload);
       }
 
       setModalOpen(false);
       fetchPapers();
     } catch (err) {
-      alert(err.message || 'Failed to save paper.');
+      alert(err.message || 'Failed to save research paper.');
     } finally {
       setSaving(false);
     }
   };
 
   const handleDelete = async (id, title) => {
-    if (!window.confirm(`Delete research paper "${title}"?`)) return;
+    if (!window.confirm(`Are you sure you want to delete "${title}"?`)) return;
     try {
-      await api.delete(`/research/${id}`);
+      await researchService.delete(id);
       fetchPapers();
     } catch (err) {
-      alert(err.message || 'Failed to delete paper.');
+      alert('Failed to delete research paper.');
     }
   };
 
   const filtered = papers.filter(
     (p) =>
       p.title.toLowerCase().includes(search.toLowerCase()) ||
-      p.category.toLowerCase().includes(search.toLowerCase())
+      (p.category && p.category.toLowerCase().includes(search.toLowerCase())) ||
+      (Array.isArray(p.authors) ? p.authors.join(' ') : p.authors || '').toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -140,18 +143,18 @@ export const AdminResearch = () => {
         <div>
           <h1 className="text-xl font-bold text-white tracking-wide flex items-center gap-2">
             <BookOpen size={20} className="text-cyan-400" />
-            <span>Cybersecurity Research & Publications</span>
+            <span>Cyber Threat Intelligence & Research Papers</span>
           </h1>
           <p className="text-xs text-slate-400 mt-1">
-            Publish academic papers, whitepapers, datasets, and threat analysis citations.
+            Publish academic whitepapers, threat telemetry findings, and zero-day disclosures.
           </p>
         </div>
         <button
           onClick={() => handleOpenModal()}
-          className="flex items-center gap-2 px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-semibold text-xs rounded-lg shadow-[0_0_15px_rgba(6,182,212,0.3)] transition"
+          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-semibold text-xs rounded-xl shadow-[0_0_15px_rgba(6,182,212,0.3)] transition"
         >
           <Plus size={16} />
-          <span>New Research Paper</span>
+          <span>Publish New Paper</span>
         </button>
       </div>
 
@@ -159,112 +162,176 @@ export const AdminResearch = () => {
         <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
         <input
           type="text"
-          placeholder="Filter research publications..."
+          placeholder="Filter research by title, category, or author..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full bg-[#0b1120] border border-slate-800 focus:border-cyan-500 rounded-lg pl-10 pr-4 py-2 text-xs text-white outline-none"
+          className="w-full bg-[#0b1120] border border-slate-800 focus:border-cyan-500 rounded-xl pl-10 pr-4 py-2 text-xs text-white outline-none"
         />
       </div>
 
-      <div className="bg-[#0b1120] border border-slate-800 rounded-2xl overflow-hidden shadow-lg">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-[#070b14] border-b border-slate-800 text-slate-400 uppercase font-mono text-[10px] tracking-wider">
-              <tr>
-                <th className="py-3 px-4">Publication Title</th>
-                <th className="py-3 px-4">Authors</th>
-                <th className="py-3 px-4">Category</th>
-                <th className="py-3 px-4">Journal / DOI</th>
-                <th className="py-3 px-4">Status</th>
-                <th className="py-3 px-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-800/60 text-slate-300">
-              {loading ? (
-                <tr>
-                  <td colSpan="6" className="py-12 text-center text-slate-500">Loading publications...</td>
-                </tr>
-              ) : filtered.length === 0 ? (
-                <tr>
-                  <td colSpan="6" className="py-12 text-center text-slate-500">No research papers registered yet.</td>
-                </tr>
-              ) : (
-                filtered.map((p) => (
-                  <tr key={p.id} className="hover:bg-slate-800/40 transition">
-                    <td className="py-3 px-4 font-semibold text-white max-w-xs">
-                      <div>{p.title}</div>
-                      <div className="text-[11px] text-slate-400 font-normal line-clamp-1">{p.abstract}</div>
-                    </td>
-                    <td className="py-3 px-4 text-slate-300">{p.authors?.join(', ')}</td>
-                    <td className="py-3 px-4 text-cyan-400/90 font-mono">{p.category}</td>
-                    <td className="py-3 px-4 text-slate-400 font-mono text-[11px]">{p.journal || p.doi || 'Preprint'}</td>
-                    <td className="py-3 px-4">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                        {p.status}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <button
-                          onClick={() => handleOpenModal(p)}
-                          className="p-1.5 rounded hover:bg-slate-700 text-slate-300 hover:text-cyan-400 transition"
-                        >
-                          <Edit2 size={14} />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(p.id, p.title)}
-                          className="p-1.5 rounded hover:bg-red-500/20 text-slate-400 hover:text-red-400 transition"
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+      <div className="grid grid-cols-1 gap-4">
+        {loading ? (
+          <div className="text-center py-12 text-slate-500 text-xs">Loading research publications...</div>
+        ) : filtered.length === 0 ? (
+          <div className="text-center py-12 text-slate-500 text-xs border border-dashed border-slate-800 rounded-2xl">
+            No research papers published yet.
+          </div>
+        ) : (
+          filtered.map((p) => (
+            <div
+              key={p.id}
+              className="p-5 rounded-2xl bg-[#0b1120] border border-slate-800/90 hover:border-slate-700 transition flex flex-col md:flex-row md:items-start justify-between gap-4"
+            >
+              <div className="space-y-2 flex-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                    {p.category}
+                  </span>
+                  <span
+                    className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
+                      p.status === 'PUBLISHED'
+                        ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                        : 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+                    }`}
+                  >
+                    {p.status}
+                  </span>
+                  {p.journal && (
+                    <span className="text-[11px] text-slate-400 font-mono italic">
+                      Published in: {p.journal}
+                    </span>
+                  )}
+                </div>
+
+                <h3 className="font-bold text-white text-base leading-snug">{p.title}</h3>
+
+                <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+                  {p.abstract}
+                </p>
+
+                <div className="flex flex-wrap items-center gap-4 text-[11px] text-slate-500 pt-1">
+                  <span>
+                    Authors:{' '}
+                    <strong className="text-slate-300">
+                      {Array.isArray(p.authors) ? p.authors.join(', ') : p.authors}
+                    </strong>
+                  </span>
+                  {p.doi && (
+                    <span className="font-mono text-cyan-400/80">
+                      DOI: {p.doi}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 pt-2 md:pt-0 border-t md:border-t-0 border-slate-800 shrink-0">
+                {p.paperUrl && (
+                  <a
+                    href={p.paperUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="p-2 text-slate-400 hover:text-cyan-400 bg-slate-900 border border-slate-800 rounded-lg transition"
+                    title="View Paper PDF / URL"
+                  >
+                    <ExternalLink size={14} />
+                  </a>
+                )}
+                <button
+                  onClick={() => handleOpenModal(p)}
+                  className="p-2 text-slate-400 hover:text-white bg-slate-900 border border-slate-800 rounded-lg transition"
+                  title="Edit Paper"
+                >
+                  <Edit2 size={14} />
+                </button>
+                <button
+                  onClick={() => handleDelete(p.id, p.title)}
+                  className="p-2 text-slate-400 hover:text-red-400 bg-slate-900 border border-slate-800 rounded-lg transition"
+                  title="Delete Paper"
+                >
+                  <Trash2 size={14} />
+                </button>
+              </div>
+            </div>
+          ))
+        )}
       </div>
 
       {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
           <div className="w-full max-w-2xl bg-[#0b1120] border border-cyan-500/30 rounded-2xl p-6 shadow-2xl my-8">
-            <h2 className="text-base font-bold text-white mb-4 pb-3 border-b border-slate-800">
-              {editingPaper ? `Edit Paper: ${editingPaper.title}` : 'Publish New Research Paper'}
-            </h2>
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+              <h2 className="text-base font-bold text-white flex items-center gap-2">
+                <BookOpen size={18} className="text-cyan-400" />
+                <span>{editingPaper ? 'Edit Research Paper' : 'Publish Research Paper'}</span>
+              </h2>
+              <button onClick={() => setModalOpen(false)} className="text-slate-400 hover:text-white">
+                <X size={18} />
+              </button>
+            </div>
 
             <form onSubmit={handleSave} className="space-y-4 text-xs">
               <div>
-                <label className="block text-slate-300 mb-1 font-semibold">Paper Title *</label>
+                <label className="block text-slate-300 mb-1 font-semibold">Research Paper Title *</label>
                 <input
                   type="text"
                   required
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                  placeholder="e.g. Deep Packet Anomaly Detection in High-Throughput Enterprise Gateways"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-300 mb-1 font-semibold">Authors (Comma-separated) *</label>
+                  <label className="block text-slate-300 mb-1 font-semibold">Authors (comma separated) *</label>
                   <input
                     type="text"
                     required
                     value={formData.authors}
                     onChange={(e) => setFormData({ ...formData, authors: e.target.value })}
                     className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                    placeholder="e.g. Abhimanyu Research Labs, K. S. Verma"
                   />
                 </div>
+
                 <div>
-                  <label className="block text-slate-300 mb-1 font-semibold">Category *</label>
-                  <input
-                    type="text"
-                    required
+                  <label className="block text-slate-300 mb-1 font-semibold">Research Category</label>
+                  <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                     className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                  >
+                    <option value="Intrusion Detection Systems">Intrusion Detection Systems</option>
+                    <option value="Threat Intelligence">Threat Intelligence</option>
+                    <option value="Web & Application Security">Web & Application Security</option>
+                    <option value="Zero-Trust Architecture">Zero-Trust Architecture</option>
+                    <option value="Adversary Emulation">Adversary Emulation</option>
+                    <option value="ICS / SCADA Security">ICS / SCADA Security</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-slate-300 mb-1 font-semibold">Journal / Conference Name</label>
+                  <input
+                    type="text"
+                    value={formData.journal}
+                    onChange={(e) => setFormData({ ...formData, journal: e.target.value })}
+                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                    placeholder="e.g. IEEE TDSC or ACM CCS"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-300 mb-1 font-semibold">DOI Identifier</label>
+                  <input
+                    type="text"
+                    value={formData.doi}
+                    onChange={(e) => setFormData({ ...formData, doi: e.target.value })}
+                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                    placeholder="e.g. 10.1109/TDSC.2025.1092841"
                   />
                 </div>
               </div>
@@ -272,59 +339,86 @@ export const AdminResearch = () => {
               <div>
                 <label className="block text-slate-300 mb-1 font-semibold">Abstract *</label>
                 <textarea
-                  rows={4}
                   required
+                  rows={4}
                   value={formData.abstract}
                   onChange={(e) => setFormData({ ...formData, abstract: e.target.value })}
                   className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                  placeholder="Summary of research methodology, technical findings, and impact..."
                 />
               </div>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-slate-300 mb-1 font-semibold">Journal / Conference</label>
+                  <label className="block text-slate-300 mb-1 font-semibold">Paper / PDF URL</label>
                   <input
-                    type="text"
-                    value={formData.journal}
-                    onChange={(e) => setFormData({ ...formData, journal: e.target.value })}
-                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-slate-300 mb-1 font-semibold">DOI Identifier</label>
-                  <input
-                    type="text"
-                    value={formData.doi}
-                    onChange={(e) => setFormData({ ...formData, doi: e.target.value })}
-                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500 font-mono"
-                    placeholder="10.1145/..."
-                  />
-                </div>
-                <div>
-                  <label className="block text-slate-300 mb-1 font-semibold">PDF Document URL</label>
-                  <input
-                    type="text"
+                    type="url"
                     value={formData.paperUrl}
                     onChange={(e) => setFormData({ ...formData, paperUrl: e.target.value })}
-                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500 font-mono"
+                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                    placeholder="https://..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-300 mb-1 font-semibold">GitHub Repository</label>
+                  <input
+                    type="url"
+                    value={formData.githubUrl}
+                    onChange={(e) => setFormData({ ...formData, githubUrl: e.target.value })}
+                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                    placeholder="https://github.com/..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-300 mb-1 font-semibold">Dataset URL</label>
+                  <input
+                    type="url"
+                    value={formData.datasetUrl}
+                    onChange={(e) => setFormData({ ...formData, datasetUrl: e.target.value })}
+                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                    placeholder="https://..."
                   />
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t border-slate-800">
+              <div>
+                <label className="block text-slate-300 mb-1 font-semibold">Citation (Optional)</label>
+                <input
+                  type="text"
+                  value={formData.citation}
+                  onChange={(e) => setFormData({ ...formData, citation: e.target.value })}
+                  className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                  placeholder="e.g. Verma, K. S., et al. (2025). Deep Packet Anomaly Detection using eBPF..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-slate-300 mb-1 font-semibold">Publication Status</label>
+                <select
+                  value={formData.status}
+                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                  className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                >
+                  <option value="PUBLISHED">Published (Visible on Public Insights)</option>
+                  <option value="DRAFT">Draft / In Review</option>
+                  <option value="ARCHIVED">Archived</option>
+                </select>
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300"
+                  className="px-4 py-2 rounded-lg text-slate-400 hover:text-white bg-slate-800"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-5 py-2 rounded-lg bg-cyan-500 text-black font-bold"
+                  className="px-5 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-bold disabled:opacity-50 transition"
                 >
-                  {saving ? 'Saving...' : 'Save Publication'}
+                  {saving ? 'Saving...' : editingPaper ? 'Update Paper' : 'Publish Paper'}
                 </button>
               </div>
             </form>

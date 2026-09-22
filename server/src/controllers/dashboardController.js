@@ -13,6 +13,7 @@ export const getDashboardSummary = async (req, res, next) => {
       reviewsCount,
       pendingReviewsCount,
       mediaCount,
+      teamCount,
       recentInquiries,
       recentLogs,
     ] = await Promise.all([
@@ -26,6 +27,7 @@ export const getDashboardSummary = async (req, res, next) => {
       prisma.review.count(),
       prisma.review.count({ where: { status: 'PENDING' } }),
       prisma.media.count(),
+      prisma.teamMember.count(),
       prisma.inquiry.findMany({
         orderBy: { createdAt: 'desc' },
         take: 5,
@@ -51,6 +53,7 @@ export const getDashboardSummary = async (req, res, next) => {
           reviews: reviewsCount,
           pendingReviews: pendingReviewsCount,
           media: mediaCount,
+          team: teamCount,
         },
         recentInquiries,
         recentLogs,

@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Star, Plus, Check, X, Trash2, Search, ShieldCheck } from 'lucide-react';
-import api from '../../services/api';
+import { Star, Plus, Check, X, Trash2, Search, ShieldCheck, UserCheck, Image, Sparkles } from 'lucide-react';
+import reviewsService from '../../services/reviewsService';
+
+const AVATAR_PRESETS = [
+  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
+];
 
 export const AdminReviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -12,6 +20,7 @@ export const AdminReviews = () => {
     reviewerName: '',
     designation: '',
     organization: '',
+    profileImage: '',
     reviewText: '',
     rating: 5,
     verified: true,
@@ -21,10 +30,8 @@ export const AdminReviews = () => {
   const fetchReviews = async () => {
     try {
       setLoading(true);
-      const res = await api.get('/reviews', { all: 'true' });
-      if (res.success) {
-        setReviews(res.data || []);
-      }
+      const data = await reviewsService.getAll(true);
+      setReviews(data || []);
     } catch (err) {
       console.error('Failed to load reviews:', err);
     } finally {
@@ -34,11 +41,15 @@ export const AdminReviews = () => {
 
   useEffect(() => {
     fetchReviews();
+    const unsubscribe = reviewsService.subscribe((updated) => {
+      setReviews(updated);
+    });
+    return () => unsubscribe();
   }, []);
 
   const handleUpdateStatus = async (id, status) => {
     try {
-      await api.patch(`/reviews/${id}/status`, { status });
+      await reviewsService.update(id, { status });
       fetchReviews();
     } catch (err) {
       alert('Failed to update status.');
@@ -47,7 +58,7 @@ export const AdminReviews = () => {
 
   const handleToggleVerified = async (id, currentVerified) => {
     try {
-      await api.patch(`/reviews/${id}/status`, { verified: !currentVerified });
+      await reviewsService.update(id, { verified: !currentVerified });
       fetchReviews();
     } catch (err) {
       alert('Failed to toggle verification.');
@@ -55,9 +66,9 @@ export const AdminReviews = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this review?')) return;
+    if (!window.confirm('Delete this client review?')) return;
     try {
-      await api.delete(`/reviews/${id}`);
+      await reviewsService.delete(id);
       fetchReviews();
     } catch (err) {
       alert('Failed to delete review.');
@@ -68,8 +79,18 @@ export const AdminReviews = () => {
     e.preventDefault();
     setSaving(true);
     try {
-      await api.post('/reviews', formData);
+      await reviewsService.create(formData);
       setModalOpen(false);
+      setFormData({
+        reviewerName: '',
+        designation: '',
+        organization: '',
+        profileImage: '',
+        reviewText: '',
+        rating: 5,
+        verified: true,
+        status: 'PUBLISHED',
+      });
       fetchReviews();
     } catch (err) {
       alert(err.message || 'Failed to submit review.');
@@ -94,12 +115,12 @@ export const AdminReviews = () => {
             <span>Client Reviews & Testimonials Moderation</span>
           </h1>
           <p className="text-xs text-slate-400 mt-1">
-            Moderate, verify, and publish customer testimonials on the public landing page.
+            Moderate, verify, and publish customer reviews shown on the public website.
           </p>
         </div>
         <button
           onClick={() => setModalOpen(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-semibold text-xs rounded-lg shadow-[0_0_15px_rgba(6,182,212,0.3)] transition"
+          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-semibold text-xs rounded-xl shadow-[0_0_15px_rgba(6,182,212,0.3)] transition"
         >
           <Plus size={16} />
           <span>Add Verified Review</span>
@@ -110,10 +131,10 @@ export const AdminReviews = () => {
         <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
         <input
           type="text"
-          placeholder="Filter reviews..."
+          placeholder="Filter reviews by reviewer, company, or text..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full bg-[#0b1120] border border-slate-800 focus:border-cyan-500 rounded-lg pl-10 pr-4 py-2 text-xs text-white outline-none"
+          className="w-full bg-[#0b1120] border border-slate-800 focus:border-cyan-500 rounded-xl pl-10 pr-4 py-2 text-xs text-white outline-none"
         />
       </div>
 
@@ -121,24 +142,40 @@ export const AdminReviews = () => {
         {loading ? (
           <div className="col-span-2 text-center py-12 text-slate-500 text-xs">Loading reviews...</div>
         ) : filtered.length === 0 ? (
-          <div className="col-span-2 text-center py-12 text-slate-500 text-xs">No reviews submitted yet.</div>
+          <div className="col-span-2 text-center py-12 text-slate-500 text-xs border border-dashed border-slate-800 rounded-2xl">
+            No reviews submitted yet.
+          </div>
         ) : (
           filtered.map((r) => (
             <div
               key={r.id}
-              className="p-5 rounded-2xl bg-[#0b1120] border border-slate-800 flex flex-col justify-between"
+              className="p-5 rounded-2xl bg-[#0b1120] border border-slate-800/90 flex flex-col justify-between hover:border-slate-700 transition"
             >
               <div>
-                <div className="flex items-start justify-between gap-2 mb-2">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-white text-sm">{r.reviewerName}</span>
-                      {r.verified && (
-                        <ShieldCheck size={16} className="text-cyan-400" title="Verified Client" />
-                      )}
-                    </div>
-                    <div className="text-[11px] text-slate-400">
-                      {r.designation} {r.organization ? `@ ${r.organization}` : ''}
+                <div className="flex items-start justify-between gap-3 mb-3">
+                  <div className="flex items-center gap-3">
+                    {r.profileImage ? (
+                      <img
+                        src={r.profileImage}
+                        alt={r.reviewerName}
+                        className="w-11 h-11 rounded-full object-cover border border-cyan-500/40"
+                      />
+                    ) : (
+                      <div className="w-11 h-11 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-bold text-sm">
+                        {r.reviewerName.charAt(0)}
+                      </div>
+                    )}
+
+                    <div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-bold text-white text-sm">{r.reviewerName}</span>
+                        {r.verified && (
+                          <ShieldCheck size={15} className="text-cyan-400" title="Verified Client" />
+                        )}
+                      </div>
+                      <div className="text-[11px] text-slate-400">
+                        {r.designation} {r.organization ? `@ ${r.organization}` : ''}
+                      </div>
                     </div>
                   </div>
 
@@ -169,7 +206,7 @@ export const AdminReviews = () => {
                   onClick={() => handleToggleVerified(r.id, r.verified)}
                   className="text-[11px] text-slate-400 hover:text-cyan-400"
                 >
-                  {r.verified ? '✓ Verified' : 'Mark Verified'}
+                  {r.verified ? '✓ Verified Badge Active' : '+ Mark as Verified'}
                 </button>
 
                 <div className="flex items-center gap-2">
@@ -191,7 +228,7 @@ export const AdminReviews = () => {
                   )}
                   <button
                     onClick={() => handleDelete(r.id)}
-                    className="p-1.5 text-slate-500 hover:text-red-400"
+                    className="p-1.5 text-slate-500 hover:text-red-400 transition"
                   >
                     <Trash2 size={14} />
                   </button>
@@ -203,85 +240,157 @@ export const AdminReviews = () => {
       </div>
 
       {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
           <div className="w-full max-w-lg bg-[#0b1120] border border-cyan-500/30 rounded-2xl p-6 shadow-2xl my-8">
-            <h2 className="text-base font-bold text-white mb-4 pb-3 border-b border-slate-800">
-              Create Client Testimonial
-            </h2>
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+              <h2 className="text-base font-bold text-white flex items-center gap-2">
+                <Star size={18} className="text-amber-400" />
+                <span>Create Client Testimonial</span>
+              </h2>
+              <button onClick={() => setModalOpen(false)} className="text-slate-400 hover:text-white">
+                <X size={18} />
+              </button>
+            </div>
 
             <form onSubmit={handleSave} className="space-y-4 text-xs">
-              <div>
-                <label className="block text-slate-300 mb-1 font-semibold">Client / Reviewer Name *</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.reviewerName}
-                  onChange={(e) => setFormData({ ...formData, reviewerName: e.target.value })}
-                  className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-300 mb-1 font-semibold">Designation</label>
+                  <label className="block text-slate-300 mb-1 font-semibold">Client / Reviewer Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.reviewerName}
+                    onChange={(e) => setFormData({ ...formData, reviewerName: e.target.value })}
+                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                    placeholder="e.g. Michael Vance"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-300 mb-1 font-semibold">Designation / Role</label>
                   <input
                     type="text"
                     value={formData.designation}
                     onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
                     className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
-                    placeholder="Chief Information Security Officer"
-                  />
-                </div>
-                <div>
-                  <label className="block text-slate-300 mb-1 font-semibold">Organization</label>
-                  <input
-                    type="text"
-                    value={formData.organization}
-                    onChange={(e) => setFormData({ ...formData, organization: e.target.value })}
-                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
-                    placeholder="Fintech Corp"
+                    placeholder="e.g. Chief Information Security Officer"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-slate-300 mb-1 font-semibold">Testimonial Text *</label>
-                <textarea
-                  rows={4}
-                  required
-                  value={formData.reviewText}
-                  onChange={(e) => setFormData({ ...formData, reviewText: e.target.value })}
+                <label className="block text-slate-300 mb-1 font-semibold">Organization / Company</label>
+                <input
+                  type="text"
+                  value={formData.organization}
+                  onChange={(e) => setFormData({ ...formData, organization: e.target.value })}
                   className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                  placeholder="e.g. Apex FinTech Global"
                 />
               </div>
 
-              <div className="flex items-center justify-between pt-3 border-t border-slate-800">
-                <label className="flex items-center gap-2 text-slate-300 cursor-pointer">
+              {/* Photo / Avatar URL with presets */}
+              <div>
+                <label className="block text-slate-300 mb-1 font-semibold flex items-center justify-between">
+                  <span className="flex items-center gap-1.5">
+                    <Image size={13} className="text-cyan-400" />
+                    <span>Reviewer Photo / Avatar URL</span>
+                  </span>
+                  <span className="text-[10px] text-slate-500">Optional</span>
+                </label>
+                <input
+                  type="url"
+                  value={formData.profileImage}
+                  onChange={(e) => setFormData({ ...formData, profileImage: e.target.value })}
+                  className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                  placeholder="https://... or select preset below"
+                />
+
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="text-[10px] text-slate-400">Presets:</span>
+                  <div className="flex items-center gap-1.5">
+                    {AVATAR_PRESETS.map((preset, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setFormData({ ...formData, profileImage: preset })}
+                        className={`w-6 h-6 rounded-full overflow-hidden border transition ${
+                          formData.profileImage === preset ? 'border-cyan-400 scale-110' : 'border-slate-700 hover:border-slate-500'
+                        }`}
+                      >
+                        <img src={preset} alt={`preset-${idx}`} className="w-full h-full object-cover" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-slate-300 mb-1 font-semibold">Rating (1 to 5 Stars)</label>
+                <select
+                  value={formData.rating}
+                  onChange={(e) => setFormData({ ...formData, rating: Number(e.target.value) })}
+                  className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                >
+                  <option value={5}>⭐⭐⭐⭐⭐ 5 Stars - Exceptional</option>
+                  <option value={4}>⭐⭐⭐⭐ 4 Stars - Very Good</option>
+                  <option value={3}>⭐⭐⭐ 3 Stars - Average</option>
+                  <option value={2}>⭐⭐ 2 Stars</option>
+                  <option value={1}>⭐ 1 Star</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-slate-300 mb-1 font-semibold">Testimonial Review Text *</label>
+                <textarea
+                  required
+                  rows={4}
+                  value={formData.reviewText}
+                  onChange={(e) => setFormData({ ...formData, reviewText: e.target.value })}
+                  className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                  placeholder="Write the client's review, findings, and feedback here..."
+                />
+              </div>
+
+              <div className="flex items-center gap-4 pt-1">
+                <label className="flex items-center gap-2 cursor-pointer text-slate-300">
                   <input
                     type="checkbox"
                     checked={formData.verified}
                     onChange={(e) => setFormData({ ...formData, verified: e.target.checked })}
-                    className="rounded bg-slate-800 text-cyan-500"
+                    className="accent-cyan-500"
                   />
-                  <span>Verified Engagement</span>
+                  <span>Mark as Verified Client</span>
                 </label>
 
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setModalOpen(false)}
-                    className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={saving}
-                    className="px-5 py-2 rounded-lg bg-cyan-500 text-black font-bold"
-                  >
-                    {saving ? 'Saving...' : 'Save Review'}
-                  </button>
-                </div>
+                <label className="flex items-center gap-2 cursor-pointer text-slate-300">
+                  <input
+                    type="checkbox"
+                    checked={formData.status === 'PUBLISHED'}
+                    onChange={(e) =>
+                      setFormData({ ...formData, status: e.target.checked ? 'PUBLISHED' : 'PENDING' })
+                    }
+                    className="accent-emerald-500"
+                  />
+                  <span>Publish Immediately</span>
+                </label>
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => setModalOpen(false)}
+                  className="px-4 py-2 rounded-lg text-slate-400 hover:text-white bg-slate-800"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="px-5 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-bold disabled:opacity-50 transition"
+                >
+                  {saving ? 'Saving...' : 'Save & Publish Review'}
+                </button>
               </div>
             </form>
           </div>

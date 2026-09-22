@@ -1,58 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import api from '../../services/api';
-
-const defaultTeamMembers = [
-  {
-    name: 'Founder & Cybersecurity Lead',
-    role: 'Founder / Cybersecurity Lead',
-    desc: 'Responsible for cybersecurity strategy, security research, product direction and technical development.',
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-  },
-  {
-    name: 'Offensive Security Researcher',
-    role: 'Security Engineer / Pen Tester',
-    desc: 'Specializes in web application penetration testing, vulnerability discovery, and exploit validation.',
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-  },
-  {
-    name: 'Infrastructure & Systems Lead',
-    role: 'Cloud & Network Security Engineer',
-    desc: 'Focuses on network hardening, architecture review, and automated perimeter threat detection.',
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-  },
-  {
-    name: 'AI & Security Systems Developer',
-    role: 'Security Software Engineer',
-    desc: 'Builds intelligent intrusion detection pipelines, threat data telemetry, and automation tools.',
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-  },
-];
+import teamService from '../../services/teamService';
 
 const TeamPage = () => {
-  const [members, setMembers] = useState(defaultTeamMembers);
+  const [members, setMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const loadTeam = async () => {
+    try {
+      setLoading(true);
+      const data = await teamService.getAll(false);
+      const formatted = (data || []).map((m) => ({
+        name: m.name,
+        role: m.role,
+        desc: m.shortBio || m.detailedBio,
+        linkedin: m.linkedin || 'https://linkedin.com',
+        github: m.github || 'https://github.com',
+        profileImage: m.profileImage,
+        skills: m.skills,
+      }));
+      setMembers(formatted);
+    } catch (err) {
+      console.error('Failed to load team:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    let isMounted = true;
-    api.get('/team')
-      .then((res) => {
-        if (!isMounted || !res.success || !Array.isArray(res.data) || res.data.length === 0) return;
-        const liveMembers = res.data.map((m) => ({
-          name: m.name,
-          role: m.role,
-          desc: m.shortBio || m.detailedBio,
-          linkedin: m.linkedin || 'https://linkedin.com',
-          github: m.github || 'https://github.com',
-          profileImage: m.profileImage,
-        }));
-        setMembers(liveMembers);
-      })
-      .catch(() => {});
-    return () => { isMounted = false; };
+    loadTeam();
+
+    const handleUpdate = () => {
+      loadTeam();
+    };
+
+    window.addEventListener('ais_team_updated', handleUpdate);
+    return () => window.removeEventListener('ais_team_updated', handleUpdate);
   }, []);
 
   return (

@@ -8,7 +8,7 @@ import {
   FileText,
   Mail,
   Star,
-  Image,
+  Users,
   ArrowUpRight,
   RefreshCw,
   Clock,
@@ -52,6 +52,14 @@ export const AdminDashboard = () => {
   }
 
   const counts = data?.counts || {};
+  let localTeamCount = 4;
+  try {
+    const raw = localStorage.getItem('ais_custom_team');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) localTeamCount = parsed.length;
+    }
+  } catch (e) {}
 
   const statCards = [
     { label: 'Inquiries', count: counts.inquiries || 0, badge: counts.newInquiries ? `${counts.newInquiries} New` : null, icon: Mail, color: 'text-amber-400', link: '/admin/inquiries' },
@@ -61,7 +69,7 @@ export const AdminDashboard = () => {
     { label: 'Research Papers', count: counts.research || 0, icon: BookOpen, color: 'text-emerald-400', link: '/admin/research' },
     { label: 'Intelligence Posts', count: counts.blogs || 0, icon: FileText, color: 'text-rose-400', link: '/admin/blog' },
     { label: 'Reviews & Feedback', count: counts.reviews || 0, badge: counts.pendingReviews ? `${counts.pendingReviews} Pending` : null, icon: Star, color: 'text-yellow-400', link: '/admin/reviews' },
-    { label: 'Media Assets', count: counts.media || 0, icon: Image, color: 'text-sky-400', link: '/admin/media' },
+    { label: 'Team Members', count: counts.team ?? localTeamCount, icon: Users, color: 'text-sky-400', link: '/admin/team' },
   ];
 
   return (
