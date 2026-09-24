@@ -71,9 +71,11 @@ export const LoginPage = () => {
   // Redirect if authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(isAdmin ? '/admin' : '/portal', { replace: true });
+      const fromPath = location.state?.from?.pathname;
+      const defaultDest = isAdmin ? '/admin' : '/portal';
+      navigate(fromPath || defaultDest, { replace: true });
     }
-  }, [isAuthenticated, isAdmin, navigate]);
+  }, [isAuthenticated, isAdmin, navigate, location.state]);
 
   const switchMode = (newMode) => {
     setMode(newMode);
@@ -106,15 +108,16 @@ export const LoginPage = () => {
     setLoading(true);
 
     try {
+      const fromPath = location.state?.from?.pathname;
       if (mode === 'login') {
         const loggedUser = await login(email, password);
-        const destination = ['SUPER_ADMIN', 'ADMIN', 'EDITOR', 'AUTHOR'].includes(loggedUser.role)
+        const defaultDest = ['SUPER_ADMIN', 'ADMIN', 'EDITOR', 'AUTHOR'].includes(loggedUser.role)
           ? '/admin'
           : '/portal';
-        navigate(destination, { replace: true });
+        navigate(fromPath || defaultDest, { replace: true });
       } else {
         await register(name, email, password);
-        navigate('/portal', { replace: true });
+        navigate(fromPath || '/portal', { replace: true });
       }
     } catch (err) {
       setError(err.message || 'Authentication failed. Please verify your credentials.');
@@ -153,11 +156,11 @@ export const LoginPage = () => {
       <header className="relative z-20 w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-5 pb-2 flex items-center justify-between">
         {/* Left: AIS Logo, Divider, Security Gateway */}
         <Link to="/" className="flex items-center gap-3 sm:gap-4 group">
-          <div className="flex items-center">
-            <span className="text-3xl sm:text-4xl font-black italic tracking-tighter bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-500 bg-clip-text text-transparent select-none drop-shadow-[0_2px_14px_rgba(56,189,248,0.45)] group-hover:brightness-110 transition-all">
-              AIS
-            </span>
-          </div>
+          <img
+            src="/logo.png"
+            alt="Abhimanyu InfoSec"
+            className="h-9 sm:h-11 w-auto object-contain mix-blend-screen transition-opacity duration-200 group-hover:opacity-90"
+          />
 
           <div className="h-6 sm:h-7 w-[1.5px] bg-slate-600/70" />
 

@@ -47,9 +47,6 @@ export const ContactPage = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-slate-900 border border-slate-800 text-slate-300 text-xs font-mono mb-4 tracking-wider">
-            SECURE COMMUNICATIONS
-          </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
             Initiate Confidential Security Scoping
           </h1>

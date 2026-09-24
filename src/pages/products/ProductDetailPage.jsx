@@ -43,39 +43,39 @@ const COLOR_MAP = {
     pill: 'bg-blue-950/40 border-blue-800/60 text-blue-300',
   },
   cyan: {
-    badge: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',
-    accentText: 'text-cyan-400',
-    button: 'bg-cyan-500 hover:bg-cyan-400 text-black font-bold',
-    secondaryButton: 'bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30',
-    border: 'border-cyan-500/30',
-    glow: 'from-cyan-600/15 via-cyan-900/5 to-transparent',
-    iconBg: 'bg-cyan-500/15 border-cyan-500/30 text-cyan-400',
-    pill: 'bg-cyan-950/40 border-cyan-800/60 text-cyan-300',
+    badge: 'bg-blue-500/15 text-blue-300 border-blue-500/30',
+    accentText: 'text-blue-400',
+    button: 'bg-blue-600 hover:bg-blue-500 text-white font-semibold',
+    secondaryButton: 'bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 border border-blue-500/30',
+    border: 'border-blue-500/30',
+    glow: 'from-blue-600/15 via-blue-900/5 to-transparent',
+    iconBg: 'bg-blue-500/15 border-blue-500/30 text-blue-400',
+    pill: 'bg-blue-950/40 border-blue-800/60 text-blue-300',
   },
   violet: {
-    badge: 'bg-violet-500/15 text-violet-300 border-violet-500/30',
-    accentText: 'text-violet-400',
-    button: 'bg-violet-600 hover:bg-violet-500 text-white',
-    secondaryButton: 'bg-violet-500/10 hover:bg-violet-500/20 text-violet-300 border border-violet-500/30',
-    border: 'border-violet-500/30',
-    glow: 'from-violet-600/15 via-violet-900/5 to-transparent',
-    iconBg: 'bg-violet-500/15 border-violet-500/30 text-violet-400',
-    pill: 'bg-violet-950/40 border-violet-800/60 text-violet-300',
+    badge: 'bg-blue-500/15 text-blue-300 border-blue-500/30',
+    accentText: 'text-blue-400',
+    button: 'bg-blue-600 hover:bg-blue-500 text-white font-semibold',
+    secondaryButton: 'bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 border border-blue-500/30',
+    border: 'border-blue-500/30',
+    glow: 'from-blue-600/15 via-blue-900/5 to-transparent',
+    iconBg: 'bg-blue-500/15 border-blue-500/30 text-blue-400',
+    pill: 'bg-blue-950/40 border-blue-800/60 text-blue-300',
   },
   emerald: {
-    badge: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
-    accentText: 'text-emerald-400',
-    button: 'bg-emerald-600 hover:bg-emerald-500 text-white',
-    secondaryButton: 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/30',
-    border: 'border-emerald-500/30',
-    glow: 'from-emerald-600/15 via-emerald-900/5 to-transparent',
-    iconBg: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400',
-    pill: 'bg-emerald-950/40 border-emerald-800/60 text-emerald-300',
+    badge: 'bg-blue-500/15 text-blue-300 border-blue-500/30',
+    accentText: 'text-blue-400',
+    button: 'bg-blue-600 hover:bg-blue-500 text-white font-semibold',
+    secondaryButton: 'bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 border border-blue-500/30',
+    border: 'border-blue-500/30',
+    glow: 'from-blue-600/15 via-blue-900/5 to-transparent',
+    iconBg: 'bg-blue-500/15 border-blue-500/30 text-blue-400',
+    pill: 'bg-blue-950/40 border-blue-800/60 text-blue-300',
   },
   amber: {
     badge: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
     accentText: 'text-amber-400',
-    button: 'bg-amber-500 hover:bg-amber-400 text-black font-bold',
+    button: 'bg-amber-600 hover:bg-amber-500 text-white font-bold',
     secondaryButton: 'bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30',
     border: 'border-amber-500/30',
     glow: 'from-amber-600/15 via-amber-900/5 to-transparent',
@@ -95,8 +95,8 @@ const COLOR_MAP = {
 };
 
 const STATUS_MAP = {
-  PRODUCTION: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
-  BETA: 'bg-cyan-500/15 text-cyan-400 border-cyan-500/30',
+  PRODUCTION: 'bg-blue-500/15 text-blue-300 border-blue-500/30',
+  BETA: 'bg-indigo-500/15 text-indigo-300 border-indigo-500/30',
   DEVELOPMENT: 'bg-amber-500/15 text-amber-400 border-amber-500/30',
   PROTOTYPE: 'bg-purple-500/15 text-purple-400 border-purple-500/30',
   CONCEPT: 'bg-slate-800 text-slate-400 border-slate-700',
@@ -134,9 +134,9 @@ const ProductDetailPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#05080D] flex items-center justify-center text-cyan-400">
+      <div className="min-h-screen bg-[#05080D] flex items-center justify-center text-blue-400">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-12 h-12 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
           <span className="font-mono text-xs tracking-widest uppercase text-slate-400">Loading Product Telemetry...</span>
         </div>
       </div>
@@ -155,13 +155,13 @@ const ProductDetailPage = () => {
             <div className="text-xs font-mono text-rose-400 uppercase tracking-wider">Product Not Found</div>
             <h1 className="text-2xl font-bold text-white tracking-tight">Security Module Unavailable</h1>
             <p className="text-xs text-slate-400 leading-relaxed">
-              The product module with slug <code className="text-cyan-400 font-mono">/products/{slug}</code> does not exist or has been modified/removed in the admin portal.
+              The product module with slug <code className="text-blue-400 font-mono">/products/{slug}</code> does not exist or has been modified/removed in the admin portal.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
             <Link
               to="/products"
-              className="px-5 py-2.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-semibold text-xs transition"
+              className="px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition"
             >
               ← Back to Products Suite
             </Link>
@@ -190,33 +190,50 @@ const ProductDetailPage = () => {
 
         {/* 1. NAVIGATION BREADCRUMB */}
         <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
-          <Link to="/" className="hover:text-cyan-400 transition-colors">Home</Link>
+          <Link to="/" className="hover:text-blue-400 transition-colors">Home</Link>
           <span>/</span>
-          <Link to="/products" className="hover:text-cyan-400 transition-colors">Products</Link>
+          <Link to="/products" className="hover:text-blue-400 transition-colors">Products</Link>
           <span>/</span>
           <span className={colorConfig.accentText}>{product.name}</span>
         </div>
 
         {/* 2. HERO SECTION */}
         <div className="space-y-8 max-w-4xl">
-          <div className="flex flex-wrap items-center gap-3">
-            <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold tracking-wider uppercase border ${colorConfig.badge}`}>
-              {product.badge || 'AUTONOMOUS DEFENSE'}
-            </span>
-            <span className={`px-2.5 py-0.5 rounded-md text-[11px] font-mono font-bold border ${statusClass}`}>
-              {product.status || 'PRODUCTION'}
-            </span>
-            {product.version && (
-              <span className="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-[11px] font-mono text-slate-400">
-                {product.version}
-              </span>
-            )}
-          </div>
+          {(product.status || product.version) && (
+            <div className="flex flex-wrap items-center gap-3">
+              {product.status && (
+                <span className={`px-2.5 py-0.5 rounded-md text-[11px] font-mono font-bold border ${statusClass}`}>
+                  {product.status}
+                </span>
+              )}
+              {product.version && (
+                <span className="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-[11px] font-mono text-slate-400">
+                  {product.version}
+                </span>
+              )}
+            </div>
+          )}
 
           <div className="space-y-4">
             <div className="flex items-center gap-4">
-              <div className={`w-14 h-14 rounded-2xl border flex items-center justify-center shrink-0 ${colorConfig.iconBg}`}>
-                <IconComponent size={28} />
+              <div className="w-16 h-16 rounded-2xl border border-slate-700/80 bg-slate-900/90 p-2 flex items-center justify-center shrink-0 overflow-hidden shadow-lg">
+                {product.logoUrl ? (
+                  <img
+                    src={product.logoUrl}
+                    alt={product.name}
+                    className="w-full h-full object-contain"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                      if (e.currentTarget.nextElementSibling) {
+                        e.currentTarget.nextElementSibling.classList.remove('hidden');
+                      }
+                    }}
+                  />
+                ) : null}
+                <div className={`${product.logoUrl ? 'hidden ' : ''}w-full h-full flex flex-col items-center justify-center text-slate-400`}>
+                  <span className="text-xs font-mono font-bold text-slate-300">AIS</span>
+                  <span className="text-[9px] font-mono text-slate-500 uppercase">Product</span>
+                </div>
               </div>
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.1]">
                 {product.name}
@@ -330,7 +347,7 @@ const ProductDetailPage = () => {
                       <div className={`text-xs font-mono font-bold uppercase mb-2 ${colorConfig.accentText}`}>
                         0{idx + 1}
                       </div>
-                      <h3 className="text-base font-semibold text-white leading-snug group-hover:text-cyan-300 transition-colors">
+                      <h3 className="text-base font-semibold text-white leading-snug group-hover:text-blue-300 transition-colors">
                         {title}
                       </h3>
                       {desc && (
@@ -368,7 +385,7 @@ const ProductDetailPage = () => {
 
         {/* 7. BOTTOM CALL TO ACTION BANNER */}
         <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-[#0c1426] via-[#080d19] to-[#0c1426] border border-slate-800 text-center space-y-6 relative overflow-hidden">
-          <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center mx-auto">
+          <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mx-auto">
             <Sparkles size={20} />
           </div>
           <div className="space-y-2 max-w-2xl mx-auto">

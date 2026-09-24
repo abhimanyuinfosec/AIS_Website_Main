@@ -85,9 +85,6 @@ const InsightsPage = () => {
 
         {/* 1. HERO SECTION */}
         <div className="space-y-6 max-w-3xl">
-          <div className="inline-block px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-mono tracking-wider uppercase font-medium">
-            Knowledge • Threat Research • Publications
-          </div>
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.15]">
             Security knowledge that helps you stay ahead.
           </h1>
@@ -97,7 +94,7 @@ const InsightsPage = () => {
           <div className="pt-2 flex flex-wrap gap-4">
             <a
               href="#research-section"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold text-black bg-cyan-400 hover:bg-cyan-300 transition-colors shadow-[0_0_15px_rgba(6,182,212,0.3)]"
+              className="inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 transition-colors shadow-lg"
             >
               Browse Research Papers ↓
             </a>
@@ -114,7 +111,7 @@ const InsightsPage = () => {
         <div id="research-section" className="space-y-8 pt-4">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-800/80 pb-6">
             <div>
-              <div className="inline-flex items-center gap-1.5 text-xs font-bold font-mono tracking-widest text-cyan-400 uppercase mb-2">
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold font-mono tracking-widest text-blue-400 uppercase mb-2">
                 <BookOpen size={14} />
                 <span>Academic & Threat Intelligence Lab</span>
               </div>
@@ -142,13 +139,13 @@ const InsightsPage = () => {
               {researchPapers.map((paper) => (
                 <div
                   key={paper.id}
-                  className="p-6 sm:p-8 rounded-2xl bg-[#080d1a] border border-slate-800/90 hover:border-cyan-500/40 transition-all duration-300 group shadow-lg"
+                  className="p-6 sm:p-8 rounded-2xl bg-[#080d1a] border border-slate-800/90 hover:border-blue-500/40 transition-all duration-300 group shadow-lg"
                 >
                   <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
                     <div className="space-y-3 flex-1">
                       {/* Badges */}
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[11px] font-mono font-medium">
+                        <span className="px-2.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-[11px] font-mono font-medium">
                           {paper.category}
                         </span>
                         {paper.journal && (
@@ -164,7 +161,7 @@ const InsightsPage = () => {
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-cyan-300 transition-colors leading-snug">
+                      <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-blue-300 transition-colors leading-snug">
                         {paper.title}
                       </h3>
 
@@ -196,7 +193,7 @@ const InsightsPage = () => {
                           href={paper.paperUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-black bg-cyan-400 hover:bg-cyan-300 transition shadow-[0_0_10px_rgba(6,182,212,0.2)]"
+                          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-blue-600 hover:bg-blue-500 transition shadow-md"
                         >
                           <FileText size={14} />
                           <span>Read Whitepaper</span>
@@ -211,7 +208,7 @@ const InsightsPage = () => {
                           rel="noreferrer"
                           className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-800 transition"
                         >
-                          <Code2 size={14} className="text-cyan-400" />
+                          <Code2 size={14} className="text-blue-400" />
                           <span>Code Repository</span>
                         </a>
                       )}
@@ -221,7 +218,7 @@ const InsightsPage = () => {
                           href={paper.datasetUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] text-slate-400 hover:text-cyan-400 transition"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] text-slate-400 hover:text-blue-400 transition"
                         >
                           <Database size={13} />
                           <span>Research Dataset</span>

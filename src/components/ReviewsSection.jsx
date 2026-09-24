@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Star, ShieldCheck, Quote, ChevronRight, Award } from 'lucide-react';
+import { Star, Quote, Award } from 'lucide-react';
 import reviewsService from '../services/reviewsService';
 
 export const ReviewsSection = () => {
@@ -30,23 +30,19 @@ export const ReviewsSection = () => {
   if (!loading && reviews.length === 0) return null;
 
   return (
-    <section className="py-24 bg-[#05080D] border-t border-slate-800/80 relative overflow-hidden">
-      {/* Background cyber grid & glow accents */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(6,182,212,0.1),rgba(255,255,255,0))] pointer-events-none" />
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-600/5 rounded-full blur-3xl pointer-events-none" />
+    <section className="py-20 bg-[#05080D] border-t border-slate-800/80 relative overflow-hidden">
+      {/* Background cyber grid & subtle ambient accents */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(59,130,246,0.06),rgba(255,255,255,0))] pointer-events-none" />
+      <div className="absolute top-1/2 left-0 w-80 h-80 bg-blue-600/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-80 h-80 bg-slate-600/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono tracking-wider uppercase">
-            <Award size={14} />
-            <span>Verified Client Endorsements</span>
-          </div>
+        <div className="text-center max-w-3xl mx-auto mb-14 space-y-4">
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
             Trusted by CISOs & <br />
-            <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-400 via-blue-300 to-blue-200 bg-clip-text text-transparent">
               Enterprise Defense Leaders
             </span>
           </h2>
@@ -56,69 +52,60 @@ export const ReviewsSection = () => {
           </p>
         </div>
 
-        {/* Reviews Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+        {/* Reviews Grid - 4 Columns in 1 Row */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {reviews.map((review) => (
             <div
               key={review.id}
-              className="relative p-7 sm:p-8 rounded-3xl bg-[#080d1a]/80 backdrop-blur-xl border border-slate-800/90 hover:border-cyan-500/40 transition-all duration-300 flex flex-col justify-between group shadow-xl hover:shadow-[0_0_30px_rgba(6,182,212,0.1)]"
+              className="relative p-5 sm:p-6 rounded-2xl bg-[#080d1a]/85 backdrop-blur-xl border border-slate-800/90 hover:border-slate-700 transition-all duration-300 flex flex-col justify-between group shadow-lg"
             >
               {/* Quote Watermark */}
               <Quote
-                size={48}
-                className="absolute top-6 right-6 text-slate-800/40 group-hover:text-cyan-500/10 transition-colors pointer-events-none"
+                size={34}
+                className="absolute top-5 right-5 text-slate-800/30 group-hover:text-slate-700/40 transition-colors pointer-events-none"
               />
 
               <div>
-                {/* Rating Stars & Verified Tag */}
-                <div className="flex items-center justify-between gap-2 mb-5">
-                  <div className="flex items-center gap-1">
-                    {Array.from({ length: review.rating || 5 }).map((_, i) => (
-                      <Star
-                        key={i}
-                        size={16}
-                        className="fill-amber-400 text-amber-400 drop-shadow-[0_0_6px_rgba(251,191,36,0.4)]"
-                      />
-                    ))}
-                  </div>
-
-                  {review.verified && (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 text-[11px] font-mono font-medium">
-                      <ShieldCheck size={12} className="text-cyan-400" />
-                      <span>Verified Client</span>
-                    </span>
-                  )}
+                {/* Rating Stars */}
+                <div className="flex items-center gap-1 mb-4">
+                  {Array.from({ length: review.rating || 5 }).map((_, i) => (
+                    <Star
+                      key={i}
+                      size={14}
+                      className="fill-amber-400 text-amber-400 drop-shadow-[0_0_4px_rgba(251,191,36,0.3)]"
+                    />
+                  ))}
                 </div>
 
                 {/* Review Body */}
-                <p className="text-slate-300 text-sm sm:text-[15px] leading-relaxed mb-6 font-normal italic">
+                <p className="text-slate-300 text-xs sm:text-[13px] leading-relaxed mb-5 font-normal italic">
                   "{review.reviewText}"
                 </p>
               </div>
 
               {/* Reviewer Details */}
-              <div className="flex items-center gap-3.5 pt-5 border-t border-slate-800/70">
+              <div className="flex items-center gap-3 pt-4 border-t border-slate-800/70">
                 {review.profileImage ? (
                   <img
                     src={review.profileImage}
                     alt={review.reviewerName}
-                    className="w-12 h-12 rounded-full object-cover border-2 border-cyan-500/30 group-hover:border-cyan-400 transition"
+                    className="w-10 h-10 rounded-full object-cover border border-slate-700 transition shrink-0"
                   />
                 ) : (
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-600/20 border border-cyan-500/40 flex items-center justify-center text-cyan-300 font-bold text-base font-mono">
+                  <div className="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-200 font-bold text-sm font-mono shrink-0">
                     {review.reviewerName.charAt(0)}
                   </div>
                 )}
 
-                <div>
-                  <div className="text-sm font-bold text-white group-hover:text-cyan-300 transition">
+                <div className="min-w-0">
+                  <div className="text-xs sm:text-sm font-bold text-white group-hover:text-slate-200 transition truncate">
                     {review.reviewerName}
                   </div>
-                  <div className="text-xs text-slate-400 leading-tight">
+                  <div className="text-[11px] text-slate-400 leading-tight truncate">
                     {review.designation}
                   </div>
                   {review.organization && (
-                    <div className="text-[11px] font-mono text-cyan-400/90 mt-0.5">
+                    <div className="text-[11px] font-mono text-slate-400 mt-0.5 truncate">
                       {review.organization}
                     </div>
                   )}
@@ -126,19 +113,6 @@ export const ReviewsSection = () => {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Bottom Trust Stat / Micro Bar */}
-        <div className="mt-14 p-5 rounded-2xl bg-[#091122]/60 border border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-          <div className="flex items-center gap-3">
-            <div className="w-3 h-3 rounded-full bg-emerald-400 animate-ping" />
-            <span className="text-xs sm:text-sm text-slate-300">
-              <strong className="text-white">100%</strong> of assessments delivered with zero breach incident escalation during testing.
-            </span>
-          </div>
-          <span className="text-xs font-mono text-cyan-400">
-            Audit-Grade Confidentiality Guaranteed
-          </span>
         </div>
       </div>
     </section>

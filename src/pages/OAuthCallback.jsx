@@ -54,16 +54,16 @@ export const OAuthCallback = () => {
 
   return (
     <div className="min-h-screen bg-[#05070A] text-slate-100 flex items-center justify-center p-4 relative overflow-hidden font-sans">
-      {/* Background Cyber Ambient Lights */}
+      {/* Background Ambient Lights */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-600/15 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>
         <div className="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:28px_28px] opacity-25"></div>
       </div>
 
-      <div className="w-full max-w-md rounded-2xl bg-[#0B1120]/90 border border-slate-800 backdrop-blur-xl p-8 relative z-10 text-center shadow-[0_0_50px_rgba(6,182,212,0.12)]">
+      <div className="w-full max-w-md rounded-2xl bg-[#0B1120]/90 border border-slate-800 backdrop-blur-xl p-8 relative z-10 text-center shadow-2xl shadow-blue-500/5">
         {status === 'processing' && (
           <div className="space-y-4">
-            <div className="w-14 h-14 mx-auto rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+            <div className="w-14 h-14 mx-auto rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400">
               <Loader2 size={28} className="animate-spin" />
             </div>
             <h2 className="text-xl font-bold text-white tracking-wide">Authenticating Handshake</h2>
@@ -75,11 +75,11 @@ export const OAuthCallback = () => {
 
         {status === 'success' && (
           <div className="space-y-4">
-            <div className="w-14 h-14 mx-auto rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+            <div className="w-14 h-14 mx-auto rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400">
               <ShieldCheck size={28} />
             </div>
             <h2 className="text-xl font-bold text-white tracking-wide">Session Verified</h2>
-            <p className="text-xs text-emerald-400/90 font-mono">
+            <p className="text-xs text-blue-300 font-mono">
               Identity established. Redirecting to your secure console...
             </p>
           </div>
@@ -98,7 +98,7 @@ export const OAuthCallback = () => {
             </div>
             <Link
               to="/login"
-              className="inline-flex items-center justify-center gap-2 w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-bold text-xs uppercase tracking-wider rounded-xl transition"
+              className="inline-flex items-center justify-center gap-2 w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs uppercase tracking-wider rounded-xl transition shadow-lg"
             >
               <span>Return to Sign In</span>
               <ArrowRight size={14} />

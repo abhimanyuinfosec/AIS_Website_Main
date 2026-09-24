@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Cpu, Plus, Edit2, Trash2, Search, ExternalLink, RefreshCw, Crosshair, Network, Brain, ShieldCheck, Zap, Lock, Activity } from 'lucide-react';
+import { Cpu, Plus, Edit2, Trash2, Search, ExternalLink, RefreshCw, Crosshair, Network, Brain, ShieldCheck, Zap, Lock, Activity, Image as ImageIcon, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import productsService from '../../services/productsService';
+import mediaService from '../../services/mediaService';
 
 const ICON_MAP = {
   Crosshair,
@@ -26,6 +27,7 @@ export const AdminProducts = () => {
   const [formData, setFormData] = useState({
     name: '',
     slug: '',
+    logoUrl: '/logo.png',
     badge: 'OFFENSIVE SECURITY',
     color: 'blue',
     icon: 'Crosshair',
@@ -77,6 +79,7 @@ export const AdminProducts = () => {
       setFormData({
         name: product.name || '',
         slug: product.slug || '',
+        logoUrl: product.logoUrl || '',
         badge: product.badge || 'OFFENSIVE SECURITY',
         color: product.color || 'blue',
         icon: product.icon || 'Crosshair',
@@ -103,6 +106,7 @@ export const AdminProducts = () => {
       setFormData({
         name: '',
         slug: '',
+        logoUrl: '/logo.png',
         badge: 'CYBER DEFENSE',
         color: 'blue',
         icon: 'ShieldCheck',
@@ -128,6 +132,27 @@ export const AdminProducts = () => {
     setModalOpen(true);
   };
 
+  const handleLogoUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const uploaded = await mediaService.uploadFile(file, 'products', file.name);
+      if (uploaded?.url) {
+        setFormData((prev) => ({ ...prev, logoUrl: uploaded.url }));
+        return;
+      }
+    } catch (err) {
+      console.warn('mediaService upload fallback to FileReader:', err);
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      setFormData((prev) => ({ ...prev, logoUrl: event.target.result }));
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleSave = async (e) => {
     e.preventDefault();
     setSaving(true);
@@ -136,6 +161,7 @@ export const AdminProducts = () => {
       const payload = {
         name: formData.name,
         slug: formData.slug || undefined,
+        logoUrl: formData.logoUrl?.trim() || null,
         badge: formData.badge,
         color: formData.color,
         icon: formData.icon,
@@ -191,7 +217,7 @@ export const AdminProducts = () => {
 
   const statusColors = {
     PRODUCTION: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
-    BETA: 'bg-cyan-500/15 text-cyan-400 border-cyan-500/30',
+    BETA: 'bg-blue-500/15 text-blue-300 border-blue-500/30',
     DEVELOPMENT: 'bg-amber-500/15 text-amber-400 border-amber-500/30',
     PROTOTYPE: 'bg-purple-500/15 text-purple-400 border-purple-500/30',
     CONCEPT: 'bg-slate-800 text-slate-400 border-slate-700',
@@ -199,9 +225,9 @@ export const AdminProducts = () => {
 
   const badgeColorMap = {
     blue: 'border-blue-500/30 bg-blue-500/15 text-blue-400',
-    cyan: 'border-cyan-500/30 bg-cyan-500/15 text-cyan-400',
-    violet: 'border-violet-500/30 bg-violet-500/15 text-violet-400',
-    emerald: 'border-emerald-500/30 bg-emerald-500/15 text-emerald-400',
+    cyan: 'border-blue-500/30 bg-blue-500/15 text-blue-400',
+    violet: 'border-indigo-500/30 bg-indigo-500/15 text-indigo-400',
+    emerald: 'border-blue-500/30 bg-blue-500/15 text-blue-400',
     amber: 'border-amber-500/30 bg-amber-500/15 text-amber-400',
     rose: 'border-rose-500/30 bg-rose-500/15 text-rose-400',
   };
@@ -218,11 +244,11 @@ export const AdminProducts = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold text-white tracking-wide flex items-center gap-2">
-            <Cpu size={20} className="text-cyan-400" />
+            <Cpu size={20} className="text-blue-400" />
             <span>Products & Tool Cards Manager</span>
           </h1>
           <p className="text-xs text-slate-400 mt-1">
-            Add, update, or remove product cards displayed on the public <code className="text-cyan-400 font-mono">/products</code> page and their <code className="text-cyan-400 font-mono">/products/:slug</code> detail pages.
+            Add, update, or remove product cards displayed on the public <code className="text-blue-400 font-mono">/products</code> page and their <code className="text-blue-400 font-mono">/products/:slug</code> detail pages.
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -236,7 +262,7 @@ export const AdminProducts = () => {
           </button>
           <button
             onClick={() => handleOpenModal()}
-            className="flex items-center gap-2 px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-semibold text-xs rounded-lg shadow-[0_0_15px_rgba(6,182,212,0.3)] transition"
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-lg shadow-lg shadow-blue-600/20 transition"
           >
             <Plus size={16} />
             <span>Add New Product</span>
@@ -252,13 +278,13 @@ export const AdminProducts = () => {
             placeholder="Search products by name, slug or description..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-[#0b1120] border border-slate-800 focus:border-cyan-500 rounded-lg pl-10 pr-4 py-2 text-xs text-white outline-none"
+            className="w-full bg-[#0b1120] border border-slate-800 focus:border-blue-500 rounded-lg pl-10 pr-4 py-2 text-xs text-white outline-none"
           />
         </div>
         <Link
           to="/products"
           target="_blank"
-          className="text-xs text-cyan-400 hover:text-cyan-300 flex items-center gap-1 font-mono"
+          className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1 font-mono"
         >
           <span>View Public /products page</span>
           <ExternalLink size={12} />
@@ -267,30 +293,33 @@ export const AdminProducts = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {loading ? (
-          <div className="col-span-3 text-center py-12 text-slate-500 text-xs">Loading products...</div>
+          <div className="col-span-3 text-center py-12 text-slate-500 text-xs font-mono">Loading products...</div>
         ) : filtered.length === 0 ? (
-          <div className="col-span-3 text-center py-12 text-slate-500 text-xs">
+          <div className="col-span-3 text-center py-12 text-slate-500 text-xs font-mono">
             No products found matching "{search}".
           </div>
         ) : (
           filtered.map((p) => {
-            const IconComponent = ICON_MAP[p.icon] || ShieldCheck;
             const badgeClass = badgeColorMap[p.color] || badgeColorMap.blue;
 
             return (
               <div
                 key={p.id}
-                className="p-5 rounded-2xl bg-[#0b1120] border border-slate-800 hover:border-cyan-500/40 transition flex flex-col justify-between"
+                className="p-5 rounded-2xl bg-[#0b1120] border border-slate-800 hover:border-blue-500/40 transition flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-start justify-between gap-2 mb-3">
                     <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-cyan-400">
-                        <IconComponent size={16} />
+                      <div className="w-10 h-10 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center shrink-0 overflow-hidden p-1 shadow-sm">
+                        {p.logoUrl ? (
+                          <img src={p.logoUrl} alt={p.name} className="w-full h-full object-contain" />
+                        ) : (
+                          <span className="text-[9px] font-mono font-bold text-slate-400">LOGO</span>
+                        )}
                       </div>
                       <div>
                         <h2 className="text-sm font-bold text-white leading-tight">{p.name}</h2>
-                        <div className="text-[10px] font-mono text-cyan-400">
+                        <div className="text-[10px] font-mono text-blue-400">
                           /products/{p.slug}
                         </div>
                       </div>
@@ -305,7 +334,7 @@ export const AdminProducts = () => {
                   {p.keyFeatures && p.keyFeatures.length > 0 && (
                     <div className="flex flex-wrap gap-1 mb-3">
                       {p.keyFeatures.slice(0, 3).map((f, idx) => (
-                        <span key={idx} className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-[9px] text-slate-400 font-mono">
+                        <span key={idx} className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-[9px] text-slate-300 font-mono">
                           {f}
                         </span>
                       ))}
@@ -339,7 +368,7 @@ export const AdminProducts = () => {
                     </Link>
                     <button
                       onClick={() => handleOpenModal(p)}
-                      className="p-1.5 rounded-lg bg-slate-800 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-400"
+                      className="p-1.5 rounded-lg bg-slate-800 hover:bg-blue-600/20 text-slate-300 hover:text-blue-400 transition"
                       title="Edit Product"
                     >
                       <Edit2 size={13} />
@@ -365,7 +394,7 @@ export const AdminProducts = () => {
           <div className="w-full max-w-2xl bg-[#0b1120] border border-slate-700 rounded-2xl p-6 my-8 space-y-4 shadow-2xl">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <h2 className="text-base font-bold text-white flex items-center gap-2">
-                <Cpu size={18} className="text-cyan-400" />
+                <Cpu size={18} className="text-blue-400" />
                 <span>{editingProduct ? `Edit Product: ${editingProduct.name}` : 'Register New Product Card'}</span>
               </h2>
               <button
@@ -377,6 +406,76 @@ export const AdminProducts = () => {
             </div>
 
             <form onSubmit={handleSave} className="space-y-4 text-xs">
+              {/* Product Logo / Photo Upload & Preview */}
+              <div className="bg-[#070b14] p-3 rounded-xl border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="text-slate-300 font-semibold">Product Photo or Logo</label>
+                  <span className="text-[10px] font-mono text-slate-400">Displayed on product card & details</span>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="w-16 h-16 rounded-xl border border-slate-700 bg-slate-900/90 p-1.5 flex items-center justify-center shrink-0 overflow-hidden shadow-inner">
+                    {formData.logoUrl ? (
+                      <img
+                        src={formData.logoUrl}
+                        alt="Product Preview"
+                        className="w-full h-full object-contain"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                    ) : (
+                      <div className="flex flex-col items-center justify-center text-slate-500 text-[10px] font-mono">
+                        <ImageIcon size={18} className="mb-0.5 text-slate-400" />
+                        <span>No Logo</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex-1 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        value={formData.logoUrl}
+                        onChange={(e) => setFormData({ ...formData, logoUrl: e.target.value })}
+                        placeholder="Logo URL (e.g. /logo.png or https://...)"
+                        className="flex-1 bg-[#0b1120] border border-slate-700 rounded-lg px-3 py-1.5 text-white outline-none focus:border-blue-500 font-mono text-[11px]"
+                      />
+                      {formData.logoUrl && (
+                        <button
+                          type="button"
+                          onClick={() => setFormData({ ...formData, logoUrl: '' })}
+                          className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition"
+                          title="Clear logo"
+                        >
+                          Clear
+                        </button>
+                      )}
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2">
+                      <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 text-[11px] font-medium cursor-pointer transition">
+                        <Upload size={13} />
+                        <span>Upload Logo File</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={handleLogoUpload}
+                        />
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => setFormData({ ...formData, logoUrl: '/logo.png' })}
+                        className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-[11px] font-mono transition"
+                      >
+                        Use Brand Logo (/logo.png)
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div className="sm:col-span-2">
                   <label className="block text-slate-300 mb-1 font-semibold">Product Name *</label>
@@ -385,7 +484,7 @@ export const AdminProducts = () => {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500"
                     placeholder="e.g. Cloud Guardian APT"
                   />
                 </div>
@@ -395,29 +494,29 @@ export const AdminProducts = () => {
                     type="text"
                     value={formData.slug}
                     onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500 font-mono text-[11px]"
+                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500 font-mono text-[11px]"
                     placeholder="auto-generated from name"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <div>
                   <label className="block text-slate-300 mb-1 font-semibold">Badge Text</label>
                   <input
                     type="text"
                     value={formData.badge}
                     onChange={(e) => setFormData({ ...formData, badge: e.target.value })}
-                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500 uppercase font-mono text-[10px]"
+                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500 uppercase font-mono text-[10px]"
                     placeholder="OFFENSIVE SECURITY"
                   />
                 </div>
                 <div>
-                  <label className="block text-slate-300 mb-1 font-semibold">Accent Color</label>
+                  <label className="block text-slate-300 mb-1 font-semibold">Color Theme</label>
                   <select
                     value={formData.color}
                     onChange={(e) => setFormData({ ...formData, color: e.target.value })}
-                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500"
                   >
                     <option value="blue">Blue</option>
                     <option value="cyan">Cyan</option>
@@ -428,28 +527,11 @@ export const AdminProducts = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-slate-300 mb-1 font-semibold">Icon</label>
-                  <select
-                    value={formData.icon}
-                    onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
-                  >
-                    <option value="Crosshair">Crosshair</option>
-                    <option value="Network">Network</option>
-                    <option value="Brain">Brain</option>
-                    <option value="ShieldCheck">ShieldCheck</option>
-                    <option value="Cpu">Cpu</option>
-                    <option value="Zap">Zap</option>
-                    <option value="Lock">Lock</option>
-                    <option value="Activity">Activity</option>
-                  </select>
-                </div>
-                <div>
                   <label className="block text-slate-300 mb-1 font-semibold">Status</label>
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500 font-mono"
+                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500 font-mono"
                   >
                     <option value="PRODUCTION">PRODUCTION</option>
                     <option value="BETA">BETA</option>
@@ -467,7 +549,7 @@ export const AdminProducts = () => {
                   required
                   value={formData.shortDesc}
                   onChange={(e) => setFormData({ ...formData, shortDesc: e.target.value })}
-                  className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                  className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500"
                   placeholder="One or two sentences summarizing the product..."
                 />
               </div>
@@ -479,7 +561,7 @@ export const AdminProducts = () => {
                   required
                   value={formData.detailedDesc}
                   onChange={(e) => setFormData({ ...formData, detailedDesc: e.target.value })}
-                  className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                  className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500"
                   placeholder="Full technical architecture, scope, and implementation details..."
                 />
               </div>
@@ -490,7 +572,7 @@ export const AdminProducts = () => {
                   rows={2}
                   value={formData.problem}
                   onChange={(e) => setFormData({ ...formData, problem: e.target.value })}
-                  className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                  className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500"
                   placeholder="The security vulnerability or operational issue this product resolves..."
                 />
               </div>
@@ -502,7 +584,7 @@ export const AdminProducts = () => {
                     rows={3}
                     value={formData.keyFeatures}
                     onChange={(e) => setFormData({ ...formData, keyFeatures: e.target.value })}
-                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500 font-mono text-[11px]"
+                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500 font-mono text-[11px]"
                     placeholder="Reconnaissance&#10;Vulnerability discovery&#10;Security reporting"
                   />
                 </div>
@@ -512,7 +594,7 @@ export const AdminProducts = () => {
                     rows={3}
                     value={formData.techStack}
                     onChange={(e) => setFormData({ ...formData, techStack: e.target.value })}
-                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500 font-mono text-[11px]"
+                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500 font-mono text-[11px]"
                     placeholder="Python, Docker, FastAPI, eBPF"
                   />
                 </div>
@@ -523,7 +605,7 @@ export const AdminProducts = () => {
                 <label className="block text-slate-300 font-semibold">Product Card Metrics (3 stats displayed on card & detail page)</label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div className="bg-[#070b14] p-2.5 rounded-lg border border-slate-800 space-y-1.5">
-                    <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase">Metric 1</span>
+                    <span className="text-[10px] font-mono text-blue-400 font-bold uppercase">Metric 1</span>
                     <input
                       type="text"
                       placeholder="Label (e.g. Speed)"
@@ -536,12 +618,12 @@ export const AdminProducts = () => {
                       placeholder="Value (e.g. 10x Faster)"
                       value={formData.metric1Value}
                       onChange={(e) => setFormData({ ...formData, metric1Value: e.target.value })}
-                      className="w-full bg-[#0b1120] border border-slate-700 rounded px-2 py-1 text-cyan-300 font-bold text-[11px] outline-none font-mono"
+                      className="w-full bg-[#0b1120] border border-slate-700 rounded px-2 py-1 text-white font-bold text-[11px] outline-none font-mono"
                     />
                   </div>
 
                   <div className="bg-[#070b14] p-2.5 rounded-lg border border-slate-800 space-y-1.5">
-                    <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase">Metric 2</span>
+                    <span className="text-[10px] font-mono text-blue-400 font-bold uppercase">Metric 2</span>
                     <input
                       type="text"
                       placeholder="Label (e.g. Latency)"
@@ -554,12 +636,12 @@ export const AdminProducts = () => {
                       placeholder="Value (e.g. < 45ms)"
                       value={formData.metric2Value}
                       onChange={(e) => setFormData({ ...formData, metric2Value: e.target.value })}
-                      className="w-full bg-[#0b1120] border border-slate-700 rounded px-2 py-1 text-cyan-300 font-bold text-[11px] outline-none font-mono"
+                      className="w-full bg-[#0b1120] border border-slate-700 rounded px-2 py-1 text-white font-bold text-[11px] outline-none font-mono"
                     />
                   </div>
 
                   <div className="bg-[#070b14] p-2.5 rounded-lg border border-slate-800 space-y-1.5">
-                    <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase">Metric 3</span>
+                    <span className="text-[10px] font-mono text-blue-400 font-bold uppercase">Metric 3</span>
                     <input
                       type="text"
                       placeholder="Label (e.g. Accuracy)"
@@ -572,7 +654,7 @@ export const AdminProducts = () => {
                       placeholder="Value (e.g. 99.4%)"
                       value={formData.metric3Value}
                       onChange={(e) => setFormData({ ...formData, metric3Value: e.target.value })}
-                      className="w-full bg-[#0b1120] border border-slate-700 rounded px-2 py-1 text-cyan-300 font-bold text-[11px] outline-none font-mono"
+                      className="w-full bg-[#0b1120] border border-slate-700 rounded px-2 py-1 text-white font-bold text-[11px] outline-none font-mono"
                     />
                   </div>
                 </div>
@@ -586,7 +668,7 @@ export const AdminProducts = () => {
                     type="text"
                     value={formData.demoUrl}
                     onChange={(e) => setFormData({ ...formData, demoUrl: e.target.value })}
-                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500 font-mono text-[11px]"
+                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500 font-mono text-[11px]"
                     placeholder="/contact"
                   />
                 </div>
@@ -596,7 +678,7 @@ export const AdminProducts = () => {
                     type="text"
                     value={formData.docsUrl}
                     onChange={(e) => setFormData({ ...formData, docsUrl: e.target.value })}
-                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500 font-mono text-[11px]"
+                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500 font-mono text-[11px]"
                     placeholder="/contact"
                   />
                 </div>
@@ -606,7 +688,7 @@ export const AdminProducts = () => {
                     type="text"
                     value={formData.githubUrl}
                     onChange={(e) => setFormData({ ...formData, githubUrl: e.target.value })}
-                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500 font-mono text-[11px]"
+                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500 font-mono text-[11px]"
                     placeholder="https://github.com/..."
                   />
                 </div>
@@ -618,7 +700,7 @@ export const AdminProducts = () => {
                     type="checkbox"
                     checked={formData.featured}
                     onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                    className="rounded bg-slate-800 text-cyan-500"
+                    className="rounded bg-slate-800 text-blue-500"
                   />
                   <span>Show as Featured Card on /products</span>
                 </label>
@@ -627,14 +709,14 @@ export const AdminProducts = () => {
                   <button
                     type="button"
                     onClick={() => setModalOpen(false)}
-                    className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700"
+                    className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 transition"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={saving}
-                    className="px-5 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-bold"
+                    className="px-5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold transition shadow-lg shadow-blue-600/20"
                   >
                     {saving ? 'Saving...' : editingProduct ? 'Save Changes' : 'Create Product Card'}
                   </button>
@@ -660,7 +742,7 @@ export const AdminProducts = () => {
             </div>
 
             <p className="text-xs text-slate-300 leading-relaxed">
-              Are you sure you want to permanently delete <strong className="text-white font-semibold">"{productToDelete.name}"</strong>? This will immediately remove its card from the public <code className="text-cyan-400 font-mono">/products</code> page and decommission its detail page.
+              Are you sure you want to permanently delete <strong className="text-white font-semibold">"{productToDelete.name}"</strong>? This will immediately remove its card from the public <code className="text-blue-400 font-mono">/products</code> page and decommission its detail page.
             </p>
 
             <div className="flex justify-end gap-2 pt-2 border-t border-slate-800">
@@ -686,9 +768,9 @@ export const AdminProducts = () => {
       {/* Custom Reset Defaults Modal */}
       {resetConfirmOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="w-full max-w-md bg-[#0b1120] border border-cyan-500/30 rounded-2xl p-6 space-y-4 shadow-2xl animate-in fade-in zoom-in-95 duration-150">
-            <div className="flex items-center gap-3 text-cyan-400">
-              <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center shrink-0">
+          <div className="w-full max-w-md bg-[#0b1120] border border-blue-500/30 rounded-2xl p-6 space-y-4 shadow-2xl animate-in fade-in zoom-in-95 duration-150">
+            <div className="flex items-center gap-3 text-blue-400">
+              <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center shrink-0">
                 <RefreshCw size={20} />
               </div>
               <div>
@@ -712,7 +794,7 @@ export const AdminProducts = () => {
               <button
                 type="button"
                 onClick={confirmReset}
-                className="px-4 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs shadow-lg transition"
+                className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/20 transition"
               >
                 Restore Defaults
               </button>

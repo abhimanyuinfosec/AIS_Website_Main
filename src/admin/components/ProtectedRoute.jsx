@@ -2,23 +2,23 @@ import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
-export const ProtectedRoute = ({ children, allowedRoles }) => {
+export const ProtectedRoute = ({ children, allowedRoles, redirectTo = '/admin/login' }) => {
   const { isAuthenticated, isLoading, user } = useAuth();
   const location = useLocation();
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#070b14] text-cyan-400">
+      <div className="min-h-screen flex items-center justify-center bg-[#070b14] text-blue-400">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
-          <span className="font-mono text-sm tracking-widest uppercase">Verifying Security Credentials...</span>
+          <div className="w-12 h-12 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          <span className="font-mono text-sm tracking-widest uppercase text-slate-400">Verifying Security Credentials...</span>
         </div>
       </div>
     );
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/admin/login" state={{ from: location }} replace />;
+    return <Navigate to={redirectTo} state={{ from: location }} replace />;
   }
 
   if (allowedRoles && user && user.role !== 'SUPER_ADMIN' && !allowedRoles.includes(user.role)) {

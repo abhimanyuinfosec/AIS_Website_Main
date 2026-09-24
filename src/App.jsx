@@ -108,18 +108,81 @@ function App() {
             <Route path="/services/threat-detection" element={<ThreatDetectionPage />} />
             <Route path="/services/security-hardening" element={<SecurityHardeningPage />} />
 
-            {/* Products Routes */}
-            <Route path="/technology" element={<ProductsPage />} />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/products/:slug" element={<ProductDetailPage />} />
+            {/* Products Routes - Accessible only with sign-in */}
+            <Route
+              path="/technology"
+              element={
+                <ProtectedRoute redirectTo="/login">
+                  <ProductsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/products"
+              element={
+                <ProtectedRoute redirectTo="/login">
+                  <ProductsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/products/:slug"
+              element={
+                <ProtectedRoute redirectTo="/login">
+                  <ProductDetailPage />
+                </ProtectedRoute>
+              }
+            />
 
-            {/* Insights Routes */}
-            <Route path="/insights" element={<InsightsPage />} />
-            <Route path="/insights/web-security" element={<InsightsPage />} />
-            <Route path="/insights/network-security" element={<InsightsPage />} />
-            <Route path="/insights/cyber-security" element={<InsightsPage />} />
-            <Route path="/insights/threat-intelligence" element={<InsightsPage />} />
-            <Route path="/insights/sme-security" element={<InsightsPage />} />
+            {/* Insights Routes - Accessible only with sign-in */}
+            <Route
+              path="/insights"
+              element={
+                <ProtectedRoute redirectTo="/login">
+                  <InsightsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/insights/web-security"
+              element={
+                <ProtectedRoute redirectTo="/login">
+                  <InsightsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/insights/network-security"
+              element={
+                <ProtectedRoute redirectTo="/login">
+                  <InsightsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/insights/cyber-security"
+              element={
+                <ProtectedRoute redirectTo="/login">
+                  <InsightsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/insights/threat-intelligence"
+              element={
+                <ProtectedRoute redirectTo="/login">
+                  <InsightsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/insights/sme-security"
+              element={
+                <ProtectedRoute redirectTo="/login">
+                  <InsightsPage />
+                </ProtectedRoute>
+              }
+            />
 
             {/* About Us Routes */}
             <Route path="/about" element={<OurMissionPage />} />

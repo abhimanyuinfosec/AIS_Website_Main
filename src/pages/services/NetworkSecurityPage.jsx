@@ -17,9 +17,6 @@ const NetworkSecurityPage = () => {
 
         {/* 1. HERO SECTION */}
         <div className="space-y-5 max-w-3xl">
-          <div className="inline-block px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-mono tracking-wider uppercase font-medium">
-            Services • Network Security
-          </div>
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.15]">
             Know what is exposed across your network.
           </h1>

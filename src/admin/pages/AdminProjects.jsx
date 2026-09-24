@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Briefcase, Plus, Edit2, Trash2, Search, ExternalLink, Star, Check, X, Shield } from 'lucide-react';
+import { Briefcase, Plus, Edit2, Trash2, Search, Star, X } from 'lucide-react';
 import projectsService from '../../services/projectsService';
 
 export const AdminProjects = () => {
@@ -73,8 +73,8 @@ export const AdminProjects = () => {
         detailedDesc: '',
         problem: '',
         solution: '',
-        techStack: 'Cobalt Strike, Custom Rust, Linux Hardening, Suricata',
-        keyFeatures: 'Multi-phase simulated APT attack\nAir-gapped enclave verification\nDetailed remediation POCs',
+        techStack: '',
+        keyFeatures: '',
         githubUrl: '',
         liveUrl: '',
         featured: true,
@@ -92,13 +92,13 @@ export const AdminProjects = () => {
       const payload = {
         name: formData.name,
         slug: formData.slug || undefined,
-        category: formData.category,
-        shortDesc: formData.shortDesc,
-        detailedDesc: formData.detailedDesc,
+        category: formData.category || 'General',
+        shortDesc: formData.shortDesc || formData.name,
+        detailedDesc: formData.detailedDesc || formData.name,
         problem: formData.problem || null,
         solution: formData.solution || null,
-        techStack: formData.techStack.split(',').map((s) => s.trim()).filter(Boolean),
-        keyFeatures: formData.keyFeatures.split('\n').map((s) => s.trim()).filter(Boolean),
+        techStack: formData.techStack ? formData.techStack.split(',').map((s) => s.trim()).filter(Boolean) : [],
+        keyFeatures: formData.keyFeatures ? formData.keyFeatures.split('\n').map((s) => s.trim()).filter(Boolean) : [],
         githubUrl: formData.githubUrl || null,
         liveUrl: formData.liveUrl || null,
         featured: formData.featured,
@@ -151,7 +151,7 @@ export const AdminProjects = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold text-white tracking-wide flex items-center gap-2">
-            <Briefcase size={20} className="text-cyan-400" />
+            <Briefcase size={20} className="text-blue-400" />
             <span>Cyber Defense & Engineering Projects</span>
           </h1>
           <p className="text-xs text-slate-400 mt-1">
@@ -160,7 +160,7 @@ export const AdminProjects = () => {
         </div>
         <button
           onClick={() => handleOpenModal()}
-          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-semibold text-xs rounded-xl shadow-[0_0_15px_rgba(6,182,212,0.3)] transition"
+          className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl shadow-lg transition"
         >
           <Plus size={16} />
           <span>New Defense Project</span>
@@ -171,10 +171,10 @@ export const AdminProjects = () => {
         <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
         <input
           type="text"
-          placeholder="Filter projects by title, category, or scope..."
+          placeholder="Filter projects by title..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full bg-[#0b1120] border border-slate-800 focus:border-cyan-500 rounded-xl pl-10 pr-4 py-2 text-xs text-white outline-none"
+          className="w-full bg-[#0b1120] border border-slate-800 focus:border-slate-600 rounded-xl pl-10 pr-4 py-2 text-xs text-white outline-none"
         />
       </div>
 
@@ -189,13 +189,10 @@ export const AdminProjects = () => {
           filtered.map((p) => (
             <div
               key={p.id}
-              className="p-5 rounded-2xl bg-[#0b1120] border border-slate-800/90 flex flex-col justify-between hover:border-cyan-500/40 transition group shadow-lg"
+              className="p-5 rounded-2xl bg-[#0b1120] border border-slate-800/90 flex flex-col justify-between hover:border-slate-700 transition group shadow-lg min-h-[130px]"
             >
               <div>
                 <div className="flex items-start justify-between gap-2 mb-3">
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-                    {p.category}
-                  </span>
                   <div className="flex items-center gap-1.5">
                     <button
                       onClick={() => handleToggleFeatured(p.id, p.featured)}
@@ -216,58 +213,12 @@ export const AdminProjects = () => {
                   </div>
                 </div>
 
-                <h3 className="font-bold text-white text-base mb-1.5 group-hover:text-cyan-300 transition leading-snug">
+                <h3 className="font-bold text-white text-base mb-1.5 group-hover:text-slate-200 transition leading-snug">
                   {p.name}
                 </h3>
-                <p className="text-xs text-slate-400 line-clamp-3 mb-4 leading-relaxed">
-                  {p.shortDesc || p.detailedDesc}
-                </p>
-
-                {Array.isArray(p.techStack) && p.techStack.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {p.techStack.slice(0, 4).map((tech, i) => (
-                      <span
-                        key={i}
-                        className="px-2 py-0.5 bg-slate-900 border border-slate-800 text-slate-300 text-[10px] rounded-md font-mono"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                    {p.techStack.length > 4 && (
-                      <span className="text-[10px] text-slate-500 font-mono self-center">
-                        +{p.techStack.length - 4} more
-                      </span>
-                    )}
-                  </div>
-                )}
               </div>
 
-              <div className="flex items-center justify-between pt-3 border-t border-slate-800/80 text-xs">
-                <div className="flex items-center gap-2">
-                  {p.githubUrl && (
-                    <a
-                      href={p.githubUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-slate-400 hover:text-white"
-                      title="GitHub"
-                    >
-                      <ExternalLink size={13} />
-                    </a>
-                  )}
-                  {p.liveUrl && (
-                    <a
-                      href={p.liveUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-slate-400 hover:text-cyan-400"
-                      title="Live Case Study"
-                    >
-                      <ExternalLink size={13} />
-                    </a>
-                  )}
-                </div>
-
+              <div className="flex items-center justify-end pt-3 border-t border-slate-800/80 text-xs">
                 <div className="flex items-center gap-1.5">
                   <button
                     onClick={() => handleOpenModal(p)}
@@ -292,10 +243,10 @@ export const AdminProjects = () => {
 
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-          <div className="w-full max-w-2xl bg-[#0b1120] border border-cyan-500/30 rounded-2xl p-6 shadow-2xl my-8">
+          <div className="w-full max-w-2xl bg-[#0b1120] border border-slate-800 rounded-2xl p-6 shadow-2xl my-8">
             <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
               <h2 className="text-base font-bold text-white flex items-center gap-2">
-                <Briefcase size={18} className="text-cyan-400" />
+                <Briefcase size={18} className="text-blue-400" />
                 <span>{editingProject ? 'Edit Defense Project' : 'Create Defense Project'}</span>
               </h2>
               <button onClick={() => setModalOpen(false)} className="text-slate-400 hover:text-white">
@@ -305,24 +256,24 @@ export const AdminProjects = () => {
 
             <form onSubmit={handleSave} className="space-y-4 text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-slate-300 mb-1 font-semibold">Project Name *</label>
+                <div className="sm:col-span-2">
+                  <label className="block text-slate-300 mb-1 font-semibold">Case Study Title *</label>
                   <input
                     type="text"
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
-                    placeholder="e.g. Global Banking SWIFT Gateway Red Team"
+                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500"
+                    placeholder="e.g. Global Banking SWIFT Gateway Red Team & Hardening"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 mb-1 font-semibold">Category</label>
+                  <label className="block text-slate-300 mb-1 font-semibold">Category (Optional)</label>
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500"
                   >
                     <option value="Adversary Simulation & Hardening">Adversary Simulation & Hardening</option>
                     <option value="Cloud Security & DevSecOps">Cloud Security & DevSecOps</option>
@@ -331,85 +282,50 @@ export const AdminProjects = () => {
                     <option value="Zero-Trust Architecture">Zero-Trust Architecture</option>
                   </select>
                 </div>
+
+                <div>
+                  <label className="block text-slate-300 mb-1 font-semibold">Case Study / Live URL (Optional)</label>
+                  <input
+                    type="url"
+                    value={formData.liveUrl}
+                    onChange={(e) => setFormData({ ...formData, liveUrl: e.target.value })}
+                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500"
+                    placeholder="https://..."
+                  />
+                </div>
               </div>
 
               <div>
-                <label className="block text-slate-300 mb-1 font-semibold">Short Summary *</label>
+                <label className="block text-slate-300 mb-1 font-semibold">Short Summary (Optional)</label>
                 <input
                   type="text"
-                  required
                   value={formData.shortDesc}
                   onChange={(e) => setFormData({ ...formData, shortDesc: e.target.value })}
-                  className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
-                  placeholder="One sentence briefing on client engagement and security scope..."
+                  className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500"
+                  placeholder="Brief summary..."
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 mb-1 font-semibold">Threat Context / Problem Identified</label>
+                <label className="block text-slate-300 mb-1 font-semibold">Threat Context / Problem Identified (Optional)</label>
                 <textarea
                   rows={2}
                   value={formData.problem}
                   onChange={(e) => setFormData({ ...formData, problem: e.target.value })}
-                  className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                  className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500"
                   placeholder="What was vulnerable or exposed in the client's architecture?"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 mb-1 font-semibold">Security Solution & Engineering Delivered</label>
+                <label className="block text-slate-300 mb-1 font-semibold">Security Solution & Engineering Delivered (Optional)</label>
                 <textarea
                   rows={2}
                   value={formData.solution}
                   onChange={(e) => setFormData({ ...formData, solution: e.target.value })}
-                  className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
+                  className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500"
                   placeholder="How did Abhimanyu InfoSec validate the risk and fortify defenses?"
                 />
-              </div>
-
-              <div>
-                <label className="block text-slate-300 mb-1 font-semibold">Technologies / Tools Used (comma separated)</label>
-                <input
-                  type="text"
-                  value={formData.techStack}
-                  onChange={(e) => setFormData({ ...formData, techStack: e.target.value })}
-                  className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
-                  placeholder="e.g. Cobalt Strike, Custom Rust C2, Suricata, Wireshark"
-                />
-              </div>
-
-              <div>
-                <label className="block text-slate-300 mb-1 font-semibold">Key Deliverables (one per line)</label>
-                <textarea
-                  rows={3}
-                  value={formData.keyFeatures}
-                  onChange={(e) => setFormData({ ...formData, keyFeatures: e.target.value })}
-                  className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
-                  placeholder="Multi-phase simulated APT attack&#10;Air-gapped enclave verification&#10;Board-level cyber risk debrief"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-slate-300 mb-1 font-semibold">GitHub / Repository Link</label>
-                  <input
-                    type="url"
-                    value={formData.githubUrl}
-                    onChange={(e) => setFormData({ ...formData, githubUrl: e.target.value })}
-                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
-                    placeholder="https://github.com/..."
-                  />
-                </div>
-                <div>
-                  <label className="block text-slate-300 mb-1 font-semibold">Case Study / Live URL</label>
-                  <input
-                    type="url"
-                    value={formData.liveUrl}
-                    onChange={(e) => setFormData({ ...formData, liveUrl: e.target.value })}
-                    className="w-full bg-[#070b14] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
-                    placeholder="https://..."
-                  />
-                </div>
               </div>
 
               <div className="flex items-center gap-6 pt-2">
@@ -447,7 +363,7 @@ export const AdminProjects = () => {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-5 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-bold disabled:opacity-50 transition"
+                  className="px-5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold disabled:opacity-50 transition"
                 >
                   {saving ? 'Saving...' : editingProject ? 'Update Project' : 'Create Project'}
                 </button>

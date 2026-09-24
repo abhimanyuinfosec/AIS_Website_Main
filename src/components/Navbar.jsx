@@ -175,7 +175,7 @@ export const Navbar = () => {
               <button
                 type="button"
                 onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-cyan-500/30 text-white text-xs font-medium transition select-none shadow-sm"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-blue-500/30 text-white text-xs font-medium transition select-none shadow-sm"
               >
                 {user?.avatarUrl ? (
                   <img
@@ -184,12 +184,12 @@ export const Navbar = () => {
                     className="w-5 h-5 rounded-full object-cover"
                   />
                 ) : (
-                  <div className="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-[10px]">
+                  <div className="w-5 h-5 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-[10px]">
                     {user?.name?.charAt(0).toUpperCase() || 'U'}
                   </div>
                 )}
                 <span className="max-w-[100px] truncate hidden sm:inline">{user?.name}</span>
-                <ChevronDown size={12} className={`transition-transform ${userDropdownOpen ? 'rotate-180 text-cyan-400' : 'text-slate-400'}`} />
+                <ChevronDown size={12} className={`transition-transform ${userDropdownOpen ? 'rotate-180 text-blue-400' : 'text-slate-400'}`} />
               </button>
 
               {userDropdownOpen && (

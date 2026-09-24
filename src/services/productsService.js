@@ -5,6 +5,7 @@ export const DEFAULT_PRODUCTS = [
     id: 'prod-autored-apt',
     slug: 'autored-apt',
     name: 'AutoRed APT',
+    logoUrl: '/logo.png',
     badge: 'OFFENSIVE SECURITY',
     color: 'blue',
     icon: 'Crosshair',
@@ -35,8 +36,9 @@ export const DEFAULT_PRODUCTS = [
     id: 'prod-ip-intelligence',
     slug: 'ip-intelligence',
     name: 'IP Intelligence',
+    logoUrl: '/logo.png',
     badge: 'THREAT INTEL',
-    color: 'cyan',
+    color: 'blue',
     icon: 'Network',
     shortDesc: 'Decode any IP address — reputation, geolocation, ASN, hosting, and real-time threat indicators in one lookup.',
     detailedDesc: 'Global IP Threat Intelligence engine providing low-latency risk telemetry, BGP route tracing, botnet/C2 correlation, and Tor/proxy/VPN tagging for proactive defense.',
@@ -65,8 +67,9 @@ export const DEFAULT_PRODUCTS = [
     id: 'prod-hybrid-ids',
     slug: 'hybrid-ids',
     name: 'Hybrid IDS',
+    logoUrl: '/logo.png',
     badge: 'DEEP LEARNING',
-    color: 'violet',
+    color: 'blue',
     icon: 'Brain',
     shortDesc: 'Detect malicious network behavior with a research-driven hybrid intrusion detection system powered by neural models.',
     detailedDesc: 'Hybrid Intrusion Detection System combining deterministic signature filters with deep unsupervised neural network models to catch zero-day attacks and stealthy lateral movements.',
@@ -103,7 +106,17 @@ const getStoredProducts = () => {
       return DEFAULT_PRODUCTS;
     }
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_PRODUCTS;
+    if (Array.isArray(parsed) && parsed.length > 0) {
+      return parsed.map((p) => {
+        const defaultMatch = DEFAULT_PRODUCTS.find((d) => d.slug === p.slug || d.id === p.id);
+        return {
+          ...defaultMatch,
+          ...p,
+          logoUrl: p.logoUrl || defaultMatch?.logoUrl || '/logo.png',
+        };
+      });
+    }
+    return DEFAULT_PRODUCTS;
   } catch (err) {
     console.warn('Failed to read products from localStorage:', err);
     return DEFAULT_PRODUCTS;
@@ -138,6 +151,7 @@ export const productsService = {
         return {
           ...defaultMatch,
           ...p,
+          logoUrl: p.logoUrl || defaultMatch?.logoUrl || '/logo.png',
           badge: p.badge || defaultMatch?.badge || 'ENTERPRISE',
           color: p.color || defaultMatch?.color || 'blue',
           icon: p.icon || defaultMatch?.icon || 'ShieldCheck',
