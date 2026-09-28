@@ -27,6 +27,14 @@ import HybridIdsPage from './pages/products/HybridIdsPage';
 
 // Individual Subsection Pages - Insights
 import InsightsPage from './pages/insights/InsightsPage';
+import BlogPostPage from './pages/insights/BlogPostPage';
+
+// Individual Subsection Pages - Projects
+import ProjectsPage from './pages/projects/ProjectsPage';
+import ProjectDetailPage from './pages/projects/ProjectDetailPage';
+
+// Individual Subsection Pages - Research
+import ResearchPage from './pages/research/ResearchPage';
 
 // Individual Subsection Pages - About
 import OurMissionPage from './pages/about/OurMissionPage';
@@ -54,6 +62,7 @@ import AdminTeam from './admin/pages/AdminTeam';
 import AdminMedia from './admin/pages/AdminMedia';
 import AdminSettings from './admin/pages/AdminSettings';
 import AdminAuditLogs from './admin/pages/AdminAuditLogs';
+import AdminUsers from './admin/pages/AdminUsers';
 
 // Scroll to top or anchor on route change
 const ScrollToTop = () => {
@@ -144,45 +153,20 @@ function App() {
               }
             />
             <Route
-              path="/insights/web-security"
+              path="/insights/:slug"
               element={
                 <ProtectedRoute redirectTo="/login">
-                  <InsightsPage />
+                  <BlogPostPage />
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/insights/network-security"
-              element={
-                <ProtectedRoute redirectTo="/login">
-                  <InsightsPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/insights/cyber-security"
-              element={
-                <ProtectedRoute redirectTo="/login">
-                  <InsightsPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/insights/threat-intelligence"
-              element={
-                <ProtectedRoute redirectTo="/login">
-                  <InsightsPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/insights/sme-security"
-              element={
-                <ProtectedRoute redirectTo="/login">
-                  <InsightsPage />
-                </ProtectedRoute>
-              }
-            />
+
+            {/* Projects Routes - public */}
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/projects/:slug" element={<ProjectDetailPage />} />
+
+            {/* Research Routes - public */}
+            <Route path="/research" element={<ResearchPage />} />
 
             {/* About Us Routes */}
             <Route path="/about" element={<OurMissionPage />} />
@@ -240,6 +224,14 @@ function App() {
               element={
                 <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN']}>
                   <AdminAuditLogs />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="users"
+              element={
+                <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN']}>
+                  <AdminUsers />
                 </ProtectedRoute>
               }
             />

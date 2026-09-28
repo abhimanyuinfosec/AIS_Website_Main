@@ -20,6 +20,7 @@ import {
   X,
   ChevronRight,
   CheckCircle,
+  UserCog,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
@@ -37,6 +38,7 @@ const navItems = [
   { path: '/admin/media', label: 'Media Library', icon: Image },
   { path: '/admin/settings', label: 'Site Settings', icon: Settings },
   { path: '/admin/audit-logs', label: 'Audit Logs', icon: History, role: ['SUPER_ADMIN', 'ADMIN'] },
+  { path: '/admin/users', label: 'User Management', icon: UserCog, role: ['SUPER_ADMIN', 'ADMIN'] },
 ];
 
 export const AdminLayout = () => {

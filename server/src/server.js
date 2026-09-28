@@ -26,6 +26,7 @@ import mediaRoutes from './routes/media.js';
 import notificationsRoutes from './routes/notifications.js';
 import auditLogsRoutes from './routes/auditLogs.js';
 import dashboardRoutes from './routes/dashboard.js';
+import usersRoutes from './routes/users.js';
 
 import { notFoundHandler, errorHandler } from './middleware/errorHandler.js';
 
@@ -124,6 +125,7 @@ app.use('/api/media', mediaRoutes);
 app.use('/api/notifications', notificationsRoutes);
 app.use('/api/audit-logs', auditLogsRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/users', usersRoutes);
 
 // Fallback & Error Handling
 app.use(notFoundHandler);
