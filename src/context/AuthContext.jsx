@@ -1,14 +1,42 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import api from '../services/api';
 
 const AuthContext = createContext(null);
+
+const ADMIN_ROLES = ['SUPER_ADMIN', 'ADMIN', 'EDITOR', 'AUTHOR'];
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(api.getToken());
   const [isLoading, setIsLoading] = useState(true);
 
-  // Check auth state on mount
+  // ── Clean logout helper (used internally + exported) ──────────────────────
+  const _clearSession = useCallback(() => {
+    api.setToken(null);
+    setToken(null);
+    setUser(null);
+    localStorage.removeItem('ais_demo_user');
+  }, []);
+
+  const logout = useCallback(async () => {
+    try {
+      await api.post('/auth/logout').catch(() => {});
+    } finally {
+      _clearSession();
+    }
+  }, [_clearSession]);
+
+  // ── Listen for token-refresh-failed event from api.js ─────────────────────
+  useEffect(() => {
+    const handleExpired = () => {
+      console.warn('[Auth] Session expired — logging out.');
+      _clearSession();
+    };
+    window.addEventListener('ais:session-expired', handleExpired);
+    return () => window.removeEventListener('ais:session-expired', handleExpired);
+  }, [_clearSession]);
+
+  // ── Verify session on mount ───────────────────────────────────────────────
   useEffect(() => {
     const verifyUser = async () => {
       const storedToken = api.getToken();
@@ -21,62 +49,36 @@ export const AuthProvider = ({ children }) => {
         const res = await api.get('/auth/me');
         if (res.success && res.data?.user) {
           setUser(res.data.user);
+          localStorage.setItem('ais_demo_user', JSON.stringify(res.data.user));
         } else {
-          logout();
+          _clearSession();
         }
       } catch (err) {
-        const cachedUser = localStorage.getItem('ais_demo_user');
-        if (cachedUser) {
-          try {
-            setUser(JSON.parse(cachedUser));
-            return;
-          } catch (parseErr) {}
-        }
-        console.warn('Session check failed:', err.message);
-        logout();
+        // api.js already attempted a refresh; if we're here both failed
+        console.warn('[Auth] Session check failed:', err.message);
+        _clearSession();
       } finally {
         setIsLoading(false);
       }
     };
 
     verifyUser();
-  }, []);
+  }, [_clearSession]);
 
+  // ── Login ─────────────────────────────────────────────────────────────────
   const login = async (email, password) => {
-    try {
-      const res = await api.post('/auth/login', { email, password });
-      if (res.success && res.data?.token) {
-        api.setToken(res.data.token);
-        setToken(res.data.token);
-        setUser(res.data.user);
-        localStorage.setItem('ais_demo_user', JSON.stringify(res.data.user));
-        return res.data.user;
-      }
-    } catch (err) {
-      // If backend is offline or unreachable, provide resilient fallback for admin credentials
-      const normalizedEmail = (email || '').toLowerCase().trim();
-      if (
-        (normalizedEmail === 'admin@abhimanyuinfosec.com' || normalizedEmail === 'admin@ais.com') &&
-        (password === 'AdminSecurePassword2026!' || password === 'admin123' || password === 'admin')
-      ) {
-        const fallbackAdmin = {
-          id: 'user-admin-seed',
-          name: 'System Administrator',
-          email: normalizedEmail,
-          role: 'SUPER_ADMIN',
-          isActive: true,
-        };
-        const fallbackToken = 'ais_local_admin_jwt_' + Date.now();
-        api.setToken(fallbackToken);
-        setToken(fallbackToken);
-        setUser(fallbackAdmin);
-        localStorage.setItem('ais_demo_user', JSON.stringify(fallbackAdmin));
-        return fallbackAdmin;
-      }
-      throw new Error(err.message || 'Login failed. Please check credentials or start backend server.');
+    const res = await api.post('/auth/login', { email, password });
+    if (res.success && res.data?.token) {
+      api.setToken(res.data.token);
+      setToken(res.data.token);
+      setUser(res.data.user);
+      localStorage.setItem('ais_demo_user', JSON.stringify(res.data.user));
+      return res.data.user;
     }
+    throw new Error(res.message || 'Login failed.');
   };
 
+  // ── Register ──────────────────────────────────────────────────────────────
   const register = async (name, email, password) => {
     const res = await api.post('/auth/register', { name, email, password });
     if (res.success && res.data?.token) {
@@ -88,7 +90,7 @@ export const AuthProvider = ({ children }) => {
     throw new Error(res.message || 'Registration failed');
   };
 
-  // Called after OAuth redirect to load session from returned JWT
+  // ── Called after OAuth redirect to load session from returned JWT ──────────
   const setAuthToken = async (newToken) => {
     if (!newToken) return null;
     api.setToken(newToken);
@@ -97,26 +99,16 @@ export const AuthProvider = ({ children }) => {
       const res = await api.get('/auth/me');
       if (res.success && res.data?.user) {
         setUser(res.data.user);
+        localStorage.setItem('ais_demo_user', JSON.stringify(res.data.user));
         return res.data.user;
       }
     } catch (err) {
-      console.error('Error fetching user with new token:', err);
+      console.error('[Auth] Error fetching user with new token:', err);
     }
     return null;
   };
 
-  const logout = async () => {
-    try {
-      await api.post('/auth/logout').catch(() => {});
-    } finally {
-      api.setToken(null);
-      setToken(null);
-      setUser(null);
-      localStorage.removeItem('ais_demo_user');
-    }
-  };
-
-  const isAdmin = user ? ['SUPER_ADMIN', 'ADMIN', 'EDITOR', 'AUTHOR'].includes(user.role) : false;
+  const isAdmin = user ? ADMIN_ROLES.includes(user.role) : false;
 
   return (
     <AuthContext.Provider

@@ -215,11 +215,11 @@ function App() {
           {/* Admin Authentication */}
           <Route path="/admin/login" element={<AdminLogin />} />
 
-          {/* Protected Admin Dashboard & CMS */}
+          {/* Protected Admin Dashboard & CMS — admin-level roles only */}
           <Route
             path="/admin"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requireAdmin={true}>
                 <AdminLayout />
               </ProtectedRoute>
             }

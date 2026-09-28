@@ -5,6 +5,7 @@ export const API_BASE_URL = rawUrl.endsWith('/api') ? rawUrl : `${rawUrl}/api`;
 class ApiClient {
   constructor() {
     this.token = localStorage.getItem('ais_token') || null;
+    this._refreshing = false; // prevents concurrent refresh storms
   }
 
   setToken(token) {
@@ -20,6 +21,7 @@ class ApiClient {
     return this.token || localStorage.getItem('ais_token');
   }
 
+  // ── Core request with auto-refresh on 401 ─────────────────────────────────
   async request(endpoint, options = {}) {
     const url = `${API_BASE_URL}${endpoint}`;
     const headers = {
@@ -32,32 +34,63 @@ class ApiClient {
       headers['Authorization'] = `Bearer ${token}`;
     }
 
-    try {
-      const response = await fetch(url, {
-        ...options,
-        headers,
-      });
+    const response = await fetch(url, {
+      ...options,
+      headers,
+      credentials: 'include', // needed so the httpOnly refreshToken cookie is sent
+    });
 
-      const data = await response.json().catch(() => ({}));
+    const data = await response.json().catch(() => ({}));
 
-      if (!response.ok) {
-        // Handle 401 token expiry
-        if (response.status === 401 && !endpoint.includes('/auth/login')) {
-          // Token expired or invalid
-          if (endpoint.startsWith('/admin') || this.token) {
-            // Optional: emit event or clear token if necessary
-          }
-        }
-        throw new Error(data.message || `Request failed with status ${response.status}`);
+    // ── 401 interceptor: try to silently refresh the access token ─────────────
+    const isAuthEndpoint =
+      endpoint.includes('/auth/login') ||
+      endpoint.includes('/auth/register') ||
+      endpoint.includes('/auth/refresh');
+
+    if (response.status === 401 && !isAuthEndpoint && !options._isRetry) {
+      const refreshed = await this._tryRefresh();
+      if (refreshed) {
+        // Retry the original request exactly once with the new token
+        return this.request(endpoint, { ...options, _isRetry: true });
       }
+      // Refresh also failed — session is dead, notify the app
+      window.dispatchEvent(new CustomEvent('ais:session-expired'));
+    }
+    // ─────────────────────────────────────────────────────────────────────────
 
-      return data;
-    } catch (error) {
-      throw error;
+    if (!response.ok) {
+      throw new Error(data.message || `Request failed with status ${response.status}`);
+    }
+
+    return data;
+  }
+
+  // Calls /auth/refresh using the httpOnly cookie, stores the new access token
+  async _tryRefresh() {
+    if (this._refreshing) return false; // already in-flight, wait for it
+    this._refreshing = true;
+    try {
+      const res = await fetch(`${API_BASE_URL}/auth/refresh`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (!res.ok) return false;
+      const data = await res.json().catch(() => ({}));
+      if (data?.data?.token) {
+        this.setToken(data.data.token);
+        return true;
+      }
+      return false;
+    } catch {
+      return false;
+    } finally {
+      this._refreshing = false;
     }
   }
 
-  // HTTP Helpers
+  // ── HTTP Helpers ───────────────────────────────────────────────────────────
   get(endpoint, params = {}) {
     const query = new URLSearchParams(
       Object.entries(params).filter(([_, v]) => v !== undefined && v !== null && v !== '')
