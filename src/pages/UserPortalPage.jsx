@@ -25,7 +25,7 @@ export const UserPortalPage = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-[#05070A] text-slate-100 flex items-center justify-center p-6">
+      <div className="min-h-screen bg-black text-slate-100 flex items-center justify-center p-6">
         <div className="text-center space-y-4">
           <p className="text-slate-400 font-mono text-sm">Session expired or not found.</p>
           <Link
@@ -40,7 +40,7 @@ export const UserPortalPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#05070A] text-slate-100 font-sans selection:bg-blue-600 selection:text-white pt-28 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-black text-slate-100 font-sans selection:bg-blue-600 selection:text-white pt-28 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Background Cyber Ambient Lights */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>

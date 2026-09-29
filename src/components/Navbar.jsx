@@ -50,12 +50,23 @@ export const Navbar = () => {
   const [mobileExpandedSection, setMobileExpandedSection] = useState(null);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const [isScrolledPastHero, setIsScrolledPastHero] = useState(false);
   const dropdownTimeoutRef = useRef(null);
   const userDropdownRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
 
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Switch to slightly opaque after scrolling past top hero banner
+      setIsScrolledPastHero(window.scrollY > 60);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -83,8 +94,18 @@ export const Navbar = () => {
     }, 180);
   };
 
+  // Transparent ONLY over the Home Page Hero section; slightly opaque for all non-hero views
+  const isTransparentHero = location.pathname === '/' && !isScrolledPastHero;
+
   return (
-    <header className="fixed top-0 left-0 right-0 w-full z-50 bg-[#05080D]/90 border-b border-slate-800/80 backdrop-blur-md transition-all" data-purpose="site-header">
+    <header
+      className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 pointer-events-auto ${
+        isTransparentHero
+          ? 'bg-transparent border-b border-transparent backdrop-blur-none'
+          : 'bg-black/85 border-b border-white/10 backdrop-blur-md shadow-lg shadow-black/30'
+      }`}
+      data-purpose="site-header"
+    >
       <div className="max-w-7xl mx-auto px-6 h-20 md:h-24 flex items-center justify-between">
         {/* Brand Logo */}
         <Link
@@ -101,7 +122,14 @@ export const Navbar = () => {
         </Link>
 
         {/* Navigation Links */}
-        <nav aria-label="Primary Navigation" className="hidden lg:flex items-center gap-1 text-sm font-medium text-slate-300 bg-slate-900/60 px-3 py-1.5 rounded-lg border border-slate-800">
+        <nav
+          aria-label="Primary Navigation"
+          className={`hidden lg:flex items-center gap-1 text-sm font-medium transition-colors duration-300 px-3 py-1.5 rounded-lg border ${
+            isTransparentHero
+              ? 'text-slate-200 bg-black/25 backdrop-blur-sm border-white/10'
+              : 'text-slate-300 bg-slate-900/60 border-slate-800'
+          }`}
+        >
           {navSections.map((section) => {
             const hasDropdown = Boolean(section.items && section.items.length > 0);
             const isSectionActive = section.href === '/'
@@ -143,7 +171,7 @@ export const Navbar = () => {
                   >
                     <div className="absolute -top-3 left-0 right-0 h-3" />
 
-                    <div className="p-2 rounded-xl bg-[#070b14] border border-slate-800 shadow-xl">
+                    <div className="p-2 rounded-xl bg-black border border-white/10 shadow-xl">
                       <div className="space-y-0.5">
                         {section.items.map((subItem) => (
                           <Link
@@ -193,7 +221,7 @@ export const Navbar = () => {
               </button>
 
               {userDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 rounded-xl bg-[#0B1120] border border-slate-700/80 shadow-2xl p-1.5 z-50 animate-in fade-in-50 duration-150">
+                <div className="absolute right-0 mt-2 w-48 rounded-xl bg-black border border-white/10 shadow-2xl p-1.5 z-50 animate-in fade-in-50 duration-150">
                   <div className="px-3 py-2 border-b border-slate-800 text-[11px]">
                     <p className="font-semibold text-white truncate">{user?.name}</p>
                     <p className="text-slate-400 font-mono text-[10px] truncate">{user?.email}</p>
@@ -263,7 +291,7 @@ export const Navbar = () => {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-slate-800 bg-[#070b14]/98 px-5 py-5 space-y-3 max-h-[82vh] overflow-y-auto">
+        <div className="lg:hidden border-t border-slate-800 bg-black/95 px-5 py-5 space-y-3 max-h-[82vh] overflow-y-auto">
           <div className="flex flex-col gap-1.5">
             {navSections.map((section) => {
               const hasDropdown = Boolean(section.items && section.items.length > 0);

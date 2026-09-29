@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const CallToActionBanner = () => {
   return (
-    <section className="py-10 lg:py-12 relative overflow-hidden bg-[#05080D]" data-purpose="cta-banner" id="trial">
+    <section className="py-10 lg:py-12 relative overflow-hidden bg-black" data-purpose="cta-banner" id="trial">
       <div className="max-w-5xl mx-auto px-6">
         <div className="relative rounded-2xl p-8 sm:p-10 bg-slate-900/40 border border-slate-800 text-center space-y-5 overflow-hidden">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-xs font-semibold uppercase tracking-widest text-slate-300 relative z-10">

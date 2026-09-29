@@ -62,7 +62,7 @@ const DetailedProtectionGrid = () => {
   }, []);
 
   return (
-    <section className="py-10 lg:py-12 bg-[#05080D] relative" id="services" data-purpose="security-matrix">
+    <section className="py-10 lg:py-12 bg-black relative" id="services" data-purpose="security-matrix">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
           <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">

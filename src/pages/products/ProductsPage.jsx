@@ -89,7 +89,7 @@ const ProductsPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#05080D] text-slate-200 pt-8 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-black text-slate-200 pt-8 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Ambient background glows */}
       <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-blue-600/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute top-96 right-10 w-[450px] h-[350px] bg-blue-600/5 rounded-full blur-[130px] pointer-events-none" />

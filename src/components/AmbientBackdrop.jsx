@@ -257,17 +257,13 @@ const AmbientBackdrop = () => {
   return (
     <div
       aria-hidden="true"
-      className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#020508]"
+      className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-black"
     >
-      {/* 1. Subtle Dark Atmosphere (near-black #020508, #03070B, #05090F) */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_70%_at_50%_0%,#05090F_0%,#03070B_45%,#020508_100%)]" />
+      {/* 1. Deep pure black background */}
+      <div className="absolute inset-0 bg-black" />
 
-      {/* 2. Extremely subtle, dark navy depth in upper periphery (barely visible) */}
-      <div className="absolute -top-[15%] right-[5%] w-[650px] h-[650px] rounded-full bg-blue-950/[0.08] blur-[170px]" />
-      <div className="absolute top-[40%] -left-[12%] w-[550px] h-[550px] rounded-full bg-[#070d1a]/[0.10] blur-[180px]" />
-
-      {/* 3. Soft Dark Vignette preserving central text legibility */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(2,5,8,0.75)_100%)]" />
+      {/* 2. Soft Dark Vignette preserving central text legibility */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.85)_100%)]" />
 
       {/* 4. Canvas: Sparse Stars, Constellation Lines & Minimal Parallax */}
       <canvas

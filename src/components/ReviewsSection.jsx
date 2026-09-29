@@ -30,7 +30,7 @@ export const ReviewsSection = () => {
   if (!loading && reviews.length === 0) return null;
 
   return (
-    <section className="py-20 bg-[#05080D] border-t border-slate-800/80 relative overflow-hidden">
+    <section className="py-20 bg-black border-t border-white/10 relative overflow-hidden">
       {/* Background cyber grid & subtle ambient accents */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(59,130,246,0.06),rgba(255,255,255,0))] pointer-events-none" />
       <div className="absolute top-1/2 left-0 w-80 h-80 bg-blue-600/5 rounded-full blur-3xl pointer-events-none" />

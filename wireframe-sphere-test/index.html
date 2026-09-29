@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Wireframe Network Sphere Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Canvas Container for Three.js -->
+  <div id="canvas-container"></div>
+
+  <!-- Background Ambience & Gradient Backdrop -->
+  <div id="ambient-backdrop"></div>
+
+  <!-- Optional Hero Simulation Overlay (to evaluate integration over website text) -->
+  <div id="hero-preview" class="hero-preview hidden">
+    <div class="hero-badge">EXPERIMENTAL BACKGROUND INTEGRATION</div>
+    <h1 class="hero-title">INTELLIGENT DEFENSE<br><span class="hero-gradient-text">AUTONOMOUS SECURITY</span></h1>
+    <p class="hero-subtitle">
+      Next-generation cyber resilience and proactive threat intelligence safeguarding mission-critical enterprise infrastructure worldwide.
+    </p>
+    <div class="hero-actions">
+      <button class="hero-btn primary">Explore Solutions</button>
+      <button class="hero-btn secondary">Request Audit</button>
+    </div>
+  </div>
+
+  <!-- Top Status Bar & Quick Actions -->
+  <header class="top-nav">
+    <div class="brand-tag">
+      <span class="status-indicator"></span>
+      <span class="brand-title">AIS / 3D WIREFRAME SPHERE TEST</span>
+      <span class="badge">PROTOTYPE</span>
+    </div>
+    <div class="top-actions">
+      <button id="toggle-hero-btn" class="nav-btn" title="Toggle website hero overlay preview">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+        <span>Preview Hero Overlay</span>
+      </button>
+      <button id="toggle-panel-btn" class="nav-btn active" title="Toggle control panel">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>Controls</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Interactive Controls Panel -->
+  <aside id="controls-panel" class="controls-panel">
+    <div class="panel-header">
+      <div class="panel-title-wrap">
+        <h2>Sphere Parameters</h2>
+        <span class="fps-counter" id="fps-display">60 FPS</span>
+      </div>
+      <p class="panel-desc">Tune network density, geometry, and dynamics in real time.</p>
+    </div>
+
+    <div class="panel-body">
+      <!-- Section: Geometry & Scale -->
+      <div class="control-group">
+        <label for="ctrl-radius">
+          <span>Sphere Size</span>
+          <span class="value-badge" id="val-radius">5.0</span>
+        </label>
+        <input type="range" id="ctrl-radius" min="1.5" max="5.0" step="0.1" value="5.0">
+      </div>
+
+      <!-- Section: Wireframe Lines -->
+      <div class="control-group">
+        <label for="ctrl-wireframe-opacity">
+          <span>Wireframe Line Opacity</span>
+          <span class="value-badge" id="val-wireframe-opacity">0.46</span>
+        </label>
+        <input type="range" id="ctrl-wireframe-opacity" min="0.05" max="0.8" step="0.01" value="0.46">
+      </div>
+
+      <!-- Section: Node Size -->
+      <div class="control-group">
+        <label for="ctrl-node-size">
+          <span>Node (Point) Size</span>
+          <span class="value-badge" id="val-node-size">1.0</span>
+        </label>
+        <input type="range" id="ctrl-node-size" min="0.5" max="6.0" step="0.1" value="1.0">
+      </div>
+
+      <!-- Section: Node Opacity -->
+      <div class="control-group">
+        <label for="ctrl-node-opacity">
+          <span>Node Opacity</span>
+          <span class="value-badge" id="val-node-opacity">0.85</span>
+        </label>
+        <input type="range" id="ctrl-node-opacity" min="0.1" max="1.0" step="0.05" value="0.85">
+      </div>
+
+      <!-- Section: Rotation Speed -->
+      <div class="control-group">
+        <label for="ctrl-rotation-speed">
+          <span>Rotation Speed</span>
+          <span class="value-badge" id="val-rotation-speed">0.4x</span>
+        </label>
+        <input type="range" id="ctrl-rotation-speed" min="0.0" max="3.0" step="0.1" value="0.4">
+      </div>
+
+      <!-- Section: Mouse Interaction Strength -->
+      <div class="control-group">
+        <label for="ctrl-mouse-strength">
+          <span>Mouse Parallax Strength</span>
+          <span class="value-badge" id="val-mouse-strength">0.0x</span>
+        </label>
+        <input type="range" id="ctrl-mouse-strength" min="0.0" max="3.0" step="0.1" value="0.0">
+      </div>
+
+      <!-- Section: Depth Contrast / Attenuation -->
+      <div class="control-group">
+        <label for="ctrl-depth-fade">
+          <span>Depth Falloff (Rear Dimming)</span>
+          <span class="value-badge" id="val-depth-fade">0.75</span>
+        </label>
+        <input type="range" id="ctrl-depth-fade" min="0.2" max="1.0" step="0.05" value="0.75">
+      </div>
+
+      <!-- Section: Network Density -->
+      <div class="control-group">
+        <label for="ctrl-network-density">
+          <span>Network Density (Regenerate)</span>
+          <span class="value-badge" id="val-network-density">200 nodes</span>
+        </label>
+        <input type="range" id="ctrl-network-density" min="100" max="500" step="10" value="200">
+      </div>
+
+      <!-- Quick Toggles -->
+      <div class="toggle-row">
+        <label class="switch-wrap">
+          <input type="checkbox" id="toggle-autorotate" checked>
+          <span class="slider"></span>
+          <span class="switch-label">Auto Rotation</span>
+        </label>
+        <label class="switch-wrap">
+          <input type="checkbox" id="toggle-floating" checked>
+          <span class="slider"></span>
+          <span class="switch-label">Floating Motion</span>
+        </label>
+      </div>
+
+      <!-- Section: Color Palette -->
+      <div class="control-group">
+        <label>Sphere Color Theme</label>
+        <div class="palette-options">
+          <button class="palette-btn active" data-palette="crimson-orange" title="Crimson Red & Ember Orange">
+            <span class="color-dot crimson-orange-dot"></span>
+            <span>Crimson / Orange</span>
+          </button>
+          <button class="palette-btn" data-palette="amber-fire" title="Blazing Amber Orange">
+            <span class="color-dot amber-fire-dot"></span>
+            <span>Amber Fire</span>
+          </button>
+          <button class="palette-btn" data-palette="deep-ruby" title="Deep Crimson Ruby">
+            <span class="color-dot ruby-dot"></span>
+            <span>Deep Ruby</span>
+          </button>
+          <button class="palette-btn" data-palette="monochrome" title="Minimalist Silver White">
+            <span class="color-dot silver-dot"></span>
+            <span>Monochrome</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Background Switcher -->
+      <div class="control-group bg-selector-group">
+        <label>Backdrop Style</label>
+        <div class="bg-options">
+          <button class="bg-btn active" data-bg="pitch-black" title="Deep Pure Black">Black</button>
+          <button class="bg-btn" data-bg="dark-slate" title="Subtle Dark Graphite">Graphite</button>
+          <button class="bg-btn" data-bg="transparent" title="Transparent Canvas">Transparent</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel Footer Actions -->
+    <div class="panel-footer">
+      <button id="btn-reset" class="btn btn-outline">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        Reset Defaults
+      </button>
+      <button id="btn-regenerate" class="btn btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+        Rebuild Network
+      </button>
+    </div>
+  </aside>
+
+  <!-- Bottom Details / Specs Pill -->
+  <div class="bottom-stats-pill">
+    <span class="stat-item"><strong id="stat-nodes">320</strong> Nodes</span>
+    <span class="stat-divider">•</span>
+    <span class="stat-item"><strong id="stat-edges">0</strong> Edges</span>
+    <span class="stat-divider">•</span>
+    <span class="stat-item">Draw Calls: <strong>2</strong></span>
+    <span class="stat-divider">•</span>
+    <span class="stat-item">Three.js WebGL</span>
+  </div>
+
+  <!-- Three.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Main Script -->
+  <script src="script.js"></script>
+</body>
+</html>

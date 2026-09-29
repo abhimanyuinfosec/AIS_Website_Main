@@ -88,7 +88,7 @@ export const AdminLayout = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#070b14] text-slate-200 flex overflow-hidden font-sans">
+    <div className="min-h-screen bg-black text-slate-200 flex overflow-hidden font-sans">
       {/* Sidebar */}
       <aside
         className={`fixed md:static inset-y-0 left-0 z-50 flex flex-col transition-all duration-300 bg-[#0b1120]/95 backdrop-blur border-r border-cyan-500/20 ${

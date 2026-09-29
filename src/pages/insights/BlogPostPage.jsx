@@ -38,7 +38,7 @@ const BlogPostPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#05080D] flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" />
       </div>
     );
@@ -46,7 +46,7 @@ const BlogPostPage = () => {
 
   if (notFound || !post) {
     return (
-      <div className="min-h-screen bg-[#05080D] flex items-center justify-center text-center p-8">
+      <div className="min-h-screen bg-black flex items-center justify-center text-center p-8">
         <div className="space-y-4">
           <BookOpen size={48} className="mx-auto text-slate-600" />
           <h1 className="text-2xl font-bold text-white">Article Not Found</h1>
@@ -69,7 +69,7 @@ const BlogPostPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#05080D] text-slate-200 pt-12 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-black text-slate-200 pt-12 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       <div className="absolute top-0 left-1/4 w-80 h-80 bg-cyan-600/4 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-4xl mx-auto relative z-10">

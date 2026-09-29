@@ -134,7 +134,7 @@ const ProductDetailPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#05080D] flex items-center justify-center text-blue-400">
+      <div className="min-h-screen bg-black flex items-center justify-center text-blue-400">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
           <span className="font-mono text-xs tracking-widest uppercase text-slate-400">Loading Product Telemetry...</span>
@@ -146,7 +146,7 @@ const ProductDetailPage = () => {
   // If product not found or was removed from admin
   if (!product) {
     return (
-      <div className="min-h-screen bg-[#05080D] text-slate-200 flex items-center justify-center p-6">
+      <div className="min-h-screen bg-black text-slate-200 flex items-center justify-center p-6">
         <div className="max-w-md w-full text-center space-y-6 p-8 rounded-2xl bg-[#090e1a] border border-slate-800 shadow-2xl">
           <div className="w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center mx-auto">
             <ShieldAlert size={32} />
@@ -182,7 +182,7 @@ const ProductDetailPage = () => {
   const statusClass = STATUS_MAP[product.status] || STATUS_MAP.PRODUCTION;
 
   return (
-    <div className="min-h-screen bg-[#05080D] text-slate-200 pt-10 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden font-sans">
+    <div className="min-h-screen bg-black text-slate-200 pt-10 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden font-sans">
       {/* Dynamic ambient color glow */}
       <div className={`absolute top-20 left-1/2 -translate-x-1/2 w-[900px] h-[400px] bg-gradient-to-b ${colorConfig.glow} rounded-full blur-[150px] pointer-events-none`} />
 

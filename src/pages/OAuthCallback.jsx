@@ -35,13 +35,9 @@ export const OAuthCallback = () => {
         // Clean URL params for security
         window.history.replaceState({}, document.title, window.location.pathname);
 
-        // Redirect based on role
+        // Redirect to home page
         setTimeout(() => {
-          if (user && ['SUPER_ADMIN', 'ADMIN', 'EDITOR', 'AUTHOR'].includes(user.role)) {
-            navigate('/admin', { replace: true });
-          } else {
-            navigate('/portal', { replace: true });
-          }
+          navigate('/', { replace: true });
         }, 800);
       } catch (err) {
         setStatus('error');
@@ -53,7 +49,7 @@ export const OAuthCallback = () => {
   }, [searchParams, setAuthToken, navigate]);
 
   return (
-    <div className="min-h-screen bg-[#05070A] text-slate-100 flex items-center justify-center p-4 relative overflow-hidden font-sans">
+    <div className="min-h-screen bg-black text-slate-100 flex items-center justify-center p-4 relative overflow-hidden font-sans">
       {/* Background Ambient Lights */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>
@@ -80,7 +76,7 @@ export const OAuthCallback = () => {
             </div>
             <h2 className="text-xl font-bold text-white tracking-wide">Session Verified</h2>
             <p className="text-xs text-blue-300 font-mono">
-              Identity established. Redirecting to your secure console...
+              Identity established. Redirecting to home page...
             </p>
           </div>
         )}

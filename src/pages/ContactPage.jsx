@@ -43,7 +43,7 @@ export const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#05080D] text-slate-200 pt-12 pb-20 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-black text-slate-200 pt-12 pb-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
@@ -137,7 +137,7 @@ export const ContactPage = () => {
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="e.g. Alex Vance"
-                      className="w-full bg-[#05080D] border border-slate-700 focus:border-blue-500 rounded-lg px-3 py-2.5 text-white outline-none"
+                      className="w-full bg-black border border-slate-700 focus:border-blue-500 rounded-lg px-3 py-2.5 text-white outline-none"
                     />
                   </div>
                   <div>
@@ -148,7 +148,7 @@ export const ContactPage = () => {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="alex@company.com"
-                      className="w-full bg-[#05080D] border border-slate-700 focus:border-blue-500 rounded-lg px-3 py-2.5 text-white outline-none"
+                      className="w-full bg-black border border-slate-700 focus:border-blue-500 rounded-lg px-3 py-2.5 text-white outline-none"
                     />
                   </div>
                 </div>
@@ -162,7 +162,7 @@ export const ContactPage = () => {
                       value={formData.organization}
                       onChange={(e) => setFormData({ ...formData, organization: e.target.value })}
                       placeholder="e.g. Acme Corp (acme.com)"
-                      className="w-full bg-[#05080D] border border-slate-700 focus:border-blue-500 rounded-lg px-3 py-2.5 text-white outline-none"
+                      className="w-full bg-black border border-slate-700 focus:border-blue-500 rounded-lg px-3 py-2.5 text-white outline-none"
                     />
                   </div>
                   <div>
@@ -172,7 +172,7 @@ export const ContactPage = () => {
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       placeholder="+1 (555) 000-0000"
-                      className="w-full bg-[#05080D] border border-slate-700 focus:border-blue-500 rounded-lg px-3 py-2.5 text-white outline-none"
+                      className="w-full bg-black border border-slate-700 focus:border-blue-500 rounded-lg px-3 py-2.5 text-white outline-none"
                     />
                   </div>
                 </div>
@@ -182,7 +182,7 @@ export const ContactPage = () => {
                   <select
                     value={formData.service}
                     onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                    className="w-full bg-[#05080D] border border-slate-700 focus:border-blue-500 rounded-lg px-3 py-2.5 text-white outline-none"
+                    className="w-full bg-black border border-slate-700 focus:border-blue-500 rounded-lg px-3 py-2.5 text-white outline-none"
                   >
                     <option value="Security Assessment">Security Assessment &amp; Vulnerability Audit</option>
                     <option value="Web Application Security">Web Application &amp; API Security</option>
@@ -202,7 +202,7 @@ export const ContactPage = () => {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Briefly describe your environment (number of endpoints/APIs, target timelines, specific compliance frameworks)..."
-                    className="w-full bg-[#05080D] border border-slate-700 focus:border-blue-500 rounded-lg px-3 py-2.5 text-white outline-none leading-relaxed"
+                    className="w-full bg-black border border-slate-700 focus:border-blue-500 rounded-lg px-3 py-2.5 text-white outline-none leading-relaxed"
                   />
                 </div>
 

@@ -63,9 +63,9 @@ const ClientLogosSection = () => {
       {/* Horizontal Infinite Marquee Carousel with Left & Right Gradient Fade Masks */}
       <div className="relative w-full overflow-hidden flex items-center">
         {/* Left Edge Gradient Fade */}
-        <div className="absolute top-0 bottom-0 left-0 w-24 sm:w-36 bg-gradient-to-r from-[#020508] via-[#020508]/80 to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 bottom-0 left-0 w-24 sm:w-36 bg-gradient-to-r from-black via-black/80 to-transparent z-10 pointer-events-none" />
         {/* Right Edge Gradient Fade */}
-        <div className="absolute top-0 bottom-0 right-0 w-24 sm:w-36 bg-gradient-to-l from-[#020508] via-[#020508]/80 to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 bottom-0 right-0 w-24 sm:w-36 bg-gradient-to-l from-black via-black/80 to-transparent z-10 pointer-events-none" />
 
         {/* Scrolling Track: Contains identical dual sets for seamless continuous loop */}
         <div className="animate-horizontal-marquee flex items-center gap-12 sm:gap-20 opacity-80 py-2">

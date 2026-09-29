@@ -146,7 +146,7 @@ const ResearchPage = () => {
   const rest = filtered.filter((p) => !p.featured);
 
   return (
-    <div className="min-h-screen bg-[#05080D] text-slate-200 pt-12 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-black text-slate-200 pt-12 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10 space-y-14">

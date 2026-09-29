@@ -63,7 +63,7 @@ export const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#05070A] text-slate-100 flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden font-sans selection:bg-cyan-500 selection:text-black">
+    <div className="min-h-screen bg-black text-slate-100 flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden font-sans selection:bg-cyan-500 selection:text-black">
       {/* Background Cyber Ambient Lights & Grid */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 -left-48 w-96 h-96 bg-cyan-600/15 rounded-full blur-3xl animate-pulse"></div>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const HybridIdsPage = () => {
   return (
-    <div className="min-h-screen bg-[#05080D] text-slate-200 pt-12 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-black text-slate-200 pt-12 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       <div className="max-w-6xl mx-auto relative z-10 space-y-20">
         
         {/* Navigation Breadcrumb */}

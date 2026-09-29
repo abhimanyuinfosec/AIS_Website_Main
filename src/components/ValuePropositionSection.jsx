@@ -2,7 +2,7 @@ import React from 'react';
 
 const ValuePropositionSection = () => {
   return (
-    <section className="py-10 lg:py-12 relative bg-[#05080D]" data-purpose="features-overview" id="product">
+    <section className="py-10 lg:py-12 relative bg-black" data-purpose="features-overview" id="product">
       <div className="max-w-7xl mx-auto px-6 relative">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto space-y-4 mb-8 sm:mb-10">

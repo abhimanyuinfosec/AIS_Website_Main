@@ -85,7 +85,7 @@ const HowItWorksArchitecture = () => {
                       className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300 ${
                         isActive
                           ? 'bg-blue-500/15 border border-blue-400/40 ring-4 ring-blue-500/10'
-                          : 'bg-[#020508] border border-slate-700/80 group-hover:border-slate-500'
+                          : 'bg-black border border-slate-700/80 group-hover:border-slate-500'
                       }`}
                     >
                       <div
@@ -146,7 +146,7 @@ const HowItWorksArchitecture = () => {
                   className={`absolute -left-[31px] top-0 w-6 h-6 rounded-full flex items-center justify-center transition-all ${
                     isActive
                       ? 'bg-blue-500/20 border border-blue-400'
-                      : 'bg-[#020508] border border-slate-700'
+                      : 'bg-black border border-slate-700'
                   }`}
                 >
                   <div

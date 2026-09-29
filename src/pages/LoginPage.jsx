@@ -68,14 +68,12 @@ export const LoginPage = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Redirect if authenticated
+  // Redirect if authenticated - always redirect to home page
   useEffect(() => {
     if (isAuthenticated) {
-      const fromPath = location.state?.from?.pathname;
-      const defaultDest = isAdmin ? '/admin' : '/portal';
-      navigate(fromPath || defaultDest, { replace: true });
+      navigate('/', { replace: true });
     }
-  }, [isAuthenticated, isAdmin, navigate, location.state]);
+  }, [isAuthenticated, navigate]);
 
   const switchMode = (newMode) => {
     setMode(newMode);
@@ -108,16 +106,12 @@ export const LoginPage = () => {
     setLoading(true);
 
     try {
-      const fromPath = location.state?.from?.pathname;
       if (mode === 'login') {
-        const loggedUser = await login(email, password);
-        const defaultDest = ['SUPER_ADMIN', 'ADMIN', 'EDITOR', 'AUTHOR'].includes(loggedUser.role)
-          ? '/admin'
-          : '/portal';
-        navigate(fromPath || defaultDest, { replace: true });
+        await login(email, password);
+        navigate('/', { replace: true });
       } else {
         await register(name, email, password);
-        navigate(fromPath || '/portal', { replace: true });
+        navigate('/', { replace: true });
       }
     } catch (err) {
       setError(err.message || 'Authentication failed. Please verify your credentials.');

@@ -31,7 +31,7 @@ export const FeaturedProjectsSection = () => {
   if (!loading && projects.length === 0) return null;
 
   return (
-    <section className="py-24 bg-[#05080D] border-t border-slate-800/80 relative overflow-hidden">
+    <section className="py-24 bg-black border-t border-white/10 relative overflow-hidden">
       {/* Background radial effects */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(59,130,246,0.06),rgba(0,0,0,0))] pointer-events-none" />
 
