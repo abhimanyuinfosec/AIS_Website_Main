@@ -26,9 +26,10 @@ const AmbientBackdrop = () => {
     let stars = [];
     let constellations = [];
 
-    // Subtle white, cool-gray, and quiet desaturated blue star colors
-    const neutralColors = ['#cbd5e1', '#94a3b8', '#e2e8f0'];
-    const blueAccentColor = '#93c5fd';
+    // Subtle soft white, muted gray, and quiet amber/crimson star highlights
+    const neutralColors = ['#F5F5F5', '#A3A3A3', '#D4D4D4'];
+    const amberAccentColor = '#FFB000';
+    const crimsonAccentColor = '#C1121F';
 
     // Check prefers-reduced-motion
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -87,10 +88,12 @@ const AmbientBackdrop = () => {
           ? 0.25 + Math.random() * 0.10
           : 0.10 + Math.random() * 0.10;
 
-        // Colors: 82% cool gray/white, 18% quiet blue accent
-        const isBlue = Math.random() < 0.18;
-        const color = isBlue
-          ? blueAccentColor
+        // Colors: 80% soft white/gray, 14% subtle amber highlight, 6% muted crimson
+        const colorRand = Math.random();
+        const color = colorRand < 0.14
+          ? amberAccentColor
+          : colorRand < 0.20
+          ? crimsonAccentColor
           : neutralColors[Math.floor(Math.random() * neutralColors.length)];
 
         // Twinkle: only ~12% have a very slow twinkle (6 to 12 seconds)
@@ -201,8 +204,8 @@ const AmbientBackdrop = () => {
           const y2 = s2.y + currentOffsetY * s2.layerDepth;
 
           ctx.save();
-          ctx.strokeStyle = '#4a678d'; // Dark desaturated slate-blue
-          ctx.globalAlpha = conn.alpha;
+          ctx.strokeStyle = '#8B0D18'; // Deep crimson security constellation
+          ctx.globalAlpha = Math.min(conn.alpha, 0.12);
           ctx.beginPath();
           ctx.moveTo(x1, y1);
           ctx.lineTo(x2, y2);
@@ -257,13 +260,13 @@ const AmbientBackdrop = () => {
   return (
     <div
       aria-hidden="true"
-      className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-black"
+      className="ambient-backdrop-root fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#080808] transition-colors duration-300"
     >
       {/* 1. Deep pure black background */}
-      <div className="absolute inset-0 bg-black" />
+      <div className="ambient-backdrop-base absolute inset-0 bg-[#080808] transition-colors duration-300" />
 
       {/* 2. Soft Dark Vignette preserving central text legibility */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.85)_100%)]" />
+      <div className="ambient-backdrop-vignette absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(8,8,8,0.92)_100%)] transition-colors duration-300" />
 
       {/* 4. Canvas: Sparse Stars, Constellation Lines & Minimal Parallax */}
       <canvas

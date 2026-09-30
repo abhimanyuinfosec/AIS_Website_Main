@@ -32,17 +32,17 @@ export const ReviewsSection = () => {
   return (
     <section className="py-20 bg-black border-t border-white/10 relative overflow-hidden">
       {/* Background cyber grid & subtle ambient accents */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(59,130,246,0.06),rgba(255,255,255,0))] pointer-events-none" />
-      <div className="absolute top-1/2 left-0 w-80 h-80 bg-blue-600/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-80 h-80 bg-slate-600/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(193,18,31,0.06),rgba(255,255,255,0))] pointer-events-none" />
+      <div className="absolute top-1/2 left-0 w-80 h-80 bg-[#C1121F]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-80 h-80 bg-[#FF7A00]/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14 space-y-4">
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white tracking-tight leading-tight">
             Trusted by CISOs & <br />
-            <span className="bg-gradient-to-r from-blue-400 via-blue-300 to-blue-200 bg-clip-text text-transparent">
+            <span className="ais-signature-gradient">
               Enterprise Defense Leaders
             </span>
           </h2>
@@ -57,7 +57,7 @@ export const ReviewsSection = () => {
           {reviews.map((review) => (
             <div
               key={review.id}
-              className="relative p-5 sm:p-6 rounded-2xl bg-[#080d1a]/85 backdrop-blur-xl border border-slate-800/90 hover:border-slate-700 transition-all duration-300 flex flex-col justify-between group shadow-lg"
+              className="relative p-5 sm:p-6 rounded-2xl bg-[#0D0D0D] backdrop-blur-xl border border-white/[0.08] hover:border-[#C1121F]/40 transition-all duration-300 flex flex-col justify-between group shadow-lg hover:shadow-[#C1121F]/5"
             >
               {/* Quote Watermark */}
               <Quote

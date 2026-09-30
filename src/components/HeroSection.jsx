@@ -9,18 +9,18 @@ const HeroSection = () => {
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden select-none" aria-hidden="true">
         {/* Subtle, refined ambient dark vignette behind sphere */}
         <div
-          className="absolute inset-0 z-0 pointer-events-none"
+          className="hero-ambient-vignette absolute inset-0 z-0 pointer-events-none transition-all duration-300"
           style={{
             background:
-              'radial-gradient(circle at 50% 50%, rgba(255, 60, 30, 0.05) 0%, rgba(200, 50, 20, 0.02) 40%, rgba(0, 0, 0, 0.75) 75%, #000000 100%)',
+              'radial-gradient(circle at 50% 50%, rgba(193, 18, 31, 0.08) 0%, rgba(255, 122, 0, 0.03) 35%, rgba(0, 0, 0, 0.75) 75%, #000000 100%)',
           }}
         />
         {/* Refined, professional parameters: delicate hairline network, luminous light nodes */}
         <WireframeSphere
           radius={5.2}
-          wireframeOpacity={0.1}
+          wireframeOpacity={0.12}
           nodeSize={0.30}
-          nodeOpacity={0.5}
+          nodeOpacity={0.55}
           rotationSpeed={0.35}
           mouseStrength={0.0}
           depthFade={0.82}
@@ -30,24 +30,24 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className="max-w-4xl mx-auto px-6 text-center flex flex-col items-center space-y-5 sm:space-y-6 relative z-10 drop-shadow-[0_4px_24px_rgba(0,0,0,0.85)]">
-        {/* Main Brand Heading */}
-        <h1 className="hero-title font-bold tracking-[-0.035em] leading-[1.08] max-w-3xl bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-blue-100 to-white">
+      <div className="hero-content-container max-w-4xl mx-auto px-6 text-center flex flex-col items-center space-y-5 sm:space-y-6 relative z-10 dark:drop-shadow-[0_4px_24px_rgba(0,0,0,0.85)]">
+        {/* Main Brand Heading in one line with only AIS capital - padding added so 'Y' is completely visible */}
+        <h1 className="hero-title font-heading font-bold tracking-tight leading-[1.25] max-w-full whitespace-nowrap ais-signature-gradient dark:drop-shadow-sm select-none px-4 py-2 pb-3 overflow-visible inline-block">
           Abhimanyu InfoSec
         </h1>
 
-        {/* Core Subtitle */}
+        {/* Core Subtitle - background rectangle box removed, keeping text color */}
         <h2 className="hero-subtitle font-semibold tracking-[-0.025em] max-w-3xl">
-          <span className="block text-slate-100 drop-shadow-sm">
+          <span className="block text-slate-900 dark:text-slate-100">
             Cybersecurity built for businesses that
           </span>
-          <span className="inline-block mt-2 px-3 py-0.5 sm:py-1 bg-[#38bdf8] text-[#030611] font-bold rounded-sm shadow-md">
+          <span className="fire-yellow-text inline-block mt-2 font-bold text-[#D97706] dark:text-[#FFB703]">
             cannot afford to be vulnerable.
           </span>
         </h2>
 
-        {/* Description Body */}
-        <p className="hero-body text-slate-300/90 font-normal leading-relaxed max-w-2xl text-shadow-sm">
+        {/* Description Body - original text copy */}
+        <p className="hero-body text-slate-600 dark:text-slate-300/90 font-normal leading-relaxed max-w-2xl">
           We help you identify vulnerabilities, detect threats, harden your security posture, and build resilient digital infrastructure without enterprise complexity or cost.
         </p>
 
@@ -55,23 +55,23 @@ const HeroSection = () => {
         <div className="pt-2 sm:pt-3 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-full sm:w-auto">
           <Link
             to="/contact"
-            className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 active:bg-blue-700 rounded-lg shadow-sm border border-blue-500/30 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black"
+            className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 text-sm font-semibold text-white bg-gradient-to-r from-[#C1121F] via-[#FF7A00] to-[#FFB000] hover:brightness-110 active:scale-[0.98] rounded-lg shadow-sm border border-white/20 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-black"
           >
             <span>Get Free Assessment</span>
           </Link>
           <a
             href="#how-it-works"
-            className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 text-sm font-semibold text-slate-300 hover:text-white bg-slate-900/60 hover:bg-slate-800 rounded-lg border border-slate-700 hover:border-slate-600 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-slate-600 focus:ring-offset-2 focus:ring-offset-black"
+            className="hero-secondary-btn w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 text-sm font-semibold text-slate-800 dark:text-slate-300 hover:text-[#C1121F] dark:hover:text-white bg-white dark:bg-slate-900/60 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg border border-slate-300 dark:border-slate-700 hover:border-[#C1121F] dark:hover:border-slate-600 shadow-sm transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2"
           >
-            <span>See How It Works</span>
+            <span className="hero-secondary-text">See How It Works</span>
           </a>
         </div>
 
-        {/* Trust Indicators */}
-        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 pt-2 text-xs sm:text-sm text-slate-400 font-medium">
-          <span>350+ Clients Protected</span>
-          <span className="hidden sm:block text-slate-700">|</span>
-          <span>SOC2 &amp; ISO 27001</span>
+        {/* Trust Indicators - original text copy & style */}
+        <div className="hero-trust-bar flex flex-wrap items-center justify-center gap-x-6 gap-y-2 pt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-medium">
+          <span className="hero-trust-item">350+ Clients Protected</span>
+          <span className="hero-trust-divider hidden sm:block text-slate-400 dark:text-slate-700">|</span>
+          <span className="hero-trust-item">SOC2 &amp; ISO 27001</span>
         </div>
       </div>
     </section>

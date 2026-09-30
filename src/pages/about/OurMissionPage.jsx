@@ -89,7 +89,7 @@ const OurMissionPage = () => {
         {/* 3. OUR VISION */}
         <div className="space-y-8">
           <div>
-            <div className="text-xs font-bold font-mono tracking-widest text-blue-400 uppercase mb-2">
+            <div className="text-xs font-bold font-mono tracking-widest text-[#FF7A00] uppercase mb-2">
               Looking Forward
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
@@ -97,9 +97,9 @@ const OurMissionPage = () => {
             </h2>
           </div>
 
-          <div className="p-8 sm:p-12 rounded-2xl bg-slate-900/60 border border-slate-800">
-            <blockquote className="text-xl sm:text-2xl md:text-3xl font-semibold text-white tracking-tight leading-snug">
-              "A future where every organization can build, understand and maintain a stronger security posture."
+          <div className="p-8 sm:p-12 rounded-2xl bg-slate-900/60 border border-slate-800 border-l-4 border-l-[#C1121F]">
+            <blockquote className="text-xl sm:text-2xl md:text-3xl font-semibold text-slate-100 dark:text-slate-100 tracking-tight leading-snug">
+              &ldquo;A future where every organization can build, understand and maintain a stronger security posture.&rdquo;
             </blockquote>
           </div>
         </div>

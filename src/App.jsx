@@ -44,6 +44,7 @@ import TeamPage from './pages/about/TeamPage';
 
 // Admin Module & Auth
 import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import ProtectedRoute from './admin/components/ProtectedRoute';
 import AdminLayout from './admin/components/AdminLayout';
 import AdminLogin from './admin/pages/AdminLogin';
@@ -86,7 +87,7 @@ const ScrollToTop = () => {
 // Public Website Layout Shell (with Navbar and Footer)
 const PublicLayout = () => {
   return (
-    <div className="bg-black text-slate-200 font-sans antialiased selection:bg-brand-500 selection:text-white min-h-screen relative overflow-x-hidden">
+    <div className="public-app-layout bg-[#080808] text-slate-200 font-sans antialiased selection:bg-brand-500 selection:text-white min-h-screen relative overflow-x-hidden transition-colors duration-300">
       <AmbientBackdrop />
       <CrystalGlassEffects />
       <Navbar />
@@ -100,145 +101,147 @@ const PublicLayout = () => {
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <ScrollToTop />
-        <Routes>
-          {/* Public Website Routes */}
-          <Route element={<PublicLayout />}>
-            <Route path="/" element={<Home />} />
-            
-            {/* Services Routes */}
-            <Route path="/services" element={<VulnerabilityAssessmentPage />} />
-            <Route path="/services/vulnerability-assessment" element={<VulnerabilityAssessmentPage />} />
-            <Route path="/services/web-security" element={<WebSecurityPage />} />
-            <Route path="/services/network-security" element={<NetworkSecurityPage />} />
-            <Route path="/services/penetration-testing" element={<PenetrationTestingPage />} />
-            <Route path="/services/threat-detection" element={<ThreatDetectionPage />} />
-            <Route path="/services/security-hardening" element={<SecurityHardeningPage />} />
+    <ThemeProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <ScrollToTop />
+          <Routes>
+            {/* Public Website Routes */}
+            <Route element={<PublicLayout />}>
+              <Route path="/" element={<Home />} />
+              
+              {/* Services Routes */}
+              <Route path="/services" element={<VulnerabilityAssessmentPage />} />
+              <Route path="/services/vulnerability-assessment" element={<VulnerabilityAssessmentPage />} />
+              <Route path="/services/web-security" element={<WebSecurityPage />} />
+              <Route path="/services/network-security" element={<NetworkSecurityPage />} />
+              <Route path="/services/penetration-testing" element={<PenetrationTestingPage />} />
+              <Route path="/services/threat-detection" element={<ThreatDetectionPage />} />
+              <Route path="/services/security-hardening" element={<SecurityHardeningPage />} />
 
-            {/* Products Routes - Accessible only with sign-in */}
+              {/* Products Routes - Accessible only with sign-in */}
+              <Route
+                path="/technology"
+                element={
+                  <ProtectedRoute redirectTo="/login">
+                    <ProductsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/products"
+                element={
+                  <ProtectedRoute redirectTo="/login">
+                    <ProductsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/products/:slug"
+                element={
+                  <ProtectedRoute redirectTo="/login">
+                    <ProductDetailPage />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Insights Routes - Accessible only with sign-in */}
+              <Route
+                path="/insights"
+                element={
+                  <ProtectedRoute redirectTo="/login">
+                    <InsightsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/insights/:slug"
+                element={
+                  <ProtectedRoute redirectTo="/login">
+                    <BlogPostPage />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Projects Routes - public */}
+              <Route path="/projects" element={<ProjectsPage />} />
+              <Route path="/projects/:slug" element={<ProjectDetailPage />} />
+
+              {/* Research Routes - public */}
+              <Route path="/research" element={<ResearchPage />} />
+
+              {/* About Us Routes */}
+              <Route path="/about" element={<OurMissionPage />} />
+              <Route path="/about/mission" element={<OurMissionPage />} />
+              <Route path="/about/approach" element={<OurApproachPage />} />
+              <Route path="/about/why-ais" element={<WhyAisPage />} />
+              <Route path="/about/team" element={<TeamPage />} />
+
+              {/* Contact / How to Buy */}
+              <Route path="/contact" element={<ContactPage />} />
+
+              {/* 404 Public */}
+              <Route path="*" element={<NotFoundPage />} />
+            </Route>
+
+            {/* Universal Authentication (Email, Google, GitHub) */}
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<LoginPage />} />
+            <Route path="/signup" element={<LoginPage />} />
+            <Route path="/auth/callback" element={<OAuthCallback />} />
             <Route
-              path="/technology"
+              path="/portal"
               element={
-                <ProtectedRoute redirectTo="/login">
-                  <ProductsPage />
+                <ProtectedRoute>
+                  <UserPortalPage />
                 </ProtectedRoute>
               }
             />
+
+            {/* Admin Authentication */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+
+            {/* Protected Admin Dashboard & CMS — admin-level roles only */}
             <Route
-              path="/products"
+              path="/admin"
               element={
-                <ProtectedRoute redirectTo="/login">
-                  <ProductsPage />
+                <ProtectedRoute requireAdmin={true}>
+                  <AdminLayout />
                 </ProtectedRoute>
               }
-            />
-            <Route
-              path="/products/:slug"
-              element={
-                <ProtectedRoute redirectTo="/login">
-                  <ProductDetailPage />
-                </ProtectedRoute>
-              }
-            />
-
-            {/* Insights Routes - Accessible only with sign-in */}
-            <Route
-              path="/insights"
-              element={
-                <ProtectedRoute redirectTo="/login">
-                  <InsightsPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/insights/:slug"
-              element={
-                <ProtectedRoute redirectTo="/login">
-                  <BlogPostPage />
-                </ProtectedRoute>
-              }
-            />
-
-            {/* Projects Routes - public */}
-            <Route path="/projects" element={<ProjectsPage />} />
-            <Route path="/projects/:slug" element={<ProjectDetailPage />} />
-
-            {/* Research Routes - public */}
-            <Route path="/research" element={<ResearchPage />} />
-
-            {/* About Us Routes */}
-            <Route path="/about" element={<OurMissionPage />} />
-            <Route path="/about/mission" element={<OurMissionPage />} />
-            <Route path="/about/approach" element={<OurApproachPage />} />
-            <Route path="/about/why-ais" element={<WhyAisPage />} />
-            <Route path="/about/team" element={<TeamPage />} />
-
-            {/* Contact / How to Buy */}
-            <Route path="/contact" element={<ContactPage />} />
-
-            {/* 404 Public */}
-            <Route path="*" element={<NotFoundPage />} />
-          </Route>
-
-          {/* Universal Authentication (Email, Google, GitHub) */}
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<LoginPage />} />
-          <Route path="/signup" element={<LoginPage />} />
-          <Route path="/auth/callback" element={<OAuthCallback />} />
-          <Route
-            path="/portal"
-            element={
-              <ProtectedRoute>
-                <UserPortalPage />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Admin Authentication */}
-          <Route path="/admin/login" element={<AdminLogin />} />
-
-          {/* Protected Admin Dashboard & CMS — admin-level roles only */}
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute requireAdmin={true}>
-                <AdminLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<AdminDashboard />} />
-            <Route path="services" element={<AdminServices />} />
-            <Route path="projects" element={<AdminProjects />} />
-            <Route path="products" element={<AdminProducts />} />
-            <Route path="research" element={<AdminResearch />} />
-            <Route path="blog" element={<AdminBlog />} />
-            <Route path="inquiries" element={<AdminInquiries />} />
-            <Route path="reviews" element={<AdminReviews />} />
-            <Route path="team" element={<AdminTeam />} />
-            <Route path="media" element={<AdminMedia />} />
-            <Route path="settings" element={<AdminSettings />} />
-            <Route
-              path="audit-logs"
-              element={
-                <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN']}>
-                  <AdminAuditLogs />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="users"
-              element={
-                <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN']}>
-                  <AdminUsers />
-                </ProtectedRoute>
-              }
-            />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+            >
+              <Route index element={<AdminDashboard />} />
+              <Route path="services" element={<AdminServices />} />
+              <Route path="projects" element={<AdminProjects />} />
+              <Route path="products" element={<AdminProducts />} />
+              <Route path="research" element={<AdminResearch />} />
+              <Route path="blog" element={<AdminBlog />} />
+              <Route path="inquiries" element={<AdminInquiries />} />
+              <Route path="reviews" element={<AdminReviews />} />
+              <Route path="team" element={<AdminTeam />} />
+              <Route path="media" element={<AdminMedia />} />
+              <Route path="settings" element={<AdminSettings />} />
+              <Route
+                path="audit-logs"
+                element={
+                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN']}>
+                    <AdminAuditLogs />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="users"
+                element={
+                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN']}>
+                    <AdminUsers />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

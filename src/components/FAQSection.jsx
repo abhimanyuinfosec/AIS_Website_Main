@@ -59,13 +59,13 @@ const FAQSection = () => {
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-          <div className="flex items-center justify-center gap-2 text-xs font-mono tracking-widest text-slate-500 uppercase mb-3">
+          <div className="flex items-center justify-center gap-2 text-xs font-mono tracking-widest text-[#FF7A00] uppercase mb-3">
             <span>—</span>
             <span>KNOWLEDGE BASE</span>
             <span>—</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
-            Frequently Asked <span className="text-blue-500">Questions</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold tracking-tight text-white leading-tight">
+            Frequently Asked <span className="ais-signature-gradient">Questions</span>
           </h2>
           <p className="mt-3 text-sm sm:text-base text-slate-400 font-normal">
             Security, services, and everything you need to know.
@@ -76,7 +76,7 @@ const FAQSection = () => {
         <div className="hidden md:grid md:grid-cols-12 gap-8 lg:gap-12 items-start">
           
           {/* LEFT COLUMN: ~45% (col-span-5) */}
-          <div className="md:col-span-5 md:pr-4 lg:pr-8 border-b md:border-b-0 md:border-r border-slate-800/50 pb-8 md:pb-0">
+          <div className="md:col-span-5 md:pr-4 lg:pr-8 border-b md:border-b-0 md:border-r border-white/[0.08] pb-8 md:pb-0">
             <div className="space-y-0">
               {faqs.map((faq, idx) => {
                 const isActive = activeIdx === idx;
@@ -87,14 +87,14 @@ const FAQSection = () => {
                     onClick={() => setActiveIdx(idx)}
                     className={`w-full text-left py-4 sm:py-4.5 flex items-center justify-between border-b transition-all duration-200 group cursor-pointer ${
                       isActive
-                        ? 'border-blue-500'
-                        : 'border-slate-800/80 hover:border-slate-700'
+                        ? 'border-[#C1121F]'
+                        : 'border-white/[0.08] hover:border-white/20'
                     }`}
                   >
                     <div className="flex items-center gap-4 sm:gap-5 pr-3">
                       <span
                         className={`text-xs sm:text-sm font-mono transition-colors duration-200 ${
-                          isActive ? 'text-blue-400 font-bold' : 'text-slate-500 font-semibold'
+                          isActive ? 'text-[#FF7A00] font-bold' : 'text-slate-500 font-semibold'
                         }`}
                       >
                         {faq.number}
@@ -112,7 +112,7 @@ const FAQSection = () => {
 
                     <span
                       className={`text-sm font-mono transition-colors duration-200 shrink-0 ${
-                        isActive ? 'text-blue-400' : 'text-slate-600 group-hover:text-slate-400'
+                        isActive ? 'text-[#FF7A00]' : 'text-slate-600 group-hover:text-slate-400'
                       }`}
                     >
                       →
@@ -123,8 +123,8 @@ const FAQSection = () => {
             </div>
 
             {/* Bottom Left Subtle Accent Text */}
-            <div className="pt-8 mt-4 border-t border-slate-900/60">
-              <p className="text-[10px] font-mono tracking-widest text-slate-600 uppercase">
+            <div className="pt-8 mt-4 border-t border-white/[0.06]">
+              <p className="text-[10px] font-mono tracking-widest text-slate-500 uppercase">
                 TRUSTED SECURITY PARTNER FOR A SAFER TOMORROW.
               </p>
             </div>
@@ -134,18 +134,18 @@ const FAQSection = () => {
           <div className="md:col-span-7 md:pl-4 lg:pl-8 flex flex-col justify-between min-h-[380px]">
             <div>
               {/* Category & Counter Bar */}
-              <div className="flex items-center justify-between pb-5 border-b border-slate-800/40">
+              <div className="flex items-center justify-between pb-5 border-b border-white/[0.08]">
                 <div className="font-mono text-sm">
-                  <span className="text-blue-400 font-bold">{currentFaq.number}</span>
+                  <span className="text-[#FF7A00] font-bold">{currentFaq.number}</span>
                   <span className="text-slate-600 ml-1">/ 0{faqs.length}</span>
                 </div>
-                <span className="text-[10px] sm:text-[11px] font-mono tracking-widest text-slate-500 uppercase">
+                <span className="text-[10px] sm:text-[11px] font-mono tracking-widest text-[#FFB000] uppercase">
                   {currentFaq.category}
                 </span>
               </div>
 
               {/* Big Question Heading */}
-              <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight leading-snug mt-6 mb-5 transition-opacity duration-200">
+              <h3 className="text-2xl sm:text-3xl font-heading font-bold text-white tracking-tight leading-snug mt-6 mb-5 transition-opacity duration-200">
                 {currentFaq.q}
               </h3>
 
@@ -154,8 +154,8 @@ const FAQSection = () => {
                 {currentFaq.a}
               </p>
 
-              {/* 3 Text Pillars (Clean typography, no icons) */}
-              <div className="grid grid-cols-3 gap-4 pt-8 mt-8 border-t border-slate-800/50">
+              {/* 3 Text Pillars */}
+              <div className="grid grid-cols-3 gap-4 pt-8 mt-8 border-t border-white/[0.08]">
                 <div>
                   <span className="block text-xs font-mono font-bold text-slate-200">
                     Identify Risks
@@ -192,7 +192,7 @@ const FAQSection = () => {
               >
                 <span>←</span>
               </button>
-              <span className="text-slate-700 font-mono text-xs select-none">────</span>
+              <span className="text-[#C1121F]/60 font-mono text-xs select-none">────</span>
               <button
                 onClick={handleNext}
                 aria-label="Next FAQ"
@@ -206,7 +206,7 @@ const FAQSection = () => {
         </div>
 
         {/* Mobile Single-Column Accordion Layout */}
-        <div className="md:hidden divide-y divide-slate-800/70">
+        <div className="md:hidden divide-y divide-white/[0.08]">
           {faqs.map((faq, idx) => {
             const isOpen = mobileOpenIdx === idx;
 
@@ -218,7 +218,7 @@ const FAQSection = () => {
                   aria-expanded={isOpen}
                 >
                   <div className="flex items-start gap-3">
-                    <span className="text-xs font-mono text-blue-400 font-bold shrink-0 pt-0.5">
+                    <span className="text-xs font-mono text-[#FF7A00] font-bold shrink-0 pt-0.5">
                       {faq.number}
                     </span>
                     <span

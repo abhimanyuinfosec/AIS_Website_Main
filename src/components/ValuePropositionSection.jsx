@@ -6,11 +6,11 @@ const ValuePropositionSection = () => {
       <div className="max-w-7xl mx-auto px-6 relative">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto space-y-4 mb-8 sm:mb-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-xs font-semibold uppercase tracking-widest text-slate-300">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-md bg-[#151515] border border-[#C1121F]/30 text-xs font-heading font-semibold uppercase tracking-widest text-[#FFB000]">
             Universal Solution
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Why Abhimanyu?
+          <h2 className="text-3xl sm:text-4xl font-heading font-extrabold text-white tracking-tight">
+            Why <span className="ais-signature-gradient">Abhimanyu?</span>
           </h2>
           <p className="text-slate-400 text-base font-normal">
             Abhimanyu is the first and only easy to use cloud firewall for distributed enterprises and remote teams.
@@ -20,8 +20,8 @@ const ValuePropositionSection = () => {
         {/* 3 Feature Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {/* Card 1: Reliable Protection */}
-          <div className="bg-slate-900/40 border border-slate-800/80 hover:border-slate-700 rounded-xl p-8 transition-colors duration-200" data-purpose="feature-card">
-            <h3 className="text-xl font-bold text-white tracking-tight mb-3">
+          <div className="bg-[#0D0D0D] border border-white/[0.08] hover:border-[#C1121F]/40 hover:shadow-lg hover:shadow-[#C1121F]/10 rounded-xl p-8 transition-all duration-300" data-purpose="feature-card">
+            <h3 className="text-xl font-heading font-bold text-white tracking-tight mb-3">
               Reliable Protection
             </h3>
             <p className="text-slate-400 text-sm leading-relaxed">
@@ -30,8 +30,8 @@ const ValuePropositionSection = () => {
           </div>
 
           {/* Card 2: Easy to set up */}
-          <div className="bg-slate-900/40 border border-slate-800/80 hover:border-slate-700 rounded-xl p-8 transition-colors duration-200" data-purpose="feature-card">
-            <h3 className="text-xl font-bold text-white tracking-tight mb-3">
+          <div className="bg-[#0D0D0D] border border-white/[0.08] hover:border-[#C1121F]/40 hover:shadow-lg hover:shadow-[#C1121F]/10 rounded-xl p-8 transition-all duration-300" data-purpose="feature-card">
+            <h3 className="text-xl font-heading font-bold text-white tracking-tight mb-3">
               Easy to Set Up
             </h3>
             <p className="text-slate-400 text-sm leading-relaxed">
@@ -40,8 +40,8 @@ const ValuePropositionSection = () => {
           </div>
 
           {/* Card 3: Virus & Threat Protection */}
-          <div className="bg-slate-900/40 border border-slate-800/80 hover:border-slate-700 rounded-xl p-8 transition-colors duration-200" data-purpose="feature-card">
-            <h3 className="text-xl font-bold text-white tracking-tight mb-3">
+          <div className="bg-[#0D0D0D] border border-white/[0.08] hover:border-[#C1121F]/40 hover:shadow-lg hover:shadow-[#C1121F]/10 rounded-xl p-8 transition-all duration-300" data-purpose="feature-card">
+            <h3 className="text-xl font-heading font-bold text-white tracking-tight mb-3">
               Threat Protection
             </h3>
             <p className="text-slate-400 text-sm leading-relaxed">

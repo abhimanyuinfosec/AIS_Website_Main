@@ -6,7 +6,7 @@ const SimplifiedSecuritySection = () => {
       <div className="max-w-4xl mx-auto text-center space-y-4">
         
         {/* Main Heading */}
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-white tracking-tight leading-tight">
           Security shouldn't be complicated.
         </h2>
 
@@ -17,7 +17,7 @@ const SimplifiedSecuritySection = () => {
 
         {/* Highlight Solution */}
         <div className="pt-2">
-          <span className="inline-block text-xl sm:text-2xl font-semibold text-blue-400 tracking-tight">
+          <span className="inline-block text-xl sm:text-2xl font-heading font-bold ais-signature-gradient tracking-tight">
             We simplify that.
           </span>
         </div>

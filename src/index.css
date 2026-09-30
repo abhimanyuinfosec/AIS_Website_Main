@@ -4,27 +4,30 @@
 
 @layer base {
   :root {
-    --bg-dark: #000000;
-    --bg-dark-elevated: #000000;
-    --bg-card: rgba(12, 12, 14, 0.6);
-    --bg-section-alt: #000000;
-    --accent-primary: #2b66ff;
-    --accent-primary-hover: #1d48f5;
-    --accent-primary-alpha: rgba(43, 102, 255, 0.25);
-    --accent-secondary: #3b82f6;
-    --accent-border: rgba(59, 130, 246, 0.25);
-    --text-light: #F8FAFC;
-    --text-light-muted: #94A3B8;
-    --border-dark: rgba(255, 255, 255, 0.12);
+    --bg-dark: #080808;
+    --bg-dark-elevated: #0B0B0B;
+    --bg-card: rgba(13, 13, 13, 0.75);
+    --bg-section-alt: #0B0B0B;
+    --accent-primary: #C1121F;
+    --accent-primary-hover: #8B0D18;
+    --accent-primary-alpha: rgba(193, 18, 31, 0.22);
+    --accent-secondary: #FF7A00;
+    --accent-amber: #FFB000;
+    --accent-border: rgba(193, 18, 31, 0.25);
+    --text-light: #FFFFFF;
+    --text-light-soft: #F5F5F5;
+    --text-light-muted: #A3A3A3;
+    --border-dark: rgba(255, 255, 255, 0.08);
     --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-display: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-heading: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-display: 'Eurostile', 'Eurostile Extended', 'Michroma', sans-serif;
+    --font-heading: 'Eurostile', 'Eurostile Extended', 'Michroma', sans-serif;
 
-    /* Crystal Glass Tokens */
-    --crystal-bg: rgba(12, 18, 38, .48);
-    --crystal-border: rgba(190, 230, 255, .16);
-    --crystal-highlight: rgba(255, 255, 255, .24);
-    --crystal-cyan: rgba(59, 130, 246, .2);
+    /* Crystal Glass Tokens - Dark Crimson / Amber Fire */
+    --crystal-bg: rgba(13, 13, 13, 0.65);
+    --crystal-border: rgba(255, 255, 255, 0.08);
+    --crystal-highlight: rgba(255, 255, 255, 0.12);
+    --crystal-crimson: rgba(193, 18, 31, 0.18);
+    --crystal-amber: rgba(255, 176, 0, 0.15);
   }
 
   html {
@@ -32,8 +35,8 @@
   }
 
   body {
-    background-color: #000000;
-    color: #e2e8f0;
+    background-color: #080808;
+    color: #F5F5F5;
     font-family: var(--font-body);
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
@@ -43,43 +46,44 @@
     cursor: default;
   }
 
-  /* Typography Hierarchy Specifications */
+  /* Typography Hierarchy Specifications - Eurostile / Michroma for Headings */
   h1, .hero-title {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-heading);
     font-weight: 700;
-    letter-spacing: -0.035em;
-    line-height: 1.08;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
   }
 
   .hero-title {
-    font-size: clamp(2.4rem, 5.8vw, 3.85rem);
+    font-size: clamp(1.45rem, 5.2vw, 3.85rem);
+    text-transform: none;
   }
 
   .hero-subtitle {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-heading);
     font-weight: 600;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.015em;
     line-height: 1.3;
     font-size: clamp(1.35rem, 2.8vw, 2.05rem);
   }
 
   .hero-body {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     font-weight: 400;
     line-height: 1.65;
     font-size: clamp(0.95rem, 1.8vw, 1.0625rem);
   }
 
   h2, .section-title {
-    font-family: var(--font-display);
+    font-family: var(--font-heading);
     font-weight: 600;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.015em;
   }
 
   h3, h4, .card-title {
-    font-family: var(--font-display);
+    font-family: var(--font-heading);
     font-weight: 600;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.01em;
   }
 
   nav, .nav-link {
@@ -93,18 +97,18 @@
   }
 
   label, .badge-label, .meta-label {
-    font-family: var(--font-display);
+    font-family: var(--font-heading);
     font-weight: 500;
   }
 
   .pricing-amount, .price-val {
-    font-family: var(--font-display);
+    font-family: var(--font-heading);
     font-weight: 700;
   }
 
   ::selection {
-    background-color: #2b66ff;
-    color: #ffffff;
+    background-color: #C1121F;
+    color: #FFFFFF;
   }
 }
 
@@ -117,18 +121,19 @@
 }
 
 /* Master Glassmorphism & Crystal Surface Classes */
+/* Master Glassmorphism & Surface Classes */
 .crystal-surface,
 .glass-surface {
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, .05), transparent 34%),
-    rgba(10, 18, 39, .52) !important;
-  backdrop-filter: blur(22px) saturate(175%);
-  -webkit-backdrop-filter: blur(22px) saturate(175%);
+    linear-gradient(135deg, rgba(255, 255, 255, .03), transparent 34%),
+    rgba(13, 13, 13, 0.72) !important;
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
   border: 1px solid var(--crystal-border);
   box-shadow:
     inset 0 1px 0 var(--crystal-highlight),
-    inset 0 -1px 0 rgba(0, 0, 0, .18),
-    0 24px 70px -30px rgba(0, 0, 0, .85);
+    inset 0 -1px 0 rgba(0, 0, 0, .4),
+    0 24px 70px -30px rgba(0, 0, 0, .9);
   position: relative;
 }
 
@@ -139,129 +144,129 @@
   inset: 0;
   pointer-events: none;
   border-radius: inherit;
-  background: linear-gradient(120deg, rgba(255, 255, 255, .08), transparent 25%);
-  opacity: .55;
+  background: linear-gradient(120deg, rgba(255, 255, 255, .04), transparent 25%);
+  opacity: .5;
 }
 
 /* 1. Selective Glass: Navbar */
 .glass-navbar {
-  background: rgba(5, 15, 30, 0.68) !important;
-  border-bottom: 1px solid rgba(120, 200, 255, 0.12) !important;
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+  background: rgba(8, 8, 8, 0.88) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
 }
 
-/* 2. Selective Glass: Feature Cards (Why Abhimanyu?) */
+/* 2. Selective Glass: Feature Cards */
 .glass-feature-card {
-  background: rgba(8, 24, 45, 0.55) !important;
-  border: 1px solid rgba(100, 190, 255, 0.14) !important;
-  backdrop-filter: blur(16px) saturate(150%);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  background: rgba(13, 13, 13, 0.75) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   box-shadow:
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.16),
-    0 16px 40px -10px rgba(0, 0, 0, 0.65);
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.06),
+    0 16px 40px -10px rgba(0, 0, 0, 0.8);
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
 }
 
 .glass-feature-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(140, 220, 255, 0.32) !important;
+  border-color: rgba(193, 18, 31, 0.38) !important;
   box-shadow:
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.22),
-    0 20px 48px -8px rgba(0, 0, 0, 0.75);
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.1),
+    0 20px 48px -8px rgba(193, 18, 31, 0.12);
 }
 
 /* 4. Selective Glass: Telemetry / Dashboard Container */
 .glass-dashboard-panel {
-  background: rgba(6, 16, 36, 0.62) !important;
-  border: 1px solid rgba(100, 185, 255, 0.18) !important;
-  backdrop-filter: blur(18px) saturate(160%);
-  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  background: rgba(13, 13, 13, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    0 24px 60px -15px rgba(0, 0, 0, 0.85);
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 24px 60px -15px rgba(0, 0, 0, 0.9);
 }
 
 /* 5. Selective Glass: Pricing Cards */
 .glass-pricing-starter {
-  background: rgba(8, 20, 40, 0.52) !important;
-  border: 1px solid rgba(100, 180, 255, 0.12) !important;
+  background: rgba(13, 13, 13, 0.65) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 16px 45px -10px rgba(0, 0, 0, 0.65);
+  box-shadow: 0 16px 45px -10px rgba(0, 0, 0, 0.8);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .glass-pricing-starter:hover {
   transform: translateY(-2px);
-  border-color: rgba(100, 200, 255, 0.28) !important;
+  border-color: rgba(193, 18, 31, 0.3) !important;
 }
 
 .glass-pricing-pro {
-  background: rgba(10, 28, 54, 0.72) !important;
-  border: 1px solid rgba(59, 130, 246, 0.38) !important;
-  backdrop-filter: blur(18px) saturate(165%);
-  -webkit-backdrop-filter: blur(18px) saturate(165%);
+  background: rgba(18, 14, 14, 0.85) !important;
+  border: 1px solid rgba(193, 18, 31, 0.4) !important;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, 0.25),
-    0 24px 65px -12px rgba(0, 0, 0, 0.8);
+    inset 0 1px 1px rgba(255, 255, 255, 0.12),
+    0 24px 65px -12px rgba(193, 18, 31, 0.15);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .glass-pricing-pro:hover {
   transform: translateY(-2px) scale(1.02);
-  border-color: rgba(59, 130, 246, 0.6) !important;
+  border-color: rgba(255, 122, 0, 0.5) !important;
   box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, 0.35),
-    0 28px 75px -10px rgba(0, 0, 0, 0.85);
+    inset 0 1px 1px rgba(255, 255, 255, 0.18),
+    0 28px 75px -10px rgba(193, 18, 31, 0.22);
 }
 
 .glass-pricing-scale {
-  background: rgba(8, 20, 40, 0.52) !important;
-  border: 1px solid rgba(100, 180, 255, 0.12) !important;
+  background: rgba(13, 13, 13, 0.65) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 16px 45px -10px rgba(0, 0, 0, 0.65);
+  box-shadow: 0 16px 45px -10px rgba(0, 0, 0, 0.8);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .glass-pricing-scale:hover {
   transform: translateY(-2px);
-  border-color: rgba(100, 200, 255, 0.28) !important;
+  border-color: rgba(255, 122, 0, 0.3) !important;
 }
 
 /* 6. Selective Glass: FAQ Items */
 .glass-faq-item {
-  background: rgba(6, 16, 34, 0.52) !important;
-  border: 1px solid rgba(100, 180, 255, 0.11) !important;
+  background: rgba(13, 13, 13, 0.65) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.6);
   transition: all 0.3s ease;
 }
 .glass-faq-item:hover {
-  background: rgba(8, 22, 44, 0.6) !important;
-  border-color: rgba(100, 200, 255, 0.25) !important;
+  background: rgba(17, 17, 17, 0.75) !important;
+  border-color: rgba(193, 18, 31, 0.3) !important;
   transform: translateY(-1px);
 }
 
 .glass-faq-item.is-open {
-  background: rgba(9, 24, 50, 0.68) !important;
-  border-color: rgba(59, 130, 246, 0.4) !important;
+  background: rgba(18, 14, 14, 0.85) !important;
+  border-color: rgba(193, 18, 31, 0.45) !important;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 12px 32px -8px rgba(0, 0, 0, 0.65);
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 12px 32px -8px rgba(193, 18, 31, 0.12);
 }
 
-/* 7. Selective Glass: Final CTA Banner (Strongest Glass Panel) */
+/* 7. Selective Glass: Final CTA Banner */
 .glass-cta-panel {
-  background: rgba(9, 22, 46, 0.72) !important;
-  border: 1px solid rgba(59, 130, 246, 0.32) !important;
-  backdrop-filter: blur(20px) saturate(170%);
-  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  background: rgba(15, 12, 12, 0.85) !important;
+  border: 1px solid rgba(193, 18, 31, 0.35) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, 0.25),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
-    0 32px 85px -15px rgba(0, 0, 0, 0.85);
+    inset 0 1px 1px rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4),
+    0 32px 85px -15px rgba(0, 0, 0, 0.9);
   position: relative;
 }
 
@@ -275,10 +280,10 @@
 
 .glass-surface-interactive:hover {
   transform: translateY(-2px);
-  border-color: rgba(105, 226, 255, .35) !important;
+  border-color: rgba(193, 18, 31, 0.4) !important;
   box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, .24),
-    0 24px 55px -16px rgba(0, 0, 0, .75) !important;
+    inset 0 1px 1px rgba(255, 255, 255, 0.15),
+    0 24px 55px -16px rgba(193, 18, 31, 0.18) !important;
 }
 
 /* Crystal Edge Highlight */
@@ -379,25 +384,40 @@
   100% { transform: translate3d(var(--drift-x, 0px), -110vh, 0); opacity: 0; }
 }
 
-/* Premium White-to-Blue Enterprise Brand Gradient matching AIS logo */
+/* Premium AIS Signature Brand Gradient: Crimson Red -> Amber Fire -> White */
+.ais-signature-gradient,
 .abhimanyu-gradient-animated {
   background: linear-gradient(
-    115deg,
-    #FFFFFF 0%,
-    #FFFFFF 25%,
-    #38BDF8 50%,
-    #2563EB 75%,
-    #38BDF8 88%,
+    110deg,
+    #C1121F 0%,
+    #FF7A00 45%,
+    #FFB000 65%,
     #FFFFFF 100%
   );
-  background-size: 250% auto;
+  background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
-  animation: abhimanyuFlow 5s ease-in-out infinite alternate;
   display: inline-block;
-  filter: drop-shadow(0 2px 14px rgba(37, 99, 235, 0.28));
+}
+
+.ais-signature-gradient-animated {
+  background: linear-gradient(
+    110deg,
+    #C1121F 0%,
+    #FF7A00 35%,
+    #FFB000 60%,
+    #FFFFFF 85%,
+    #FF7A00 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  animation: abhimanyuFlow 6s ease-in-out infinite alternate;
+  display: inline-block;
 }
 
 @keyframes abhimanyuFlow {
@@ -614,7 +634,7 @@
 .scroll-mouse-wheel {
   width: 4px;
   height: 7px;
-  background: #3b82f6;
+  background: #FF7A00;
   border-radius: 2px;
   animation: scroll-wheel 1.8s ease-in-out infinite;
 }
@@ -698,9 +718,9 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(8, 24, 48, 0.85);
-  border: 1.5px solid rgba(59, 130, 246, 0.5);
-  color: #60a5fa;
+  background: rgba(18, 14, 14, 0.9);
+  border: 1.5px solid rgba(193, 18, 31, 0.4);
+  color: #FFB000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -710,9 +730,9 @@
 
 .skyfort-node-btn:hover,
 .skyfort-node-btn.is-active {
-  background: #2563eb;
+  background: #C1121F;
   color: #ffffff;
-  border-color: #93c5fd;
+  border-color: #FFB000;
   transform: scale(1.08);
 }
 
@@ -720,7 +740,7 @@
   position: absolute;
   inset: -4px;
   border-radius: 50%;
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  border: 1px solid rgba(193, 18, 31, 0.3);
   animation: node-ping 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
   pointer-events: none;
 }
@@ -761,7 +781,7 @@
   bottom: 0;
   height: 2px;
   width: 0%;
-  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  background: linear-gradient(90deg, #C1121F, #FF7A00);
   border-radius: 1px;
   transition: width 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
 }
@@ -823,4 +843,569 @@
     opacity: 1 !important;
   }
 }
+
+/* ==========================================================================
+   Comprehensive Light Mode Theme System (Site-Wide Across All Pages & Sections)
+   ========================================================================== */
+
+/* Hero Title - Ensure full letter 'y' descender is visible with ample line-height and padding */
+.hero-title {
+  padding-bottom: 0.22em !important;
+  padding-top: 0.05em !important;
+  padding-right: 0.18em !important;
+  padding-left: 0.18em !important;
+  line-height: 1.25 !important;
+  overflow: visible !important;
+  display: inline-block !important;
+}
+
+html.light,
+html.light body {
+  background-color: #F8FAFC !important;
+  color: #0F172A !important;
+}
+
+/* 1. Global Page Backgrounds & Sections (Excludes login page to preserve its authentic background) */
+html.light .public-app-layout,
+html.light main:not(.login-page-root *),
+html.light section,
+html.light .bg-black:not(.login-page-root):not(.login-page-root *),
+html.light [class*="bg-black"]:not(.login-page-root):not(.login-page-root *),
+html.light :not(.login-page-root) [class*="bg-[#080808]"],
+html.light [class*="bg-[#05080D]"]:not(.login-page-root *),
+html.light [class*="bg-[#0a0f1a]"]:not(.login-page-root *),
+html.light [class*="bg-[#070b14]"]:not(.login-page-root *),
+html.light [class*="bg-[#090e1a]"]:not(.login-page-root *),
+html.light [class*="bg-[#0b1222]"]:not(.login-page-root *),
+html.light [class*="bg-[#0b1120]"]:not(.login-page-root *),
+html.light [class*="bg-slate-950"]:not(.login-page-root *) {
+  background-color: #F8FAFC !important;
+}
+
+/* 1.5 Login & Signup: Keep exact authentic dark cybersecurity gateway presentation in BOTH dark and light themes */
+html.light .login-page-root {
+  background-color: transparent !important;
+  color: #F1F5F9 !important;
+}
+
+html.light .login-page-root .login-overlay-1 {
+  background: linear-gradient(to right, rgba(8, 8, 8, 0.95), rgba(8, 8, 8, 0.75), rgba(8, 8, 8, 0.85)) !important;
+  background-color: transparent !important;
+}
+
+html.light .login-page-root .login-overlay-2 {
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(8, 8, 8, 0.5) 50%, rgba(5, 5, 5, 0.95) 100%) !important;
+  background-color: transparent !important;
+}
+
+html.light .login-page-root [class*="bg-[#0D0D0D]"] {
+  background-color: rgba(13, 13, 13, 0.85) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #F1F5F9 !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), inset 0 1px 1px rgba(255, 255, 255, 0.08) !important;
+}
+
+html.light .login-page-root [class*="bg-[#111111]"] {
+  background-color: #111111 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #F1F5F9 !important;
+}
+
+html.light .login-page-root input:not([type="checkbox"]):not([type="radio"]) {
+  background-color: #111111 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #F1F5F9 !important;
+}
+
+html.light .login-page-root input::placeholder {
+  color: #94A3B8 !important;
+}
+
+html.light .login-page-root button[class*="bg-[#111111]"] {
+  background-color: #111111 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #FFFFFF !important;
+}
+
+html.light .login-page-root button[class*="bg-[#111111]"]:hover {
+  background-color: #1A1A1A !important;
+}
+
+html.light .login-page-root h1,
+html.light .login-page-root h2,
+html.light .login-page-root .text-white {
+  color: #FFFFFF !important;
+}
+
+html.light .login-page-root [class*="text-slate-100"] {
+  color: #F1F5F9 !important;
+}
+
+html.light .login-page-root [class*="text-slate-200"] {
+  color: #E2E8F0 !important;
+}
+
+html.light .login-page-root [class*="text-slate-300"] {
+  color: #CBD5E1 !important;
+}
+
+html.light .login-page-root [class*="text-slate-400"] {
+  color: #94A3B8 !important;
+}
+
+html.light .login-page-root [class*="border-white/10"],
+html.light .login-page-root [class*="border-white/[0.08]"] {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* 2. Hero Section: Eliminate All Dark Smudges/Shadows in Light Mode */
+html.light .hero-content-container,
+html.light .hero-content-container *,
+html.light [class*="drop-shadow-sm"],
+html.light [class*="drop-shadow-md"],
+html.light [class*="drop-shadow-lg"],
+html.light [class*="drop-shadow-xl"],
+html.light [class*="drop-shadow-2xl"],
+html.light [class*="text-shadow-sm"],
+html.light [class*="text-shadow-md"] {
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+html.light .hero-subtitle span:first-child {
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+}
+
+/* Crisp, prominent fire yellow with maximum visibility and rich amber tone */
+html.light .fire-yellow-text {
+  color: #D97706 !important;
+  -webkit-text-fill-color: #D97706 !important;
+  background: none !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+  filter: none !important;
+  text-shadow: none !important;
+  font-weight: 700 !important;
+}
+
+html.dark .fire-yellow-text {
+  color: #FFB703 !important;
+  -webkit-text-fill-color: #FFB703 !important;
+  filter: drop-shadow(0 0 16px rgba(255, 183, 3, 0.45)) !important;
+}
+
+html.light .hero-body {
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+}
+
+html.light .hero-secondary-btn,
+html.light .hero-secondary-btn span,
+html.light .hero-secondary-text {
+  background-color: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.16) !important;
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light .hero-secondary-btn:hover,
+html.light .hero-secondary-btn:hover span,
+html.light .hero-secondary-btn:hover .hero-secondary-text {
+  background-color: #F8FAFC !important;
+  border-color: rgba(193, 18, 31, 0.35) !important;
+  color: #C1121F !important;
+  -webkit-text-fill-color: #C1121F !important;
+}
+
+html.light .hero-trust-bar,
+html.light .hero-trust-bar span,
+html.light .hero-trust-item {
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+}
+
+html.light .hero-trust-divider {
+  color: #94A3B8 !important;
+  -webkit-text-fill-color: #94A3B8 !important;
+}
+
+/* 3. Ambient & Canvas Backdrop in Light Mode */
+html.light .ambient-backdrop-root,
+html.light .ambient-backdrop-base {
+  background-color: #F8FAFC !important;
+}
+
+html.light .ambient-backdrop-vignette {
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(241, 245, 249, 0.94) 100%) !important;
+}
+
+html.light .hero-ambient-vignette {
+  background: radial-gradient(circle at 50% 50%, rgba(193, 18, 31, 0.05) 0%, rgba(255, 122, 0, 0.03) 35%, rgba(248, 250, 252, 0.88) 75%, #F8FAFC 100%) !important;
+}
+
+/* 4. Header & Navigation in Light Mode */
+html.light header.site-header-opaque {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-bottom-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06) !important;
+}
+
+html.light .nav-brand-logo-container {
+  background-color: #080808 !important;
+  border-radius: 12px;
+  padding: 4px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+html.light .primary-navbar-links {
+  background-color: rgba(255, 255, 255, 0.88) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+}
+
+html.light .primary-navbar-links a,
+html.light .primary-navbar-links a span,
+html.light .primary-navbar-links .nav-item-label {
+  color: #334155 !important;
+  -webkit-text-fill-color: #334155 !important;
+}
+
+html.light .primary-navbar-links a:hover,
+html.light .primary-navbar-links a:hover span,
+html.light .primary-navbar-links a:hover .nav-item-label {
+  color: #C1121F !important;
+  -webkit-text-fill-color: #C1121F !important;
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+html.light .primary-navbar-links a.font-semibold,
+html.light .primary-navbar-links a.font-semibold span,
+html.light .primary-navbar-links a.font-semibold .nav-item-label {
+  background-color: #FFFFFF !important;
+  color: #C1121F !important;
+  -webkit-text-fill-color: #C1121F !important;
+  border-color: rgba(193, 18, 31, 0.3) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light .primary-navbar-links a:hover {
+  color: #C1121F !important;
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+html.light .nav-dropdown-menu {
+  background-color: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.12) !important;
+}
+
+html.light .nav-dropdown-menu a {
+  color: #334155 !important;
+}
+
+html.light .nav-dropdown-menu a:hover {
+  background-color: #F8FAFC !important;
+  color: #C1121F !important;
+}
+
+html.light .nav-signin-btn,
+html.light .nav-theme-toggle-btn {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  color: #0F172A !important;
+}
+
+html.light .nav-signin-btn:hover,
+html.light .nav-theme-toggle-btn:hover {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light .nav-user-dropdown {
+  background-color: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.12) !important;
+}
+
+html.light .nav-user-dropdown p.font-semibold {
+  color: #0F172A !important;
+}
+
+html.light .nav-user-dropdown a {
+  color: #334155 !important;
+}
+
+/* 5. Trust Strip (ClientLogosSection) in Light Mode */
+html.light [data-purpose="social-proof-strip"] {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light [data-purpose="social-proof-strip"] p {
+  color: #64748B !important;
+}
+
+html.light [data-purpose="social-proof-strip"] .text-slate-300 {
+  color: #334155 !important;
+}
+
+html.light [data-purpose="social-proof-strip"] .text-slate-300:hover {
+  color: #0F172A !important;
+}
+
+html.light .social-proof-fade-left {
+  background: linear-gradient(to right, #F8FAFC, rgba(248, 250, 252, 0.85), transparent) !important;
+}
+
+html.light .social-proof-fade-right {
+  background: linear-gradient(to left, #F8FAFC, rgba(248, 250, 252, 0.85), transparent) !important;
+}
+
+/* 6. Card Containers Across ALL Pages (DetailedProtectionGrid, Reviews, Projects, Services, Products, Contact, Portal) */
+html.light :not(.login-page-root) [class*="bg-[#0D0D0D]"],
+html.light :not(.login-page-root) [class*="bg-[#111111]"],
+html.light :not(.login-page-root) [class*="bg-[#151515]"],
+html.light :not(.login-page-root) [class*="bg-[#161616]"],
+html.light :not(.login-page-root) [class*="bg-slate-900/60"],
+html.light :not(.login-page-root) [class*="bg-slate-900/70"],
+html.light :not(.login-page-root) [class*="bg-slate-900/80"],
+html.light :not(.login-page-root) [class*="bg-slate-900/90"],
+html.light :not(.login-page-root) [class*="bg-slate-900"],
+html.light .glass-feature-card,
+html.light .glass-surface,
+html.light .crystal-surface,
+html.light .glass-faq-item,
+html.light .glass-pricing-starter,
+html.light .glass-pricing-scale,
+html.light .glass-dashboard-panel {
+  background-color: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  color: #0F172A !important;
+}
+
+html.light .glass-pricing-pro {
+  background-color: #FFFFFF !important;
+  border-color: rgba(193, 18, 31, 0.35) !important;
+  box-shadow: 0 16px 40px -10px rgba(193, 18, 31, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+}
+
+html.light .glass-feature-card:hover,
+html.light .glass-faq-item:hover,
+html.light [class*="hover:border-[#C1121F]"]:hover,
+html.light [class*="hover:border-cyan-500"]:hover,
+html.light [class*="hover:border-blue-500"]:hover {
+  border-color: rgba(193, 18, 31, 0.35) !important;
+  box-shadow: 0 12px 32px -6px rgba(193, 18, 31, 0.08) !important;
+}
+
+html.light .glass-faq-item.is-open {
+  background-color: #FFFFFF !important;
+  border-color: rgba(193, 18, 31, 0.45) !important;
+}
+
+html.light .glass-cta-panel {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.95)) !important;
+  border-color: rgba(193, 18, 31, 0.3) !important;
+  box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 7. Typography Across All Pages in Light Mode (Excluding Login Page) */
+html.light :not(.login-page-root) h1:not(.ais-signature-gradient):not([class*="bg-gradient"]),
+html.light :not(.login-page-root) h2:not(.ais-signature-gradient):not([class*="bg-gradient"]),
+html.light :not(.login-page-root) h3:not(.ais-signature-gradient):not([class*="bg-gradient"]),
+html.light :not(.login-page-root) h4:not(.ais-signature-gradient):not([class*="bg-gradient"]),
+html.light :not(.login-page-root) blockquote,
+html.light :not(.login-page-root) q,
+html.light :not(.login-page-root) p,
+html.light :not(.login-page-root) .text-white,
+html.light :not(.login-page-root) [class*="text-slate-100"],
+html.light :not(.login-page-root) [class*="text-slate-200"] {
+  color: #0F172A !important;
+}
+
+html.light :not(.login-page-root) [class*="text-slate-300"],
+html.light :not(.login-page-root) [class*="text-slate-400"] {
+  color: #475569 !important;
+}
+
+html.light :not(.login-page-root) [class*="text-slate-500"] {
+  color: #64748B !important;
+}
+
+/* 7.5 Protect Button, Brand Logo, and CTA Text in Light Mode */
+html.light button.bg-gradient-to-r,
+html.light button.bg-gradient-to-r *,
+html.light a.bg-gradient-to-r,
+html.light a.bg-gradient-to-r *,
+html.light button[class*="bg-blue-600"],
+html.light button[class*="bg-blue-600"] *,
+html.light a[class*="bg-blue-600"],
+html.light button[class*="bg-[#C1121F]"],
+html.light button[class*="bg-[#C1121F]"] *,
+html.light a[class*="bg-[#C1121F]"],
+html.light a[class*="bg-[#C1121F]"] *,
+html.light .nav-brand-logo-container,
+html.light .nav-brand-logo-container * {
+  color: #FFFFFF !important;
+}
+
+/* 8. Badge, Tag, and Indicator Chips */
+html.light :not(.login-page-root) span[class*="bg-[#111111]"],
+html.light :not(.login-page-root) span[class*="bg-[#151515]"],
+html.light :not(.login-page-root) span[class*="bg-slate-800"],
+html.light :not(.login-page-root) div[class*="bg-slate-800"] {
+  background-color: #F1F5F9 !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  color: #334155 !important;
+}
+
+/* 9. Form Inputs Across All Pages (Excluding Login Page) */
+html.light :not(.login-page-root) input:not([type="checkbox"]):not([type="radio"]),
+html.light :not(.login-page-root) textarea,
+html.light :not(.login-page-root) select {
+  background-color: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.14) !important;
+  color: #0F172A !important;
+}
+
+html.light :not(.login-page-root) input::placeholder,
+html.light :not(.login-page-root) textarea::placeholder {
+  color: #94A3B8 !important;
+}
+
+/* 10. Borders Across All Pages */
+html.light :not(.login-page-root) [class*="border-white/10"],
+html.light :not(.login-page-root) [class*="border-white/[0.08]"],
+html.light :not(.login-page-root) [class*="border-white/[0.06]"],
+html.light :not(.login-page-root) [class*="border-white/[0.04]"],
+html.light :not(.login-page-root) [class*="border-slate-800"],
+html.light :not(.login-page-root) [class*="border-slate-700"] {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* 11. Footer Across All Pages */
+html.light footer {
+  background-color: #F1F5F9 !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light footer [class*="text-slate-400"],
+html.light footer [class*="text-slate-500"] {
+  color: #475569 !important;
+}
+
+html.light footer a:hover {
+  color: #C1121F !important;
+}
+
+/* ==========================================================================
+   12. Login & Registration Security Gateway Theme Preservation
+   Maintains the authentic dark cybersecurity background (/login.jpg),
+   dark frosted glass auth card, and glowing typography in BOTH dark and light modes.
+   ========================================================================== */
+html.light .login-page-root,
+html.dark .login-page-root {
+  background-color: transparent !important;
+  color: #F1F5F9 !important;
+}
+
+html.light .login-page-root .login-overlay-1,
+html.dark .login-page-root .login-overlay-1 {
+  background: linear-gradient(to right, rgba(8, 8, 8, 0.95), rgba(8, 8, 8, 0.75), rgba(8, 8, 8, 0.85)) !important;
+  background-color: transparent !important;
+}
+
+html.light .login-page-root .login-overlay-2,
+html.dark .login-page-root .login-overlay-2 {
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(8, 8, 8, 0.5) 50%, rgba(5, 5, 5, 0.95) 100%) !important;
+  background-color: transparent !important;
+}
+
+html.light .login-page-root [class*="bg-[#0D0D0D]"],
+html.dark .login-page-root [class*="bg-[#0D0D0D]"] {
+  background-color: rgba(13, 13, 13, 0.85) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #F1F5F9 !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), inset 0 1px 1px rgba(255, 255, 255, 0.08) !important;
+}
+
+html.light .login-page-root [class*="bg-[#111111]"],
+html.dark .login-page-root [class*="bg-[#111111]"] {
+  background-color: #111111 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #F1F5F9 !important;
+}
+
+html.light .login-page-root input:not([type="checkbox"]):not([type="radio"]),
+html.dark .login-page-root input:not([type="checkbox"]):not([type="radio"]) {
+  background-color: #111111 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #F1F5F9 !important;
+}
+
+html.light .login-page-root input::placeholder,
+html.dark .login-page-root input::placeholder {
+  color: #94A3B8 !important;
+}
+
+html.light .login-page-root button[class*="bg-[#111111]"],
+html.dark .login-page-root button[class*="bg-[#111111]"] {
+  background-color: #111111 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #FFFFFF !important;
+}
+
+html.light .login-page-root button[class*="bg-[#111111]"]:hover,
+html.dark .login-page-root button[class*="bg-[#111111]"]:hover {
+  background-color: #1A1A1A !important;
+}
+
+html.light .login-page-root h1,
+html.light .login-page-root h2,
+html.light .login-page-root .text-white,
+html.light .login-page-root .login-card-title,
+html.light .login-page-root .login-title-lead,
+html.dark .login-page-root h1,
+html.dark .login-page-root h2,
+html.dark .login-page-root .text-white,
+html.dark .login-page-root .login-card-title,
+html.dark .login-page-root .login-title-lead,
+.login-page-root .login-card-title,
+.login-page-root .login-title-lead {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+html.light .login-page-root [class*="text-slate-100"],
+html.dark .login-page-root [class*="text-slate-100"] {
+  color: #F1F5F9 !important;
+}
+
+html.light .login-page-root [class*="text-slate-200"],
+html.dark .login-page-root [class*="text-slate-200"] {
+  color: #E2E8F0 !important;
+}
+
+html.light .login-page-root [class*="text-slate-300"],
+html.dark .login-page-root [class*="text-slate-300"] {
+  color: #CBD5E1 !important;
+}
+
+html.light .login-page-root [class*="text-slate-400"],
+html.dark .login-page-root [class*="text-slate-400"] {
+  color: #94A3B8 !important;
+}
+
+html.light .login-page-root [class*="border-white/10"],
+html.light .login-page-root [class*="border-white/[0.08]"],
+html.dark .login-page-root [class*="border-white/10"],
+html.dark .login-page-root [class*="border-white/[0.08]"] {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+
+
 

@@ -40,14 +40,14 @@ const HowItWorksArchitecture = () => {
         
         {/* Header Content */}
         <div className="text-center space-y-4 max-w-3xl mx-auto">
-          <div className="flex items-center justify-center gap-2 text-xs font-mono tracking-widest text-slate-500 uppercase">
+          <div className="flex items-center justify-center gap-2 text-xs font-mono tracking-widest text-[#FF7A00] uppercase">
             <span>—</span>
             <span>OUR APPROACH</span>
             <span>—</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
-            How We <span className="text-blue-500">Work</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold tracking-tight text-white leading-tight">
+            How We <span className="ais-signature-gradient">Work</span>
           </h2>
 
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal max-w-2xl mx-auto">
@@ -58,7 +58,7 @@ const HowItWorksArchitecture = () => {
         {/* Desktop Horizontal 4-Step Journey */}
         <div className="mt-8 sm:mt-10 hidden md:block relative">
           {/* Continuous Connector Line running through the 4 points */}
-          <div className="absolute top-[52px] left-[12.5%] right-[12.5%] h-[1px] bg-slate-800 pointer-events-none" />
+          <div className="absolute top-[52px] left-[12.5%] right-[12.5%] h-[1px] bg-white/[0.08] pointer-events-none" />
 
           <div className="grid grid-cols-4 gap-6 lg:gap-8">
             {steps.map((step, idx) => {
@@ -73,7 +73,7 @@ const HowItWorksArchitecture = () => {
                   {/* Step Number */}
                   <span
                     className={`text-xs font-mono font-bold transition-colors duration-200 ${
-                      isActive ? 'text-blue-400' : 'text-slate-500 group-hover:text-slate-400'
+                      isActive ? 'text-[#FF7A00]' : 'text-slate-500 group-hover:text-slate-400'
                     }`}
                   >
                     {step.number}
@@ -84,14 +84,14 @@ const HowItWorksArchitecture = () => {
                     <div
                       className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300 ${
                         isActive
-                          ? 'bg-blue-500/15 border border-blue-400/40 ring-4 ring-blue-500/10'
-                          : 'bg-black border border-slate-700/80 group-hover:border-slate-500'
+                          ? 'bg-[#C1121F]/20 border border-[#FF7A00]/60 ring-4 ring-[#C1121F]/15'
+                          : 'bg-black border border-slate-700/80 group-hover:border-[#C1121F]/40'
                       }`}
                     >
                       <div
                         className={`w-2.5 h-2.5 rounded-full transition-colors duration-300 ${
                           isActive
-                            ? 'bg-blue-400 shadow-[0_0_8px_rgba(59,130,246,0.6)]'
+                            ? 'bg-[#FF7A00] shadow-[0_0_8px_rgba(255,122,0,0.6)]'
                             : 'bg-slate-600 group-hover:bg-slate-400'
                         }`}
                       />
@@ -100,7 +100,7 @@ const HowItWorksArchitecture = () => {
 
                   {/* Step Title */}
                   <h3
-                    className={`text-sm sm:text-base font-bold tracking-wider uppercase mt-2 transition-colors duration-200 ${
+                    className={`text-sm sm:text-base font-heading font-bold tracking-wider uppercase mt-2 transition-colors duration-200 ${
                       isActive ? 'text-white' : 'text-slate-200 group-hover:text-white'
                     }`}
                   >
@@ -110,7 +110,7 @@ const HowItWorksArchitecture = () => {
                   {/* Subtitle */}
                   <p
                     className={`text-xs sm:text-sm font-medium mt-1 transition-colors duration-200 ${
-                      isActive ? 'text-blue-400' : 'text-slate-300 group-hover:text-slate-200'
+                      isActive ? 'text-[#FFB000]' : 'text-slate-300 group-hover:text-slate-200'
                     }`}
                   >
                     {step.title}
@@ -131,7 +131,7 @@ const HowItWorksArchitecture = () => {
         </div>
 
         {/* Mobile Vertical 4-Step Journey */}
-        <div className="mt-8 md:hidden relative pl-6 space-y-6 border-l border-slate-800 ml-4">
+        <div className="mt-8 md:hidden relative pl-6 space-y-6 border-l border-white/[0.08] ml-4">
           {steps.map((step, idx) => {
             const isActive = activeStep === idx;
 
@@ -145,22 +145,22 @@ const HowItWorksArchitecture = () => {
                 <div
                   className={`absolute -left-[31px] top-0 w-6 h-6 rounded-full flex items-center justify-center transition-all ${
                     isActive
-                      ? 'bg-blue-500/20 border border-blue-400'
+                      ? 'bg-[#C1121F]/20 border border-[#FF7A00]'
                       : 'bg-black border border-slate-700'
                   }`}
                 >
                   <div
                     className={`w-2 h-2 rounded-full ${
-                      isActive ? 'bg-blue-400' : 'bg-slate-600'
+                      isActive ? 'bg-[#FF7A00]' : 'bg-slate-600'
                     }`}
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <span className="text-xs font-mono font-bold text-blue-400">
+                  <span className="text-xs font-mono font-bold text-[#FF7A00]">
                     {step.number} — {step.code}
                   </span>
-                  <h3 className="text-base font-bold text-white">
+                  <h3 className="text-base font-heading font-bold text-white">
                     {step.title}
                   </h3>
                   <p className="text-xs text-slate-400 leading-relaxed pt-1">
@@ -176,7 +176,7 @@ const HowItWorksArchitecture = () => {
         <div className="mt-8 sm:mt-10 flex justify-center">
           <Link
             to="/technology"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-slate-700 hover:border-slate-500 bg-slate-900/50 hover:bg-slate-900 text-sm font-medium text-slate-300 hover:text-white transition-all shadow-sm"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-white/10 hover:border-[#FF7A00]/40 bg-[#111111] hover:bg-[#151515] text-sm font-medium text-slate-300 hover:text-white transition-all shadow-sm"
           >
             <span>Explore Our Approach →</span>
           </Link>

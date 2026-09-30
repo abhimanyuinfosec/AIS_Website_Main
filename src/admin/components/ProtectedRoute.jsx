@@ -20,7 +20,7 @@ export const ProtectedRoute = ({
   children,
   allowedRoles,
   requireAdmin = false,
-  redirectTo = '/admin/login',
+  redirectTo = '/',
 }) => {
   const { isAuthenticated, isLoading, user } = useAuth();
   const location = useLocation();

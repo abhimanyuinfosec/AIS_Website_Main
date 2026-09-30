@@ -66,9 +66,9 @@ const CrystalGlassEffects = () => {
         (entries) => {
           entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
-            links.forEach((a) => a.classList.remove('text-blue-400', 'bg-white/[0.06]'));
+            links.forEach((a) => a.classList.remove('text-brand-amber', 'bg-white/[0.06]'));
             const active = links.find((a) => a.getAttribute('href') === '#' + entry.target.id);
-            if (active) active.classList.add('text-blue-400', 'bg-white/[0.06]');
+            if (active) active.classList.add('text-brand-amber', 'bg-white/[0.06]');
           });
         },
         { rootMargin: '-35% 0px -55% 0px' }

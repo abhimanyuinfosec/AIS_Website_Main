@@ -57,12 +57,12 @@ const WireframeSphere = ({
     sphereGroup.rotation.z = -0.12;
     scene.add(sphereGroup);
 
-    // 4. Color Palette (Luminous warm-white core, refined amber-crimson rim)
-    const lineColor = new THREE.Color(0xff4a34);
-    const lineDeepColor = new THREE.Color(0x28060a);
-    const nodeOuterColor = new THREE.Color(0xd9261a);
-    const nodeMainColor = new THREE.Color(0xff6e38);
-    const nodeCoreColor = new THREE.Color(0xfffbf5); // Radiant pure light
+    // 4. AIS Brand Color Palette (Luminous white core, bright amber nodes, crimson network rim)
+    const lineColor = new THREE.Color(0xC1121F);
+    const lineDeepColor = new THREE.Color(0x8B0D18);
+    const nodeOuterColor = new THREE.Color(0xC1121F);
+    const nodeMainColor = new THREE.Color(0xFF7A00);
+    const nodeCoreColor = new THREE.Color(0xFFFFFF); // Radiant pure light
 
     // 5. GLSL Shaders with Built-in Scroll Disruption & Hover Brightening
     const lineShader = {

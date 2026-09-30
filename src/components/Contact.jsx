@@ -49,13 +49,13 @@ const Contact = () => {
           </p>
           <ul style={{ listStyle: 'none', padding: 0, marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <li style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: 'var(--text-main)' }}>
-              <span className="text-blue-500 font-bold">—</span> Detailed scoping within 24 hours
+              <span className="text-brand-amber font-bold">—</span> Detailed scoping within 24 hours
             </li>
             <li style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: 'var(--text-main)' }}>
-              <span className="text-blue-500 font-bold">—</span> Executive and engineering-level reporting
+              <span className="text-brand-amber font-bold">—</span> Executive and engineering-level reporting
             </li>
             <li style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: 'var(--text-main)' }}>
-              <span className="text-blue-500 font-bold">—</span> Dedicated remediation support
+              <span className="text-brand-amber font-bold">—</span> Dedicated remediation support
             </li>
           </ul>
         </div>

@@ -80,7 +80,7 @@ export const AdminLayout = () => {
 
   const handleLogout = async () => {
     await logout();
-    navigate('/admin/login');
+    navigate('/');
   };
 
   const currentNav = navItems.find((item) =>

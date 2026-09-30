@@ -137,14 +137,14 @@ export const LoginPage = () => {
 
   return (
     <div
-      className="min-h-screen w-full relative text-slate-100 flex flex-col justify-between font-sans selection:bg-blue-500 selection:text-white overflow-x-hidden bg-cover bg-center bg-no-repeat"
+      className="login-page-root min-h-screen w-full relative text-slate-100 flex flex-col justify-between font-sans selection:bg-brand-crimson selection:text-white overflow-x-hidden bg-cover bg-center bg-no-repeat"
       style={{
         backgroundImage: "url('/login.jpg')",
       }}
     >
-      {/* Background vignette & dark tint overlay to highlight MikroTik router, LEDs, and cables */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#030712]/92 via-[#030712]/65 to-[#030712]/80 pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#030712]/40 to-[#02050A]/90 pointer-events-none" />
+      {/* Background vignette & dark tint overlay */}
+      <div className="login-overlay-1 absolute inset-0 bg-gradient-to-r from-[#080808]/95 via-[#080808]/75 to-[#080808]/85 pointer-events-none" />
+      <div className="login-overlay-2 absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#080808]/50 to-[#050505]/95 pointer-events-none" />
 
       {/* Top Header Bar */}
       <header className="relative z-20 w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-5 pb-2 flex items-center justify-between">
@@ -156,10 +156,10 @@ export const LoginPage = () => {
             className="h-9 sm:h-11 w-auto object-contain mix-blend-screen transition-opacity duration-200 group-hover:opacity-90"
           />
 
-          <div className="h-6 sm:h-7 w-[1.5px] bg-slate-600/70" />
+          <div className="h-6 sm:h-7 w-[1.5px] bg-white/10" />
 
           <div className="flex flex-col text-left">
-            <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.22em] text-slate-200 uppercase leading-tight font-sans">
+            <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.22em] text-slate-200 uppercase leading-tight font-heading">
               SECURITY GATEWAY
             </span>
             <span className="text-[9.5px] sm:text-[10px] text-slate-400 font-normal leading-tight mt-0.5">
@@ -189,7 +189,7 @@ export const LoginPage = () => {
               <ChevronDown size={13} className="text-slate-400" />
             </button>
             {langMenuOpen && (
-              <div className="absolute right-0 mt-2 w-28 rounded-xl bg-[#091122]/95 backdrop-blur-xl border border-white/10 shadow-2xl py-1 z-30 text-xs text-slate-300 animate-in fade-in zoom-in-95 duration-100">
+              <div className="absolute right-0 mt-2 w-28 rounded-xl bg-[#0D0D0D]/95 backdrop-blur-xl border border-white/10 shadow-2xl py-1 z-30 text-xs text-slate-300 animate-in fade-in zoom-in-95 duration-100">
                 {['EN', 'FR', 'DE', 'ES', 'JA'].map((lang) => (
                   <button
                     key={lang}
@@ -198,8 +198,8 @@ export const LoginPage = () => {
                       setSelectedLang(lang);
                       setLangMenuOpen(false);
                     }}
-                    className={`w-full text-left px-3 py-1.5 hover:bg-blue-600/20 hover:text-white transition ${
-                      selectedLang === lang ? 'text-blue-400 font-semibold' : ''
+                    className={`w-full text-left px-3 py-1.5 hover:bg-brand-crimson/20 hover:text-white transition ${
+                      selectedLang === lang ? 'text-brand-amber font-semibold' : ''
                     }`}
                   >
                     {lang}
@@ -214,17 +214,19 @@ export const LoginPage = () => {
       {/* Main Content Area */}
       <main className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-3 sm:py-5 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-14 my-auto">
         {/* Left Side: Frosted Glass Auth Card */}
-        <div className="w-full max-w-[420px] rounded-[24px] bg-[#0A1224]/65 backdrop-blur-xl border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.65),inset_0_1px_1px_rgba(255,255,255,0.08)] p-6 sm:p-7 text-slate-100 relative transition-all duration-300">
+        <div className="w-full max-w-[420px] rounded-[24px] bg-[#0D0D0D]/85 backdrop-blur-xl border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.85),inset_0_1px_1px_rgba(255,255,255,0.08)] p-6 sm:p-7 text-slate-100 relative transition-all duration-300">
           {/* Card Title */}
           <div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+            <h1 className="login-card-title text-2xl sm:text-3xl font-extrabold tracking-tight text-white font-heading">
               {mode === 'login' ? (
                 <>
-                  Welcome <span className="text-blue-500">Back</span>
+                  <span className="login-title-lead text-white">Welcome</span>{' '}
+                  <span className="ais-signature-gradient">Back</span>
                 </>
               ) : (
                 <>
-                  Create <span className="text-blue-500">Account</span>
+                  <span className="login-title-lead text-white">Create</span>{' '}
+                  <span className="ais-signature-gradient">Account</span>
                 </>
               )}
             </h1>
@@ -266,7 +268,7 @@ export const LoginPage = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Full name"
-                  className="w-full bg-[#0B1528]/80 border border-slate-700/60 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-400 outline-none transition"
+                  className="w-full bg-[#111111] border border-white/10 focus:border-brand-crimson focus:ring-1 focus:ring-brand-crimson/40 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-400 outline-none transition"
                 />
               </div>
             )}
@@ -283,7 +285,7 @@ export const LoginPage = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={mode === 'login' ? 'Email or username' : 'Work email address'}
-                className="w-full bg-[#0B1528]/80 border border-slate-700/60 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-400 outline-none transition"
+                className="w-full bg-[#111111] border border-white/10 focus:border-brand-crimson focus:ring-1 focus:ring-brand-crimson/40 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-400 outline-none transition"
               />
             </div>
 
@@ -299,7 +301,7 @@ export const LoginPage = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder={mode === 'register' ? 'Password (min. 8 characters)' : 'Password'}
-                className="w-full bg-[#0B1528]/80 border border-slate-700/60 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 rounded-xl pl-10 pr-11 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-400 outline-none transition"
+                className="w-full bg-[#111111] border border-white/10 focus:border-brand-crimson focus:ring-1 focus:ring-brand-crimson/40 rounded-xl pl-10 pr-11 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-400 outline-none transition"
               />
               <button
                 type="button"
@@ -324,7 +326,7 @@ export const LoginPage = () => {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Confirm password"
-                  className="w-full bg-[#0B1528]/80 border border-slate-700/60 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 rounded-xl pl-10 pr-11 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-400 outline-none transition"
+                  className="w-full bg-[#111111] border border-white/10 focus:border-brand-crimson focus:ring-1 focus:ring-brand-crimson/40 rounded-xl pl-10 pr-11 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-400 outline-none transition"
                 />
                 <button
                   type="button"
@@ -345,7 +347,7 @@ export const LoginPage = () => {
                     type="checkbox"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-3.5 h-3.5 rounded bg-[#0B1528] border-slate-700 text-blue-600 focus:ring-blue-500/40 cursor-pointer accent-blue-600"
+                    className="w-3.5 h-3.5 rounded bg-[#111111] border-white/10 text-brand-crimson focus:ring-brand-crimson/40 cursor-pointer accent-[#C1121F]"
                   />
                   <span>Remember me</span>
                 </label>
@@ -356,7 +358,7 @@ export const LoginPage = () => {
                       'Password reset link will be sent to your registered email address.'
                     )
                   }
-                  className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
+                  className="text-brand-amber hover:text-brand-bright font-medium transition-colors"
                 >
                   Forgot password?
                 </button>
@@ -369,15 +371,15 @@ export const LoginPage = () => {
                     required
                     checked={agreeTerms}
                     onChange={(e) => setAgreeTerms(e.target.checked)}
-                    className="w-3.5 h-3.5 rounded bg-[#0B1528] border-slate-700 text-blue-600 focus:ring-blue-500/40 cursor-pointer accent-blue-600 shrink-0"
+                    className="w-3.5 h-3.5 rounded bg-[#111111] border-white/10 text-brand-crimson focus:ring-brand-crimson/40 cursor-pointer accent-[#C1121F] shrink-0"
                   />
                   <span className="leading-snug text-slate-400 text-[11px] sm:text-xs">
                     I agree to the{' '}
-                    <Link to="/about/mission" className="text-blue-400 hover:underline">
+                    <Link to="/about/mission" className="text-brand-amber hover:underline">
                       Terms
                     </Link>{' '}
                     &amp;{' '}
-                    <Link to="/about/mission" className="text-blue-400 hover:underline">
+                    <Link to="/about/mission" className="text-brand-amber hover:underline">
                       Privacy Policy
                     </Link>
                   </span>
@@ -389,7 +391,7 @@ export const LoginPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-semibold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 shadow-[0_4px_22px_rgba(37,99,235,0.45)] hover:shadow-[0_6px_28px_rgba(37,99,235,0.6)] active:scale-[0.99] transition-all disabled:opacity-60 cursor-pointer"
+              className="w-full py-3 px-4 bg-gradient-to-r from-brand-crimson via-brand-bright to-brand-amber hover:brightness-110 text-white font-semibold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 shadow-[0_4px_22px_rgba(193,18,31,0.4)] hover:shadow-[0_6px_28px_rgba(255,122,0,0.4)] active:scale-[0.99] transition-all disabled:opacity-60 cursor-pointer font-heading tracking-wide"
             >
               {loading ? (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -404,11 +406,11 @@ export const LoginPage = () => {
 
           {/* OR Divider */}
           <div className="relative flex items-center justify-center my-3">
-            <div className="border-t border-slate-700/60 w-full" />
-            <span className="px-3 text-[10px] text-slate-400 font-semibold tracking-wider uppercase shrink-0">
+            <div className="border-t border-white/10 w-full" />
+            <span className="px-3 text-[10px] text-slate-400 font-semibold tracking-wider uppercase shrink-0 font-heading">
               OR
             </span>
-            <div className="border-t border-slate-700/60 w-full" />
+            <div className="border-t border-white/10 w-full" />
           </div>
 
           {/* Social Auth Buttons */}
@@ -416,7 +418,7 @@ export const LoginPage = () => {
             <button
               type="button"
               onClick={handleOAuthGitHub}
-              className="w-full py-2.5 px-4 rounded-xl bg-[#0B1528]/60 hover:bg-[#111f38] border border-slate-700/60 hover:border-slate-500/80 text-white text-xs font-medium transition flex items-center justify-center gap-2.5 cursor-pointer"
+              className="w-full py-2.5 px-4 rounded-xl bg-[#111111] hover:bg-[#1a1a1a] border border-white/10 hover:border-brand-crimson/50 text-white text-xs font-medium transition flex items-center justify-center gap-2.5 cursor-pointer"
             >
               <svg className="w-3.5 h-3.5 fill-white shrink-0" viewBox="0 0 24 24">
                 <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
@@ -427,7 +429,7 @@ export const LoginPage = () => {
             <button
               type="button"
               onClick={handleOAuthGoogle}
-              className="w-full py-2.5 px-4 rounded-xl bg-[#0B1528]/60 hover:bg-[#111f38] border border-slate-700/60 hover:border-slate-500/80 text-white text-xs font-medium transition flex items-center justify-center gap-2.5 cursor-pointer"
+              className="w-full py-2.5 px-4 rounded-xl bg-[#111111] hover:bg-[#1a1a1a] border border-white/10 hover:border-brand-crimson/50 text-white text-xs font-medium transition flex items-center justify-center gap-2.5 cursor-pointer"
             >
               <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
                 <path
@@ -459,7 +461,7 @@ export const LoginPage = () => {
                 <button
                   type="button"
                   onClick={() => switchMode('register')}
-                  className="text-blue-400 hover:text-blue-300 font-medium transition-colors cursor-pointer"
+                  className="text-brand-amber hover:text-brand-bright font-medium transition-colors cursor-pointer"
                 >
                   Create an account
                 </button>
@@ -470,7 +472,7 @@ export const LoginPage = () => {
                 <button
                   type="button"
                   onClick={() => switchMode('login')}
-                  className="text-blue-400 hover:text-blue-300 font-medium transition-colors cursor-pointer"
+                  className="text-brand-amber hover:text-brand-bright font-medium transition-colors cursor-pointer"
                 >
                   Sign in
                 </button>
@@ -482,10 +484,10 @@ export const LoginPage = () => {
         {/* Right Side: Value Proposition & Feature Pillars */}
         <div className="w-full lg:max-w-xl space-y-6 lg:pb-6 text-left self-center lg:self-end">
           <div>
-            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-white tracking-tight leading-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-white tracking-tight leading-tight font-heading">
               Stronger Security.
             </h2>
-            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-blue-500 tracking-tight leading-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold ais-signature-gradient tracking-tight leading-tight font-heading">
               Smarter Business.
             </h2>
             <p className="text-slate-300 text-xs sm:text-sm mt-3 leading-relaxed max-w-md font-normal">
@@ -498,44 +500,44 @@ export const LoginPage = () => {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
             {/* 1. Detect */}
             <div className="flex items-start gap-2.5">
-              <div className="text-blue-400 mt-0.5 shrink-0">
+              <div className="text-brand-crimson mt-0.5 shrink-0">
                 <Shield size={20} strokeWidth={2.2} />
               </div>
               <div>
-                <div className="text-xs sm:text-sm font-bold text-white leading-tight">Detect</div>
+                <div className="text-xs sm:text-sm font-bold text-white leading-tight font-heading">Detect</div>
                 <div className="text-[11px] text-slate-400 leading-tight mt-0.5">Threats early</div>
               </div>
             </div>
 
             {/* 2. Prevent */}
             <div className="flex items-start gap-2.5">
-              <div className="text-blue-400 mt-0.5 shrink-0">
+              <div className="text-brand-bright mt-0.5 shrink-0">
                 <Lock size={20} strokeWidth={2.2} />
               </div>
               <div>
-                <div className="text-xs sm:text-sm font-bold text-white leading-tight">Prevent</div>
+                <div className="text-xs sm:text-sm font-bold text-white leading-tight font-heading">Prevent</div>
                 <div className="text-[11px] text-slate-400 leading-tight mt-0.5">Attacks &amp; breaches</div>
               </div>
             </div>
 
             {/* 3. Respond */}
             <div className="flex items-start gap-2.5">
-              <div className="text-blue-400 mt-0.5 shrink-0">
+              <div className="text-brand-amber mt-0.5 shrink-0">
                 <Share2 size={20} strokeWidth={2.2} />
               </div>
               <div>
-                <div className="text-xs sm:text-sm font-bold text-white leading-tight">Respond</div>
+                <div className="text-xs sm:text-sm font-bold text-white leading-tight font-heading">Respond</div>
                 <div className="text-[11px] text-slate-400 leading-tight mt-0.5">Faster</div>
               </div>
             </div>
 
             {/* 4. Secure */}
             <div className="flex items-start gap-2.5">
-              <div className="text-blue-400 mt-0.5 shrink-0">
+              <div className="text-brand-crimson mt-0.5 shrink-0">
                 <ShieldCheck size={20} strokeWidth={2.2} />
               </div>
               <div>
-                <div className="text-xs sm:text-sm font-bold text-white leading-tight">Secure</div>
+                <div className="text-xs sm:text-sm font-bold text-white leading-tight font-heading">Secure</div>
                 <div className="text-[11px] text-slate-400 leading-tight mt-0.5">Your future</div>
               </div>
             </div>
@@ -549,9 +551,9 @@ export const LoginPage = () => {
           type="button"
           onClick={handleFillDemo}
           title="Auto-fill admin demo credentials"
-          className="text-[10px] font-mono text-slate-500 hover:text-slate-300 bg-slate-900/50 hover:bg-slate-900/80 px-2.5 py-1 rounded-md border border-white/5 transition flex items-center gap-1.5 opacity-60 hover:opacity-100 cursor-pointer"
+          className="text-[10px] font-mono text-slate-500 hover:text-slate-300 bg-black/60 hover:bg-black/90 px-2.5 py-1 rounded-md border border-white/5 transition flex items-center gap-1.5 opacity-60 hover:opacity-100 cursor-pointer"
         >
-          <KeyRound size={11} className="text-blue-400" />
+          <KeyRound size={11} className="text-brand-amber" />
           <span>Demo Admin Credentials</span>
         </button>
       </div>

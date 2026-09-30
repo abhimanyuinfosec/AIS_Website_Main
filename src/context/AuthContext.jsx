@@ -23,6 +23,9 @@ export const AuthProvider = ({ children }) => {
       await api.post('/auth/logout').catch(() => {});
     } finally {
       _clearSession();
+      if (typeof window !== 'undefined' && window.location.pathname !== '/') {
+        window.location.href = '/';
+      }
     }
   }, [_clearSession]);
 
@@ -31,6 +34,9 @@ export const AuthProvider = ({ children }) => {
     const handleExpired = () => {
       console.warn('[Auth] Session expired — logging out.');
       _clearSession();
+      if (typeof window !== 'undefined' && window.location.pathname !== '/') {
+        window.location.href = '/';
+      }
     };
     window.addEventListener('ais:session-expired', handleExpired);
     return () => window.removeEventListener('ais:session-expired', handleExpired);
