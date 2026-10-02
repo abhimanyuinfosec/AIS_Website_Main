@@ -5,6 +5,11 @@ const ThemeContext = createContext();
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const paramTheme = urlParams.get('theme');
+      if (paramTheme === 'light' || paramTheme === 'dark') {
+        return paramTheme;
+      }
       const saved = localStorage.getItem('ais_theme');
       return saved === 'light' ? 'light' : 'dark';
     }

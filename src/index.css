@@ -881,82 +881,7 @@ html.light [class*="bg-[#0b1120]"]:not(.login-page-root *),
 html.light [class*="bg-slate-950"]:not(.login-page-root *) {
   background-color: #F8FAFC !important;
 }
-
-/* 1.5 Login & Signup: Keep exact authentic dark cybersecurity gateway presentation in BOTH dark and light themes */
-html.light .login-page-root {
-  background-color: transparent !important;
-  color: #F1F5F9 !important;
-}
-
-html.light .login-page-root .login-overlay-1 {
-  background: linear-gradient(to right, rgba(8, 8, 8, 0.95), rgba(8, 8, 8, 0.75), rgba(8, 8, 8, 0.85)) !important;
-  background-color: transparent !important;
-}
-
-html.light .login-page-root .login-overlay-2 {
-  background: radial-gradient(ellipse at center, transparent 0%, rgba(8, 8, 8, 0.5) 50%, rgba(5, 5, 5, 0.95) 100%) !important;
-  background-color: transparent !important;
-}
-
-html.light .login-page-root [class*="bg-[#0D0D0D]"] {
-  background-color: rgba(13, 13, 13, 0.85) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  color: #F1F5F9 !important;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), inset 0 1px 1px rgba(255, 255, 255, 0.08) !important;
-}
-
-html.light .login-page-root [class*="bg-[#111111]"] {
-  background-color: #111111 !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  color: #F1F5F9 !important;
-}
-
-html.light .login-page-root input:not([type="checkbox"]):not([type="radio"]) {
-  background-color: #111111 !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  color: #F1F5F9 !important;
-}
-
-html.light .login-page-root input::placeholder {
-  color: #94A3B8 !important;
-}
-
-html.light .login-page-root button[class*="bg-[#111111]"] {
-  background-color: #111111 !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  color: #FFFFFF !important;
-}
-
-html.light .login-page-root button[class*="bg-[#111111]"]:hover {
-  background-color: #1A1A1A !important;
-}
-
-html.light .login-page-root h1,
-html.light .login-page-root h2,
-html.light .login-page-root .text-white {
-  color: #FFFFFF !important;
-}
-
-html.light .login-page-root [class*="text-slate-100"] {
-  color: #F1F5F9 !important;
-}
-
-html.light .login-page-root [class*="text-slate-200"] {
-  color: #E2E8F0 !important;
-}
-
-html.light .login-page-root [class*="text-slate-300"] {
-  color: #CBD5E1 !important;
-}
-
-html.light .login-page-root [class*="text-slate-400"] {
-  color: #94A3B8 !important;
-}
-
-html.light .login-page-root [class*="border-white/10"],
-html.light .login-page-root [class*="border-white/[0.08]"] {
-  border-color: rgba(255, 255, 255, 0.1) !important;
-}
+/* 1.5 Login & Registration Security Gateway Theming is centralized in Section 12 */
 
 /* 2. Hero Section: Eliminate All Dark Smudges/Shadows in Light Mode */
 html.light .hero-content-container,
@@ -1045,19 +970,22 @@ html.light .hero-ambient-vignette {
   background: radial-gradient(circle at 50% 50%, rgba(193, 18, 31, 0.05) 0%, rgba(255, 122, 0, 0.03) 35%, rgba(248, 250, 252, 0.88) 75%, #F8FAFC 100%) !important;
 }
 
-/* 4. Header & Navigation in Light Mode */
-html.light header.site-header-opaque {
-  background-color: rgba(255, 255, 255, 0.92) !important;
-  border-bottom-color: rgba(0, 0, 0, 0.08) !important;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06) !important;
+/* 4. Header & Navigation in Light Mode (Transparent header matching home page for all sections) */
+html.light header.site-header-hero,
+html.light header.site-header-opaque,
+html.light header[data-purpose="site-header"] {
+  background-color: transparent !important;
+  border-bottom-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 html.light .nav-brand-logo-container {
-  background-color: #080808 !important;
-  border-radius: 12px;
-  padding: 4px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 4px 0 !important;
 }
 
 html.light .primary-navbar-links {
@@ -1302,108 +1230,442 @@ html.light footer a:hover {
 }
 
 /* ==========================================================================
-   12. Login & Registration Security Gateway Theme Preservation
-   Maintains the authentic dark cybersecurity background (/login.jpg),
-   dark frosted glass auth card, and glowing typography in BOTH dark and light modes.
+   12. Login & Registration Security Gateway Theme Styling
+   - Light Theme: /loginlight.png background with crisp frosted glass card & slate typography
+   - Dark Theme: /login.jpg authentic dark cybersecurity gateway preserved exactly as is
    ========================================================================== */
-html.light .login-page-root,
+
+/* ─── Default / Dark Theme (Preserve exactly as it was) ─── */
+.login-page-root {
+  background-image: url('/login.jpg');
+}
+
 html.dark .login-page-root {
-  background-color: transparent !important;
+  background-image: url('/login.jpg') !important;
+  background-color: #080808 !important;
   color: #F1F5F9 !important;
 }
 
-html.light .login-page-root .login-overlay-1,
 html.dark .login-page-root .login-overlay-1 {
   background: linear-gradient(to right, rgba(8, 8, 8, 0.95), rgba(8, 8, 8, 0.75), rgba(8, 8, 8, 0.85)) !important;
   background-color: transparent !important;
 }
 
-html.light .login-page-root .login-overlay-2,
 html.dark .login-page-root .login-overlay-2 {
   background: radial-gradient(ellipse at center, transparent 0%, rgba(8, 8, 8, 0.5) 50%, rgba(5, 5, 5, 0.95) 100%) !important;
   background-color: transparent !important;
 }
 
-html.light .login-page-root [class*="bg-[#0D0D0D]"],
-html.dark .login-page-root [class*="bg-[#0D0D0D]"] {
+html.dark .login-page-root [class*="bg-[#0D0D0D]"],
+html.dark .login-page-root .login-auth-card {
   background-color: rgba(13, 13, 13, 0.85) !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
   color: #F1F5F9 !important;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), inset 0 1px 1px rgba(255, 255, 255, 0.08) !important;
 }
 
-html.light .login-page-root [class*="bg-[#111111]"],
 html.dark .login-page-root [class*="bg-[#111111]"] {
   background-color: #111111 !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
   color: #F1F5F9 !important;
 }
 
-html.light .login-page-root input:not([type="checkbox"]):not([type="radio"]),
 html.dark .login-page-root input:not([type="checkbox"]):not([type="radio"]) {
   background-color: #111111 !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
   color: #F1F5F9 !important;
 }
 
-html.light .login-page-root input::placeholder,
 html.dark .login-page-root input::placeholder {
   color: #94A3B8 !important;
 }
 
-html.light .login-page-root button[class*="bg-[#111111]"],
 html.dark .login-page-root button[class*="bg-[#111111]"] {
   background-color: #111111 !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
   color: #FFFFFF !important;
 }
 
-html.light .login-page-root button[class*="bg-[#111111]"]:hover,
 html.dark .login-page-root button[class*="bg-[#111111]"]:hover {
   background-color: #1A1A1A !important;
 }
 
-html.light .login-page-root h1,
-html.light .login-page-root h2,
-html.light .login-page-root .text-white,
-html.light .login-page-root .login-card-title,
-html.light .login-page-root .login-title-lead,
-html.dark .login-page-root h1,
-html.dark .login-page-root h2,
+html.dark .login-page-root h1:not(.ais-signature-gradient),
+html.dark .login-page-root h2:not(.ais-signature-gradient),
 html.dark .login-page-root .text-white,
 html.dark .login-page-root .login-card-title,
 html.dark .login-page-root .login-title-lead,
+html.dark .login-page-root .login-hero-headline,
+html.dark .login-page-root .login-pillar-title,
 .login-page-root .login-card-title,
 .login-page-root .login-title-lead {
   color: #FFFFFF !important;
   -webkit-text-fill-color: #FFFFFF !important;
 }
 
-html.light .login-page-root [class*="text-slate-100"],
 html.dark .login-page-root [class*="text-slate-100"] {
   color: #F1F5F9 !important;
 }
 
-html.light .login-page-root [class*="text-slate-200"],
 html.dark .login-page-root [class*="text-slate-200"] {
   color: #E2E8F0 !important;
 }
 
-html.light .login-page-root [class*="text-slate-300"],
 html.dark .login-page-root [class*="text-slate-300"] {
   color: #CBD5E1 !important;
 }
 
-html.light .login-page-root [class*="text-slate-400"],
 html.dark .login-page-root [class*="text-slate-400"] {
   color: #94A3B8 !important;
 }
 
-html.light .login-page-root [class*="border-white/10"],
-html.light .login-page-root [class*="border-white/[0.08]"],
 html.dark .login-page-root [class*="border-white/10"],
 html.dark .login-page-root [class*="border-white/[0.08]"] {
   border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* ─── Light Theme (Uses /loginlight.png with custom Frosted Glass Card) ─── */
+html.light .login-page-root {
+  background-image: url('/loginlight.png') !important;
+  background-color: #F1F5F9 !important;
+  color: #0F172A !important;
+}
+
+/* Overlay adjustments in light theme: gentle tint to ensure optimal text contrast over hardware background */
+html.light .login-page-root .login-overlay-1 {
+  display: block !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(241, 245, 249, 0.25) 50%, rgba(255, 255, 255, 0.6) 100%) !important;
+}
+
+html.light .login-page-root .login-overlay-2 {
+  display: block !important;
+  background: radial-gradient(ellipse at 75% 60%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 55%, transparent 100%) !important;
+}
+
+/* Right-side hero text & feature pillars in light theme */
+html.light .login-page-root .login-right-content {
+  display: block !important;
+}
+
+html.light .login-page-root .login-hero-headline {
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  text-shadow: none !important;
+}
+
+html.light .login-page-root .login-hero-desc {
+  color: #1E293B !important;
+  -webkit-text-fill-color: #1E293B !important;
+  font-weight: 500 !important;
+  text-shadow: none !important;
+}
+
+html.light .login-page-root .login-pillar-title {
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  font-weight: 700 !important;
+  text-shadow: none !important;
+}
+
+html.light .login-page-root .login-pillar-subtitle {
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+  font-weight: 500 !important;
+  text-shadow: none !important;
+}
+
+/* Header brand logo badge */
+html.light .login-page-root .login-brand-logo-badge {
+  background-color: #080808 !important;
+  border-radius: 12px;
+  padding: 4px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  display: inline-flex;
+  align-items: center;
+}
+
+html.light .login-page-root .login-header-divider {
+  background-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+html.light .login-page-root .login-gateway-title {
+  color: #0F172A !important;
+}
+
+html.light .login-page-root .login-gateway-subtitle {
+  color: #64748B !important;
+}
+
+html.light .login-page-root .login-header-help {
+  color: #334155 !important;
+}
+
+html.light .login-page-root .login-header-help:hover {
+  color: #C1121F !important;
+}
+
+html.light .login-page-root .login-header-help svg {
+  color: #64748B !important;
+}
+
+html.light .login-page-root .login-theme-toggle {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  color: #1E293B !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+html.light .login-page-root .login-theme-toggle:hover {
+  background-color: #FFFFFF !important;
+  border-color: rgba(59, 130, 246, 0.4) !important;
+  color: #3B82F6 !important;
+}
+
+html.light .login-page-root .login-lang-btn {
+  color: #334155 !important;
+}
+
+html.light .login-page-root .login-lang-btn:hover {
+  color: #0F172A !important;
+}
+
+html.light .login-page-root .login-lang-menu {
+  background-color: rgba(255, 255, 255, 0.98) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1) !important;
+}
+
+html.light .login-page-root .login-lang-menu button {
+  color: #334155 !important;
+}
+
+html.light .login-page-root .login-lang-menu button:hover {
+  background-color: #F1F5F9 !important;
+  color: #3B82F6 !important;
+}
+
+/* ─── Exact Frosted Glass Auth Card in Light Theme (Matched to User Mockup) ─── */
+html.light .login-page-root .login-auth-card {
+  background: rgba(255, 255, 255, 0.62) !important;
+  backdrop-filter: blur(28px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.88) !important;
+  border-radius: 28px !important;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.08), 
+              0 0 0 1px rgba(255, 255, 255, 0.6) inset,
+              0 1px 2px rgba(0, 0, 0, 0.02) !important;
+  padding: 2.25rem 2rem !important;
+  max-width: 410px !important;
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Card title & subtitle in light theme */
+html.light .login-page-root .login-card-header {
+  display: block !important;
+  margin-bottom: 1.25rem !important;
+  text-align: left !important;
+}
+
+html.light .login-page-root .login-card-title {
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+}
+
+html.light .login-page-root .login-title-lead {
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+}
+
+html.light .login-page-root .login-card-subtitle {
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+}
+
+/* Form container */
+html.light .login-page-root .login-form {
+  margin-top: 0.75rem !important;
+}
+
+/* Inputs in light theme */
+html.light .login-page-root input:not([type="checkbox"]):not([type="radio"]) {
+  background-color: rgba(240, 244, 250, 0.65) !important;
+  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  border-radius: 16px !important;
+  color: #334155 !important;
+  font-size: 0.875rem !important;
+  padding-top: 0.8rem !important;
+  padding-bottom: 0.8rem !important;
+  padding-left: 2.75rem !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+  transition: all 0.2s ease !important;
+}
+
+html.light .login-page-root input:not([type="checkbox"]):not([type="radio"]):focus {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: #3B82F6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18) !important;
+  outline: none !important;
+}
+
+html.light .login-page-root input::placeholder {
+  color: #64748B !important;
+  font-weight: 400 !important;
+}
+
+html.light .login-page-root .login-input-icon {
+  color: #475569 !important;
+}
+
+html.light .login-page-root .login-password-toggle {
+  color: #64748B !important;
+}
+
+html.light .login-page-root .login-password-toggle:hover {
+  color: #1E293B !important;
+}
+
+/* Remember me & Forgot password row */
+html.light .login-page-root .login-remember-row {
+  margin-top: 0.85rem !important;
+  margin-bottom: 0.85rem !important;
+}
+
+html.light .login-page-root .login-remember-label {
+  color: #475569 !important;
+  font-size: 0.8125rem !important;
+}
+
+html.light .login-page-root .login-remember-text {
+  color: #475569 !important;
+}
+
+html.light .login-page-root .login-checkbox {
+  border-radius: 6px !important;
+  border-color: #CBD5E1 !important;
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  accent-color: #3B82F6 !important;
+}
+
+html.light .login-page-root .login-forgot-btn {
+  color: #3B82F6 !important;
+  font-size: 0.8125rem !important;
+  font-weight: 400 !important;
+}
+
+html.light .login-page-root .login-forgot-btn:hover {
+  color: #2563EB !important;
+  text-decoration: underline !important;
+}
+
+/* Submit Button: Solid soft blue rounded pill as in user mockup */
+html.light .login-page-root .login-submit-btn {
+  background: #4A8CF6 !important;
+  background-image: linear-gradient(180deg, #60A5FA 0%, #3B82F6 100%) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 16px !important;
+  padding-top: 0.825rem !important;
+  padding-bottom: 0.825rem !important;
+  font-size: 0.9375rem !important;
+  font-weight: 500 !important;
+  letter-spacing: normal !important;
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35) !important;
+  transition: all 0.2s ease !important;
+}
+
+html.light .login-page-root .login-submit-btn:hover {
+  background-image: linear-gradient(180deg, #6baafe 0%, #2563eb 100%) !important;
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45) !important;
+  transform: translateY(-1px) !important;
+}
+
+html.light .login-page-root .login-submit-btn:active {
+  transform: translateY(0px) !important;
+}
+
+/* In light theme, hide the arrow icon inside the submit button to match mockup */
+html.light .login-page-root .login-submit-arrow {
+  display: none !important;
+}
+
+/* OR Divider */
+html.light .login-page-root .login-or-divider {
+  margin-top: 1.25rem !important;
+  margin-bottom: 1.25rem !important;
+}
+
+html.light .login-page-root .login-or-line {
+  border-color: rgba(203, 213, 225, 0.7) !important;
+}
+
+html.light .login-page-root .login-or-text {
+  color: #94A3B8 !important;
+  font-size: 0.6875rem !important;
+  font-weight: 600 !important;
+}
+
+/* Social Buttons ("Continue with GitHub" & "Continue with Google") */
+html.light .login-page-root .login-social-btn {
+  background-color: #FFFFFF !important;
+  border: 1px solid rgba(226, 232, 240, 0.95) !important;
+  border-radius: 16px !important;
+  color: #1E293B !important;
+  padding-top: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  transition: all 0.2s ease !important;
+}
+
+html.light .login-page-root .login-social-btn:hover {
+  background-color: #F8FAFC !important;
+  border-color: #CBD5E1 !important;
+  color: #0F172A !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06) !important;
+  transform: translateY(-1px) !important;
+}
+
+html.light .login-page-root .login-github-icon {
+  fill: #0F172A !important;
+}
+
+/* Card Mode Switch Footer */
+html.light .login-page-root .login-card-footer {
+  color: #64748B !important;
+  font-size: 0.75rem !important;
+  margin-top: 1.25rem !important;
+}
+
+html.light .login-page-root .login-card-footer button {
+  color: #3B82F6 !important;
+  font-weight: 500 !important;
+}
+
+html.light .login-page-root .login-card-footer button:hover {
+  color: #2563EB !important;
+  text-decoration: underline !important;
+}
+
+/* Legal text & links */
+html.light .login-page-root label,
+html.light .login-page-root label span {
+  color: #475569 !important;
+}
+
+/* Demo admin trigger button */
+html.light .login-page-root .login-demo-btn {
+  background-color: rgba(255, 255, 255, 0.75) !important;
+  color: #64748B !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  border-radius: 10px !important;
+}
+
+html.light .login-page-root .login-demo-btn:hover {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
 }
 
 

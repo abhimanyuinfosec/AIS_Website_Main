@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link, useSearchParams } from 'react-router-dom';
 import {
   Shield,
@@ -10,13 +10,13 @@ import {
   Eye,
   EyeOff,
   KeyRound,
-  HelpCircle,
-  ChevronDown,
   Share2,
   ShieldCheck,
   Check,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
+import { Navbar } from '../components/Navbar';
 import { API_BASE_URL } from '../services/api';
 
 export const LoginPage = () => {
@@ -41,11 +41,9 @@ export const LoginPage = () => {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const [langMenuOpen, setLangMenuOpen] = useState(false);
-  const [selectedLang, setSelectedLang] = useState('EN');
 
-  const langRef = useRef(null);
   const { login, register, isAuthenticated, isAdmin } = useAuth();
+  const { theme, toggleTheme, isDark } = useTheme();
   const navigate = useNavigate();
 
   // Sync mode if user navigates via browser history
@@ -56,17 +54,6 @@ export const LoginPage = () => {
       setMode('login');
     }
   }, [location.pathname]);
-
-  // Click outside to close language dropdown
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (langRef.current && !langRef.current.contains(event.target)) {
-        setLangMenuOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
   // Redirect if authenticated - always redirect to home page
   useEffect(() => {
@@ -137,100 +124,37 @@ export const LoginPage = () => {
 
   return (
     <div
-      className="login-page-root min-h-screen w-full relative text-slate-100 flex flex-col justify-between font-sans selection:bg-brand-crimson selection:text-white overflow-x-hidden bg-cover bg-center bg-no-repeat"
+      className="login-page-root min-h-screen w-full relative text-slate-100 flex flex-col justify-between font-sans selection:bg-brand-crimson selection:text-white overflow-x-hidden bg-cover bg-center bg-no-repeat transition-all duration-300"
       style={{
-        backgroundImage: "url('/login.jpg')",
+        backgroundImage: isDark ? "url('/login.jpg')" : "url('/loginlight.png')",
       }}
     >
-      {/* Background vignette & dark tint overlay */}
+      <Navbar />
+
+      {/* Background vignette & tint overlay */}
       <div className="login-overlay-1 absolute inset-0 bg-gradient-to-r from-[#080808]/95 via-[#080808]/75 to-[#080808]/85 pointer-events-none" />
       <div className="login-overlay-2 absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#080808]/50 to-[#050505]/95 pointer-events-none" />
 
-      {/* Top Header Bar */}
-      <header className="relative z-20 w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-5 pb-2 flex items-center justify-between">
-        {/* Left: AIS Logo, Divider, Security Gateway */}
-        <Link to="/" className="flex items-center gap-3 sm:gap-4 group">
-          <img
-            src="/logo.png"
-            alt="Abhimanyu InfoSec"
-            className="h-9 sm:h-11 w-auto object-contain mix-blend-screen transition-opacity duration-200 group-hover:opacity-90"
-          />
-
-          <div className="h-6 sm:h-7 w-[1.5px] bg-white/10" />
-
-          <div className="flex flex-col text-left">
-            <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.22em] text-slate-200 uppercase leading-tight font-heading">
-              SECURITY GATEWAY
-            </span>
-            <span className="text-[9.5px] sm:text-[10px] text-slate-400 font-normal leading-tight mt-0.5">
-              Secure Access • Safer Tomorrow
-            </span>
-          </div>
-        </Link>
-
-        {/* Right: Help & Language Dropdown */}
-        <div className="flex items-center gap-5 sm:gap-7">
-          <Link
-            to="/contact"
-            className="flex items-center gap-1.5 text-xs font-medium text-slate-300 hover:text-white transition-colors"
-          >
-            <HelpCircle size={15} className="text-slate-400" />
-            <span>Need help?</span>
-          </Link>
-
-          {/* Language selector */}
-          <div className="relative" ref={langRef}>
-            <button
-              type="button"
-              onClick={() => setLangMenuOpen(!langMenuOpen)}
-              className="flex items-center gap-1 text-xs font-medium text-slate-300 hover:text-white transition-colors cursor-pointer"
-            >
-              <span>{selectedLang}</span>
-              <ChevronDown size={13} className="text-slate-400" />
-            </button>
-            {langMenuOpen && (
-              <div className="absolute right-0 mt-2 w-28 rounded-xl bg-[#0D0D0D]/95 backdrop-blur-xl border border-white/10 shadow-2xl py-1 z-30 text-xs text-slate-300 animate-in fade-in zoom-in-95 duration-100">
-                {['EN', 'FR', 'DE', 'ES', 'JA'].map((lang) => (
-                  <button
-                    key={lang}
-                    type="button"
-                    onClick={() => {
-                      setSelectedLang(lang);
-                      setLangMenuOpen(false);
-                    }}
-                    className={`w-full text-left px-3 py-1.5 hover:bg-brand-crimson/20 hover:text-white transition ${
-                      selectedLang === lang ? 'text-brand-amber font-semibold' : ''
-                    }`}
-                  >
-                    {lang}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      </header>
-
       {/* Main Content Area */}
-      <main className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-3 sm:py-5 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-14 my-auto">
+      <main className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-28 md:pt-32 pb-8 sm:pb-12 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-14 my-auto">
         {/* Left Side: Frosted Glass Auth Card */}
-        <div className="w-full max-w-[420px] rounded-[24px] bg-[#0D0D0D]/85 backdrop-blur-xl border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.85),inset_0_1px_1px_rgba(255,255,255,0.08)] p-6 sm:p-7 text-slate-100 relative transition-all duration-300">
+        <div className="login-auth-card w-full max-w-[420px] rounded-[24px] bg-[#0D0D0D]/85 backdrop-blur-xl border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.85),inset_0_1px_1px_rgba(255,255,255,0.08)] p-6 sm:p-7 text-slate-100 relative transition-all duration-300">
           {/* Card Title */}
-          <div>
-            <h1 className="login-card-title text-2xl sm:text-3xl font-extrabold tracking-tight text-white font-heading">
+          <div className="login-card-header">
+            <h1 className="login-card-title text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white font-heading">
               {mode === 'login' ? (
                 <>
-                  <span className="login-title-lead text-white">Welcome</span>{' '}
+                  <span className="login-title-lead text-slate-900 dark:text-white">Welcome</span>{' '}
                   <span className="ais-signature-gradient">Back</span>
                 </>
               ) : (
                 <>
-                  <span className="login-title-lead text-white">Create</span>{' '}
+                  <span className="login-title-lead text-slate-900 dark:text-white">Create</span>{' '}
                   <span className="ais-signature-gradient">Account</span>
                 </>
               )}
             </h1>
-            <p className="text-[11px] sm:text-xs text-slate-400 mt-1.5 leading-relaxed">
+            <p className="login-card-subtitle text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mt-1.5 leading-relaxed">
               {mode === 'login'
                 ? 'Sign in to your AIS Security Platform account to continue to a safer digital world.'
                 : 'Sign up for your AIS Security Platform account to enter a safer digital world.'}
@@ -254,12 +178,12 @@ export const LoginPage = () => {
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="mt-4 space-y-2.5 sm:space-y-3">
+          <form onSubmit={handleSubmit} className="login-form mt-4 space-y-2.5 sm:space-y-3">
             {/* Full Name (Sign Up only) */}
             {mode === 'register' && (
               <div className="relative">
                 <UserIcon
-                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+                  className="login-input-icon absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
                   size={15}
                 />
                 <input
@@ -276,7 +200,7 @@ export const LoginPage = () => {
             {/* Email or Username */}
             <div className="relative">
               <Mail
-                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+                className="login-input-icon absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
                 size={15}
               />
               <input
@@ -292,7 +216,7 @@ export const LoginPage = () => {
             {/* Password */}
             <div className="relative">
               <Lock
-                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+                className="login-input-icon absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
                 size={15}
               />
               <input
@@ -306,7 +230,7 @@ export const LoginPage = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 p-0.5 transition"
+                className="login-password-toggle absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 p-0.5 transition"
                 tabIndex="-1"
               >
                 {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
@@ -317,7 +241,7 @@ export const LoginPage = () => {
             {mode === 'register' && (
               <div className="relative">
                 <Lock
-                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+                  className="login-input-icon absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
                   size={15}
                 />
                 <input
@@ -331,7 +255,7 @@ export const LoginPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 p-0.5 transition"
+                  className="login-password-toggle absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 p-0.5 transition"
                   tabIndex="-1"
                 >
                   {showConfirmPassword ? <EyeOff size={15} /> : <Eye size={15} />}
@@ -341,15 +265,15 @@ export const LoginPage = () => {
 
             {/* Checkbox row */}
             {mode === 'login' ? (
-              <div className="flex items-center justify-between text-xs pt-0.5">
-                <label className="flex items-center gap-2 text-slate-300 cursor-pointer select-none">
+              <div className="login-remember-row flex items-center justify-between text-xs pt-0.5">
+                <label className="login-remember-label flex items-center gap-2 text-slate-300 cursor-pointer select-none">
                   <input
                     type="checkbox"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-3.5 h-3.5 rounded bg-[#111111] border-white/10 text-brand-crimson focus:ring-brand-crimson/40 cursor-pointer accent-[#C1121F]"
+                    className="login-checkbox w-3.5 h-3.5 rounded bg-[#111111] border-white/10 text-brand-crimson focus:ring-brand-crimson/40 cursor-pointer accent-[#C1121F]"
                   />
-                  <span>Remember me</span>
+                  <span className="login-remember-text">Remember me</span>
                 </label>
                 <button
                   type="button"
@@ -358,7 +282,7 @@ export const LoginPage = () => {
                       'Password reset link will be sent to your registered email address.'
                     )
                   }
-                  className="text-brand-amber hover:text-brand-bright font-medium transition-colors"
+                  className="login-forgot-btn text-brand-amber hover:text-brand-bright font-medium transition-colors"
                 >
                   Forgot password?
                 </button>
@@ -391,36 +315,36 @@ export const LoginPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 bg-gradient-to-r from-brand-crimson via-brand-bright to-brand-amber hover:brightness-110 text-white font-semibold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 shadow-[0_4px_22px_rgba(193,18,31,0.4)] hover:shadow-[0_6px_28px_rgba(255,122,0,0.4)] active:scale-[0.99] transition-all disabled:opacity-60 cursor-pointer font-heading tracking-wide"
+              className="login-submit-btn w-full py-3 px-4 bg-gradient-to-r from-brand-crimson via-brand-bright to-brand-amber hover:brightness-110 text-white font-semibold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 shadow-[0_4px_22px_rgba(193,18,31,0.4)] hover:shadow-[0_6px_28px_rgba(255,122,0,0.4)] active:scale-[0.99] transition-all disabled:opacity-60 cursor-pointer font-heading tracking-wide"
             >
               {loading ? (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 <>
-                  <span>{mode === 'login' ? 'Sign In' : 'Create Account'}</span>
-                  <ArrowRight size={15} />
+                  <span className="login-submit-text">{mode === 'login' ? 'Sign In' : 'Create Account'}</span>
+                  <ArrowRight size={15} className="login-submit-arrow" />
                 </>
               )}
             </button>
           </form>
 
           {/* OR Divider */}
-          <div className="relative flex items-center justify-center my-3">
-            <div className="border-t border-white/10 w-full" />
-            <span className="px-3 text-[10px] text-slate-400 font-semibold tracking-wider uppercase shrink-0 font-heading">
+          <div className="login-or-divider relative flex items-center justify-center my-3">
+            <div className="login-or-line border-t border-white/10 w-full" />
+            <span className="login-or-text px-3 text-[10px] text-slate-400 font-semibold tracking-wider uppercase shrink-0 font-heading">
               OR
             </span>
-            <div className="border-t border-white/10 w-full" />
+            <div className="login-or-line border-t border-white/10 w-full" />
           </div>
 
           {/* Social Auth Buttons */}
-          <div className="space-y-2">
+          <div className="login-social-btns space-y-2">
             <button
               type="button"
               onClick={handleOAuthGitHub}
-              className="w-full py-2.5 px-4 rounded-xl bg-[#111111] hover:bg-[#1a1a1a] border border-white/10 hover:border-brand-crimson/50 text-white text-xs font-medium transition flex items-center justify-center gap-2.5 cursor-pointer"
+              className="login-social-btn login-github-btn w-full py-2.5 px-4 rounded-xl bg-[#111111] hover:bg-[#1a1a1a] border border-white/10 hover:border-brand-crimson/50 text-white text-xs font-medium transition flex items-center justify-center gap-2.5 cursor-pointer"
             >
-              <svg className="w-3.5 h-3.5 fill-white shrink-0" viewBox="0 0 24 24">
+              <svg className="login-github-icon w-3.5 h-3.5 fill-white shrink-0" viewBox="0 0 24 24">
                 <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
               </svg>
               <span>Continue with GitHub</span>
@@ -429,9 +353,9 @@ export const LoginPage = () => {
             <button
               type="button"
               onClick={handleOAuthGoogle}
-              className="w-full py-2.5 px-4 rounded-xl bg-[#111111] hover:bg-[#1a1a1a] border border-white/10 hover:border-brand-crimson/50 text-white text-xs font-medium transition flex items-center justify-center gap-2.5 cursor-pointer"
+              className="login-social-btn login-google-btn w-full py-2.5 px-4 rounded-xl bg-[#111111] hover:bg-[#1a1a1a] border border-white/10 hover:border-brand-crimson/50 text-white text-xs font-medium transition flex items-center justify-center gap-2.5 cursor-pointer"
             >
-              <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
+              <svg className="login-google-icon w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
                 <path
                   fill="#4285F4"
                   d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.14z"
@@ -454,7 +378,7 @@ export const LoginPage = () => {
           </div>
 
           {/* Card Footer Mode Switch */}
-          <div className="text-center text-[11px] sm:text-xs text-slate-400 mt-4">
+          <div className="login-card-footer text-center text-[11px] sm:text-xs text-slate-400 mt-4">
             {mode === 'login' ? (
               <span>
                 Don&apos;t have an account?{' '}
@@ -482,15 +406,15 @@ export const LoginPage = () => {
         </div>
 
         {/* Right Side: Value Proposition & Feature Pillars */}
-        <div className="w-full lg:max-w-xl space-y-6 lg:pb-6 text-left self-center lg:self-end">
+        <div className="login-right-content w-full lg:max-w-xl space-y-6 lg:pb-6 text-left self-center lg:self-end">
           <div>
-            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-white tracking-tight leading-tight font-heading">
+            <h2 className="login-hero-headline text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight font-heading">
               Stronger Security.
             </h2>
             <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold ais-signature-gradient tracking-tight leading-tight font-heading">
               Smarter Business.
             </h2>
-            <p className="text-slate-300 text-xs sm:text-sm mt-3 leading-relaxed max-w-md font-normal">
+            <p className="login-hero-desc text-slate-700 dark:text-slate-300 text-xs sm:text-sm mt-3 leading-relaxed max-w-md font-normal">
               We build secure, scalable cybersecurity solutions to protect your digital assets and keep
               your business moving forward.
             </p>
@@ -504,8 +428,8 @@ export const LoginPage = () => {
                 <Shield size={20} strokeWidth={2.2} />
               </div>
               <div>
-                <div className="text-xs sm:text-sm font-bold text-white leading-tight font-heading">Detect</div>
-                <div className="text-[11px] text-slate-400 leading-tight mt-0.5">Threats early</div>
+                <div className="login-pillar-title text-xs sm:text-sm font-bold text-slate-900 dark:text-white leading-tight font-heading">Detect</div>
+                <div className="login-pillar-subtitle text-[11px] text-slate-600 dark:text-slate-400 leading-tight mt-0.5">Threats early</div>
               </div>
             </div>
 
@@ -515,8 +439,8 @@ export const LoginPage = () => {
                 <Lock size={20} strokeWidth={2.2} />
               </div>
               <div>
-                <div className="text-xs sm:text-sm font-bold text-white leading-tight font-heading">Prevent</div>
-                <div className="text-[11px] text-slate-400 leading-tight mt-0.5">Attacks &amp; breaches</div>
+                <div className="login-pillar-title text-xs sm:text-sm font-bold text-slate-900 dark:text-white leading-tight font-heading">Prevent</div>
+                <div className="login-pillar-subtitle text-[11px] text-slate-600 dark:text-slate-400 leading-tight mt-0.5">Attacks &amp; breaches</div>
               </div>
             </div>
 
@@ -526,8 +450,8 @@ export const LoginPage = () => {
                 <Share2 size={20} strokeWidth={2.2} />
               </div>
               <div>
-                <div className="text-xs sm:text-sm font-bold text-white leading-tight font-heading">Respond</div>
-                <div className="text-[11px] text-slate-400 leading-tight mt-0.5">Faster</div>
+                <div className="login-pillar-title text-xs sm:text-sm font-bold text-slate-900 dark:text-white leading-tight font-heading">Respond</div>
+                <div className="login-pillar-subtitle text-[11px] text-slate-600 dark:text-slate-400 leading-tight mt-0.5">Faster</div>
               </div>
             </div>
 
@@ -537,8 +461,8 @@ export const LoginPage = () => {
                 <ShieldCheck size={20} strokeWidth={2.2} />
               </div>
               <div>
-                <div className="text-xs sm:text-sm font-bold text-white leading-tight font-heading">Secure</div>
-                <div className="text-[11px] text-slate-400 leading-tight mt-0.5">Your future</div>
+                <div className="login-pillar-title text-xs sm:text-sm font-bold text-slate-900 dark:text-white leading-tight font-heading">Secure</div>
+                <div className="login-pillar-subtitle text-[11px] text-slate-600 dark:text-slate-400 leading-tight mt-0.5">Your future</div>
               </div>
             </div>
           </div>
@@ -551,7 +475,7 @@ export const LoginPage = () => {
           type="button"
           onClick={handleFillDemo}
           title="Auto-fill admin demo credentials"
-          className="text-[10px] font-mono text-slate-500 hover:text-slate-300 bg-black/60 hover:bg-black/90 px-2.5 py-1 rounded-md border border-white/5 transition flex items-center gap-1.5 opacity-60 hover:opacity-100 cursor-pointer"
+          className="login-demo-btn text-[10px] font-mono text-slate-500 hover:text-slate-300 bg-black/60 hover:bg-black/90 px-2.5 py-1 rounded-md border border-white/5 transition flex items-center gap-1.5 opacity-60 hover:opacity-100 cursor-pointer"
         >
           <KeyRound size={11} className="text-brand-amber" />
           <span>Demo Admin Credentials</span>

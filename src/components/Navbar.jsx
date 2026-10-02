@@ -51,7 +51,6 @@ export const Navbar = () => {
   const [mobileExpandedSection, setMobileExpandedSection] = useState(null);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
-  const [isScrolledPastHero, setIsScrolledPastHero] = useState(false);
   const dropdownTimeoutRef = useRef(null);
   const userDropdownRef = useRef(null);
   const location = useLocation();
@@ -59,16 +58,6 @@ export const Navbar = () => {
 
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
   const { theme, toggleTheme, isDark } = useTheme();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      // Switch to slightly opaque after scrolling past top hero banner
-      setIsScrolledPastHero(window.scrollY > 60);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -96,16 +85,9 @@ export const Navbar = () => {
     }, 180);
   };
 
-  // Transparent ONLY over the Home Page Hero section; slightly opaque for all non-hero views
-  const isTransparentHero = location.pathname === '/' && !isScrolledPastHero;
-
   return (
     <header
-      className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 pointer-events-auto ${
-        isTransparentHero
-          ? 'site-header-hero bg-transparent border-b border-transparent backdrop-blur-none'
-          : 'site-header-opaque bg-[#080808]/90 border-b border-white/[0.08] backdrop-blur-md shadow-lg shadow-black/40'
-      }`}
+      className="site-header-hero fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 pointer-events-auto bg-transparent border-b border-transparent backdrop-blur-none"
       data-purpose="site-header"
     >
       <div className="max-w-7xl mx-auto px-6 h-20 md:h-24 flex items-center justify-between">
@@ -117,7 +99,7 @@ export const Navbar = () => {
           data-purpose="brand-logo"
         >
           <img
-            src="/logo.png"
+            src={isDark ? '/logo.png' : '/lightlogo.png'}
             alt="Abhimanyu InfoSec"
             className="nav-logo-img h-11 sm:h-13 md:h-15 w-auto max-w-[210px] sm:max-w-[250px] md:max-w-[280px] object-contain transition-opacity duration-200 group-hover:opacity-90"
           />
@@ -126,11 +108,7 @@ export const Navbar = () => {
         {/* Navigation Links */}
         <nav
           aria-label="Primary Navigation"
-          className={`primary-navbar-links hidden lg:flex items-center gap-1 text-xs font-heading font-medium tracking-wide uppercase transition-colors duration-300 px-3 py-1.5 rounded-lg border ${
-            isTransparentHero
-              ? 'text-slate-700 dark:text-slate-200 bg-white/80 dark:bg-black/30 backdrop-blur-md border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-none'
-              : 'text-slate-700 dark:text-slate-300 bg-white/95 dark:bg-[#0E0E0E]/80 border-slate-200/90 dark:border-white/[0.08] shadow-sm dark:shadow-none'
-          }`}
+          className="primary-navbar-links hidden lg:flex items-center gap-1 text-xs font-heading font-medium tracking-wide uppercase transition-colors duration-300 px-3 py-1.5 rounded-lg border text-slate-700 dark:text-slate-200 bg-white/80 dark:bg-black/30 backdrop-blur-md border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-none"
         >
           {navSections.map((section) => {
             const hasDropdown = Boolean(section.items && section.items.length > 0);
