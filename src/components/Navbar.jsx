@@ -108,7 +108,7 @@ export const Navbar = () => {
         {/* Navigation Links */}
         <nav
           aria-label="Primary Navigation"
-          className="primary-navbar-links hidden lg:flex items-center gap-1 text-xs font-heading font-medium tracking-wide uppercase transition-colors duration-300 px-3 py-1.5 rounded-lg border text-slate-700 dark:text-slate-200 bg-white/80 dark:bg-black/30 backdrop-blur-md border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-none"
+          className="primary-navbar-links hidden lg:flex items-center gap-1 text-xs font-heading font-medium tracking-wide uppercase transition-colors duration-300 px-3 py-1.5 rounded-xl border text-slate-700 dark:text-slate-200 bg-white/85 dark:bg-black/30 backdrop-blur-md border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-none"
         >
           {navSections.map((section) => {
             const hasDropdown = Boolean(section.items && section.items.length > 0);
@@ -183,7 +183,7 @@ export const Navbar = () => {
               <button
                 type="button"
                 onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-[#C1121F]/30 text-white text-xs font-medium transition select-none shadow-sm"
+                className="nav-user-pill flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/85 hover:bg-white border border-[#C1121F]/25 text-slate-800 text-xs font-medium transition select-none shadow-xs"
               >
                 {user?.avatarUrl ? (
                   <img
@@ -192,12 +192,12 @@ export const Navbar = () => {
                     className="w-5 h-5 rounded-full object-cover"
                   />
                 ) : (
-                  <div className="w-5 h-5 rounded-full bg-[#C1121F]/20 text-[#FFB000] flex items-center justify-center font-bold text-[10px]">
+                  <div className="w-5 h-5 rounded-full bg-[#FDE2E4] text-[#E65100] flex items-center justify-center font-bold text-[10px]">
                     {user?.name?.charAt(0).toUpperCase() || 'U'}
                   </div>
                 )}
-                <span className="max-w-[100px] truncate hidden sm:inline">{user?.name}</span>
-                <ChevronDown size={12} className={`transition-transform ${userDropdownOpen ? 'rotate-180 text-[#FF7A00]' : 'text-slate-400'}`} />
+                <span className="max-w-[120px] truncate hidden sm:inline text-slate-800 font-semibold">{user?.name}</span>
+                <ChevronDown size={12} className={`transition-transform text-slate-500 ${userDropdownOpen ? 'rotate-180 text-[#FF7A00]' : ''}`} />
               </button>
 
               {userDropdownOpen && (
@@ -245,7 +245,7 @@ export const Navbar = () => {
           ) : (
             <Link
               to="/login"
-              className="nav-signin-btn px-3.5 py-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] rounded-lg border border-white/[0.1] transition-all"
+              className="nav-signin-btn px-3.5 py-1.5 text-xs font-semibold text-slate-700 hover:text-[#C1121F] bg-white/85 hover:bg-white rounded-lg border border-slate-200/90 shadow-xs transition-all"
             >
               Sign In
             </Link>
@@ -255,7 +255,7 @@ export const Navbar = () => {
           <button
             type="button"
             onClick={toggleTheme}
-            className="nav-theme-toggle-btn w-8 h-8 rounded-lg border border-white/10 hover:border-white/20 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-white transition-all cursor-pointer flex items-center justify-center shrink-0"
+            className="nav-theme-toggle-btn w-8 h-8 rounded-lg border border-slate-200/90 hover:border-slate-300 bg-white/80 hover:bg-white text-[#C1121F] transition-all cursor-pointer flex items-center justify-center shrink-0 shadow-xs"
             title={isDark ? "Switch to Light mode" : "Switch to Dark mode"}
             aria-label="Toggle theme mode"
           >
@@ -267,7 +267,7 @@ export const Navbar = () => {
           </button>
 
           <Link
-            className="px-5 py-2 text-xs font-heading font-semibold uppercase tracking-wider text-white bg-gradient-to-r from-[#C1121F] via-[#FF7A00] to-[#FFB000] hover:opacity-95 active:scale-[0.98] rounded-lg shadow-md shadow-[#C1121F]/20 border border-white/10 transition-all hidden sm:inline-flex"
+            className="nav-cta-btn px-5 py-2 text-xs font-heading font-semibold uppercase tracking-wider text-slate-900 bg-gradient-to-r from-[#C1121F] via-[#FF7A00] to-[#FFB000] hover:opacity-95 active:scale-[0.98] rounded-xl shadow-md shadow-[#C1121F]/20 border border-white/20 transition-all hidden sm:inline-flex"
             to="/contact"
           >
             Start Here

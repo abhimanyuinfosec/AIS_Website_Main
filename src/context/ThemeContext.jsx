@@ -11,21 +11,25 @@ export const ThemeProvider = ({ children }) => {
         return paramTheme;
       }
       const saved = localStorage.getItem('ais_theme');
-      return saved === 'light' ? 'light' : 'dark';
+      return saved === 'dark' ? 'dark' : 'light';
     }
-    return 'dark';
+    return 'light';
   });
 
   useEffect(() => {
     const root = document.documentElement;
-    if (theme === 'light') {
+    if (theme === 'dark') {
+      root.classList.add('dark');
+      root.classList.remove('light');
+    } else {
       root.classList.add('light');
       root.classList.remove('dark');
-    } else {
-      root.classList.remove('light');
-      root.classList.add('dark');
     }
-    localStorage.setItem('ais_theme', theme);
+    try {
+      localStorage.setItem('ais_theme', theme);
+    } catch {
+      // ignore
+    }
   }, [theme]);
 
   const toggleTheme = () => {
@@ -43,8 +47,8 @@ export const useTheme = () => {
   const context = useContext(ThemeContext);
   if (!context) {
     return {
-      theme: 'dark',
-      isDark: true,
+      theme: 'light',
+      isDark: false,
       toggleTheme: () => {},
     };
   }
@@ -52,3 +56,5 @@ export const useTheme = () => {
 };
 
 export default ThemeContext;
+
+

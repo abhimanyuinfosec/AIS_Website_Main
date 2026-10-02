@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 
 const Footer = () => {
+  const { isDark } = useTheme();
+
   return (
     <footer className="border-t border-white/[0.08] bg-[#080808] text-slate-400 text-xs relative z-10" data-purpose="site-footer">
       <div className="max-w-7xl mx-auto px-6 pt-16 pb-10">
@@ -9,7 +12,7 @@ const Footer = () => {
           <div className="col-span-2 space-y-5">
             <Link to="/" className="inline-block group">
               <img
-                src="/logodark.png"
+                src={isDark ? '/logodark.png' : '/lightlogo.png'}
                 alt="Abhimanyu InfoSec"
                 className="h-11 sm:h-12 w-auto max-w-[210px] sm:max-w-[240px] object-contain transition-opacity duration-200 group-hover:opacity-90"
               />

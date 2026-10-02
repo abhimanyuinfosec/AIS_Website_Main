@@ -43,7 +43,7 @@ export const LoginPage = () => {
   const [loading, setLoading] = useState(false);
 
   const { login, register, isAuthenticated, isAdmin } = useAuth();
-  const { theme, toggleTheme, isDark } = useTheme();
+  const { isDark } = useTheme();
   const navigate = useNavigate();
 
   // Sync mode if user navigates via browser history

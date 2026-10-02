@@ -182,19 +182,16 @@ const ProductDetailPage = () => {
   const statusClass = STATUS_MAP[product.status] || STATUS_MAP.PRODUCTION;
 
   return (
-    <div className="min-h-screen bg-black text-slate-200 pt-10 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden font-sans">
-      {/* Dynamic ambient color glow */}
-      <div className={`absolute top-20 left-1/2 -translate-x-1/2 w-[900px] h-[400px] bg-gradient-to-b ${colorConfig.glow} rounded-full blur-[150px] pointer-events-none`} />
-
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-800 pt-10 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden font-sans">
       <div className="max-w-6xl mx-auto relative z-10 space-y-16 sm:space-y-20">
 
         {/* 1. NAVIGATION BREADCRUMB */}
-        <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
-          <Link to="/" className="hover:text-blue-400 transition-colors">Home</Link>
+        <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
+          <Link to="/" className="hover:text-[#C1121F] text-slate-600 transition-colors">Home</Link>
           <span>/</span>
-          <Link to="/products" className="hover:text-blue-400 transition-colors">Products</Link>
+          <Link to="/products" className="hover:text-[#C1121F] text-slate-600 transition-colors">Products</Link>
           <span>/</span>
-          <span className={colorConfig.accentText}>{product.name}</span>
+          <span className="text-[#C1121F] font-semibold">{product.name}</span>
         </div>
 
         {/* 2. HERO SECTION */}
@@ -202,12 +199,12 @@ const ProductDetailPage = () => {
           {(product.status || product.version) && (
             <div className="flex flex-wrap items-center gap-3">
               {product.status && (
-                <span className={`px-2.5 py-0.5 rounded-md text-[11px] font-mono font-bold border ${statusClass}`}>
+                <span className="px-2.5 py-0.5 rounded-md text-[11px] font-mono font-bold border border-emerald-500/30 bg-emerald-50 text-emerald-700">
                   {product.status}
                 </span>
               )}
               {product.version && (
-                <span className="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-[11px] font-mono text-slate-400">
+                <span className="px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-[11px] font-mono text-slate-600">
                   {product.version}
                 </span>
               )}
@@ -216,7 +213,7 @@ const ProductDetailPage = () => {
 
           <div className="space-y-4">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-2xl border border-slate-700/80 bg-slate-900/90 p-2 flex items-center justify-center shrink-0 overflow-hidden shadow-lg">
+              <div className="w-16 h-16 rounded-2xl border border-slate-200 bg-white p-2 flex items-center justify-center shrink-0 overflow-hidden shadow-sm">
                 {product.logoUrl ? (
                   <img
                     src={product.logoUrl}
@@ -231,21 +228,21 @@ const ProductDetailPage = () => {
                   />
                 ) : null}
                 <div className={`${product.logoUrl ? 'hidden ' : ''}w-full h-full flex flex-col items-center justify-center text-slate-400`}>
-                  <span className="text-xs font-mono font-bold text-slate-300">AIS</span>
+                  <span className="text-xs font-mono font-bold text-slate-700">AIS</span>
                   <span className="text-[9px] font-mono text-slate-500 uppercase">Product</span>
                 </div>
               </div>
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.1]">
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.1]">
                 {product.name}
               </h1>
             </div>
 
-            <p className="text-lg sm:text-xl text-slate-300 font-medium leading-relaxed">
+            <p className="text-lg sm:text-xl text-slate-700 font-medium leading-relaxed">
               {product.shortDesc}
             </p>
 
             {product.detailedDesc && (
-              <p className="text-sm sm:text-base text-slate-400 leading-relaxed font-normal pt-1">
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal pt-1">
                 {product.detailedDesc}
               </p>
             )}
@@ -255,7 +252,7 @@ const ProductDetailPage = () => {
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <Link
               to={product.demoUrl || '/contact'}
-              className={`inline-flex items-center justify-center px-6 py-3 rounded-lg text-sm font-semibold transition shadow-lg ${colorConfig.button}`}
+              className="inline-flex items-center justify-center px-6 py-3 rounded-lg text-sm font-semibold bg-[#E05500] hover:bg-[#C94500] text-white transition shadow-md shadow-[#E05500]/25"
             >
               <span>Explore {product.name}</span>
               <ArrowRight size={16} className="ml-2" />
@@ -263,7 +260,7 @@ const ProductDetailPage = () => {
 
             <Link
               to={product.docsUrl || '/contact'}
-              className={`inline-flex items-center justify-center px-5 py-3 rounded-lg text-sm font-semibold transition ${colorConfig.secondaryButton}`}
+              className="inline-flex items-center justify-center px-5 py-3 rounded-lg text-sm font-semibold transition bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 shadow-sm"
             >
               <span>Technical Documentation</span>
             </Link>
@@ -273,7 +270,7 @@ const ProductDetailPage = () => {
                 href={product.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-3 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white text-sm transition"
+                className="inline-flex items-center gap-2 px-4 py-3 rounded-lg bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 hover:text-slate-900 text-sm transition shadow-sm"
               >
                 <svg className="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24">
                   <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
@@ -291,12 +288,12 @@ const ProductDetailPage = () => {
             {product.metrics.map((m, idx) => (
               <div
                 key={idx}
-                className="p-6 rounded-2xl bg-[#090e1a]/80 border border-slate-800/80 backdrop-blur-md relative overflow-hidden"
+                className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm relative overflow-hidden"
               >
-                <div className={`text-2xl sm:text-3xl font-extrabold text-white font-mono mb-1 ${colorConfig.accentText}`}>
+                <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-mono mb-1">
                   {m.value || m.val}
                 </div>
-                <div className="text-xs font-mono uppercase tracking-wider text-slate-400">
+                <div className="text-xs font-mono uppercase tracking-wider text-slate-500">
                   {m.label}
                 </div>
               </div>
@@ -306,15 +303,15 @@ const ProductDetailPage = () => {
 
         {/* 4. THE CHALLENGE & PROBLEM SOLVED */}
         {product.problem && (
-          <div className="p-6 sm:p-8 rounded-2xl bg-[#0b1222]/70 border border-slate-800 space-y-3 relative overflow-hidden">
-            <div className="flex items-center gap-2 text-xs font-mono text-amber-400 font-bold uppercase tracking-wider">
+          <div className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3 relative overflow-hidden">
+            <div className="flex items-center gap-2 text-xs font-mono text-amber-600 font-bold uppercase tracking-wider">
               <AlertTriangle size={15} />
               <span>The Threat Vector / Operational Challenge</span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
               Why Traditional Defenses Fall Short
             </h2>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
               {product.problem}
             </p>
           </div>
@@ -324,10 +321,10 @@ const ProductDetailPage = () => {
         {product.keyFeatures && product.keyFeatures.length > 0 && (
           <div className="space-y-8">
             <div>
-              <div className={`text-xs font-bold font-mono tracking-widest uppercase mb-2 ${colorConfig.accentText}`}>
+              <div className="text-xs font-bold font-mono tracking-widest uppercase mb-2 text-[#C1121F]">
                 Platform Architecture
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
                 Core Capabilities
               </h2>
             </div>
@@ -341,17 +338,17 @@ const ProductDetailPage = () => {
                 return (
                   <div
                     key={idx}
-                    className="p-6 rounded-2xl bg-[#0b1222]/80 border border-slate-800/90 hover:border-slate-700 transition flex flex-col justify-between group"
+                    className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between group"
                   >
                     <div>
-                      <div className={`text-xs font-mono font-bold uppercase mb-2 ${colorConfig.accentText}`}>
+                      <div className="text-xs font-mono font-bold uppercase mb-2 text-[#C1121F]">
                         0{idx + 1}
                       </div>
-                      <h3 className="text-base font-semibold text-white leading-snug group-hover:text-blue-300 transition-colors">
+                      <h3 className="text-base font-semibold text-slate-900 leading-snug group-hover:text-[#C1121F] transition-colors">
                         {title}
                       </h3>
                       {desc && (
-                        <p className="text-xs text-slate-400 mt-2 leading-relaxed">
+                        <p className="text-xs text-slate-600 mt-2 leading-relaxed">
                           {desc}
                         </p>
                       )}
@@ -365,16 +362,16 @@ const ProductDetailPage = () => {
 
         {/* 6. ENGINEERING STACK & ARCHITECTURE */}
         {product.techStack && product.techStack.length > 0 && (
-          <div className="p-6 sm:p-8 rounded-2xl bg-[#080d19] border border-slate-800/80 space-y-4">
-            <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-slate-400 uppercase">
-              <Layers size={15} className={colorConfig.accentText} />
+          <div className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+            <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-slate-500 uppercase">
+              <Layers size={15} className="text-[#C1121F]" />
               <span>Technology & Engineering Stack</span>
             </div>
             <div className="flex flex-wrap gap-2 pt-1">
               {product.techStack.map((tech) => (
                 <span
                   key={tech}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium border ${colorConfig.pill}`}
+                  className="px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-100 border border-slate-200 text-slate-700"
                 >
                   {tech}
                 </span>
@@ -384,22 +381,22 @@ const ProductDetailPage = () => {
         )}
 
         {/* 7. BOTTOM CALL TO ACTION BANNER */}
-        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-[#0c1426] via-[#080d19] to-[#0c1426] border border-slate-800 text-center space-y-6 relative overflow-hidden">
-          <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mx-auto">
+        <div className="p-8 sm:p-12 rounded-3xl bg-white border border-slate-200 shadow-sm text-center space-y-6 relative overflow-hidden">
+          <div className="w-10 h-10 rounded-xl bg-red-50 border border-red-200 text-[#C1121F] flex items-center justify-center mx-auto">
             <Sparkles size={20} />
           </div>
           <div className="space-y-2 max-w-2xl mx-auto">
-            <h2 className="text-2xl sm:text-4xl font-bold text-white tracking-tight leading-snug">
+            <h2 className="text-2xl sm:text-4xl font-bold text-slate-900 tracking-tight leading-snug">
               Deploy {product.name} across your infrastructure.
             </h2>
-            <p className="text-sm sm:text-base text-slate-300">
+            <p className="text-sm sm:text-base text-slate-600">
               Integrate with existing SecOps workflows or schedule an enterprise architecture briefing.
             </p>
           </div>
           <div className="pt-2">
             <Link
               to="/contact"
-              className={`inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-lg transition-all shadow-xl ${colorConfig.button}`}
+              className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-lg bg-[#E05500] hover:bg-[#C94500] text-white transition-all shadow-md shadow-[#E05500]/25"
             >
               <span>Explore {product.name} →</span>
             </Link>
