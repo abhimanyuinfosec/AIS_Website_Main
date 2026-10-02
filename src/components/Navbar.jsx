@@ -99,7 +99,7 @@ export const Navbar = () => {
           data-purpose="brand-logo"
         >
           <img
-            src={isDark ? '/logo.png' : '/lightlogo.png'}
+            src={isDark ? '/logodark.png' : '/lightlogo.png'}
             alt="Abhimanyu InfoSec"
             className="nav-logo-img h-11 sm:h-13 md:h-15 w-auto max-w-[210px] sm:max-w-[250px] md:max-w-[280px] object-contain transition-opacity duration-200 group-hover:opacity-90"
           />

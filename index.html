@@ -5,8 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https: http: wss:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self' https:;" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https: http: wss:; script-src 'self' 'unsafe-inline'; worker-src 'self' blob:; manifest-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self' https:;" />
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+
+    <!-- PWA & Mobile Capabilities -->
+    <meta name="theme-color" content="#080808" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Abhimanyu" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     
     <!-- Primary Meta Tags -->
     <title>Abhimanyu — Next-Generation Cloud Firewall &amp; Autonomous Cyber Defense</title>
@@ -25,8 +33,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Michroma&display=swap" rel="stylesheet" />
 
-    <!-- Favicon & Preloads -->
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <!-- Favicon & App Icon -->
+    <link rel="icon" type="image/png" href="/applogo.png" />
     <link rel="canonical" href="https://www.abhimanyuinfosec.com/" />
 
     <!-- Structured Data -->

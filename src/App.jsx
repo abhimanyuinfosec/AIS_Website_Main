@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AmbientBackdrop from './components/AmbientBackdrop';
 import CrystalGlassEffects from './components/CrystalGlassEffects';
+import PWAInstallPrompt from './components/PWAInstallPrompt';
 import Home from './pages/Home';
 
 // Dedicated Dynamic Public Pages
@@ -104,6 +105,7 @@ function App() {
     <ThemeProvider>
       <AuthProvider>
         <BrowserRouter>
+          <PWAInstallPrompt />
           <ScrollToTop />
           <Routes>
             {/* Public Website Routes */}

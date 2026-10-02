@@ -9,9 +9,9 @@ const Footer = () => {
           <div className="col-span-2 space-y-5">
             <Link to="/" className="inline-block group">
               <img
-                src="/logo.png"
+                src="/logodark.png"
                 alt="Abhimanyu InfoSec"
-                className="h-11 sm:h-12 w-auto max-w-[210px] sm:max-w-[240px] object-contain mix-blend-screen transition-opacity duration-200 group-hover:opacity-90"
+                className="h-11 sm:h-12 w-auto max-w-[210px] sm:max-w-[240px] object-contain transition-opacity duration-200 group-hover:opacity-90"
               />
             </Link>
             <p className="text-slate-400 text-xs leading-relaxed max-w-xs font-normal">
