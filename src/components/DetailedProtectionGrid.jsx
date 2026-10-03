@@ -66,7 +66,7 @@ const DetailedProtectionGrid = () => {
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
           <h2 className="text-2xl sm:text-4xl font-heading font-extrabold text-white tracking-tight">
-            How Abhimanyu can protect your <span className="ais-signature-gradient">data?</span>
+            How Abhimanyu InfoSec can protect your <span className="ais-signature-gradient">data?</span>
           </h2>
           <p className="mt-3 text-sm sm:text-base text-slate-400">
             Comprehensive offensive and defensive security capabilities engineered to safeguard mission-critical digital infrastructure.

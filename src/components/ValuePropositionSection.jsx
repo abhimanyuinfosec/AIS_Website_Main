@@ -6,14 +6,11 @@ const ValuePropositionSection = () => {
       <div className="max-w-7xl mx-auto px-6 relative">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto space-y-4 mb-8 sm:mb-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-md bg-[#151515] border border-[#C1121F]/30 text-xs font-heading font-semibold uppercase tracking-widest text-[#FFB000]">
-            Universal Solution
-          </div>
           <h2 className="text-3xl sm:text-4xl font-heading font-extrabold text-white tracking-tight">
-            Why <span className="ais-signature-gradient">Abhimanyu?</span>
+            Why <span className="ais-signature-gradient">Abhimanyu InfoSec?</span>
           </h2>
           <p className="text-slate-400 text-base font-normal">
-            Abhimanyu is the first and only easy to use cloud firewall for distributed enterprises and remote teams.
+            Abhimanyu InfoSec provides enterprise-grade cyber defense and proactive security architectures for distributed teams.
           </p>
         </div>
 
@@ -35,7 +32,7 @@ const ValuePropositionSection = () => {
               Easy to Set Up
             </h3>
             <p className="text-slate-400 text-sm leading-relaxed">
-              Your team's sensitive data is encrypted in transit and at rest immediately upon connecting — zero manual config.
+              Your team's sensitive data is encrypted in transit and at rest immediately upon connecting with zero manual configuration.
             </p>
           </div>
 

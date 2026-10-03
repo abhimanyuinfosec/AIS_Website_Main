@@ -31,7 +31,7 @@ export const DEFAULT_REVIEWS = [
     designation: 'Head of Cyber Defense Operations',
     organization: 'Bharat National Infrastructure',
     profileImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
-    reviewText: "Their industrial network and penetration testing methodologies are world-class. The team didn't just deliver a static PDF—they gave our engineers exact proof-of-concepts, live debriefs, and fortified our perimeter defenses.",
+    reviewText: "Their industrial network and penetration testing methodologies are world-class. The team didn't just deliver a static PDF: they gave our engineers exact proof-of-concepts, live debriefs, and fortified our perimeter defenses.",
     rating: 5,
     verified: true,
     status: 'PUBLISHED',

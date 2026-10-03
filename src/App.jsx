@@ -202,7 +202,7 @@ function App() {
             <Route
               path="/admin"
               element={
-                <ProtectedRoute requireAdmin={true}>
+                <ProtectedRoute requireAdmin={true} redirectTo="/admin/login">
                   <AdminLayout />
                 </ProtectedRoute>
               }
@@ -221,7 +221,7 @@ function App() {
               <Route
                 path="audit-logs"
                 element={
-                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN']}>
+                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN']} redirectTo="/admin/login">
                     <AdminAuditLogs />
                   </ProtectedRoute>
                 }
@@ -229,7 +229,7 @@ function App() {
               <Route
                 path="users"
                 element={
-                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN']}>
+                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN']} redirectTo="/admin/login">
                     <AdminUsers />
                   </ProtectedRoute>
                 }

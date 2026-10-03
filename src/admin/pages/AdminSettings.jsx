@@ -6,8 +6,8 @@ export const AdminSettings = () => {
   const [settings, setSettings] = useState({
     'site.name': 'Abhimanyu InfoSec',
     'site.tagline': 'Cybersecurity for businesses that cannot afford to be vulnerable.',
-    'site.email': 'contact@abhimanyuinfosec.com',
-    'site.phone': '+91 98765 43210',
+    'site.email': 'abhimanyuinfosec@gmail.com',
+    'site.phone': '+91 83103 06050',
     'hero.title': 'Break Through Any Formation.',
     'hero.subtitle': 'Cybersecurity built for businesses that cannot afford to be vulnerable.',
     'hero.desc': 'Abhimanyu InfoSec helps businesses identify vulnerabilities, detect threats, strengthen security, and build resilient digital infrastructure.',

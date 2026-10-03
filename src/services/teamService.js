@@ -1,63 +1,6 @@
 import api from './api';
 
-export const DEFAULT_TEAM = [
-  {
-    id: 'team-1',
-    name: 'Founder & Cybersecurity Lead',
-    role: 'Founder / Cybersecurity Lead',
-    profileImage: '',
-    shortBio: 'Responsible for cybersecurity strategy, security research, product direction and technical development.',
-    detailedBio: 'Over a decade of adversary simulation, red teaming, and autonomous security defense engineering.',
-    skills: ['Cybersecurity Strategy', 'Adversary Simulation', 'Threat Intel', 'Architecture'],
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-    email: 'contact@abhimanyuinfosec.com',
-    displayOrder: 1,
-    isActive: true,
-  },
-  {
-    id: 'team-2',
-    name: 'Offensive Security Researcher',
-    role: 'Security Engineer / Pen Tester',
-    profileImage: '',
-    shortBio: 'Specializes in web application penetration testing, vulnerability discovery, and exploit validation.',
-    detailedBio: 'Deep expertise in OWASP Top 10, binary exploitation, and cloud workload compromise analysis.',
-    skills: ['AppSec', 'Penetration Testing', 'CVE Discovery', 'Exploit Analysis'],
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-    email: 'research@abhimanyuinfosec.com',
-    displayOrder: 2,
-    isActive: true,
-  },
-  {
-    id: 'team-3',
-    name: 'Infrastructure & Systems Lead',
-    role: 'Cloud & Network Security Engineer',
-    profileImage: '',
-    shortBio: 'Focuses on network hardening, architecture review, and automated perimeter threat detection.',
-    detailedBio: 'Hardening multi-cloud infrastructure, Kubernetes clusters, and zero-trust software-defined networks.',
-    skills: ['Cloud Security', 'Network Hardening', 'Zero Trust', 'Kubernetes'],
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-    email: 'infra@abhimanyuinfosec.com',
-    displayOrder: 3,
-    isActive: true,
-  },
-  {
-    id: 'team-4',
-    name: 'AI & Security Systems Developer',
-    role: 'Security Software Engineer',
-    profileImage: '',
-    shortBio: 'Builds intelligent intrusion detection pipelines, threat data telemetry, and automation tools.',
-    detailedBio: 'Designing deep learning anomaly filters and high-throughput eBPF packet inspection engines.',
-    skills: ['Machine Learning', 'eBPF', 'Rust', 'Threat Telemetry', 'Python'],
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-    email: 'ai-sec@abhimanyuinfosec.com',
-    displayOrder: 4,
-    isActive: true,
-  },
-];
+export const DEFAULT_TEAM = [];
 
 const STORAGE_KEY = 'ais_custom_team';
 
@@ -65,13 +8,13 @@ const getStoredTeam = () => {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_TEAM));
-      return DEFAULT_TEAM;
+      return [];
     }
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_TEAM;
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter((m) => !['team-1', 'team-2', 'team-3', 'team-4'].includes(m.id));
   } catch (err) {
-    return DEFAULT_TEAM;
+    return [];
   }
 };
 
@@ -89,16 +32,13 @@ export const teamService = {
     let serverTeam = [];
     try {
       const res = await api.get('/team', { all: includeInactive ? 'true' : undefined });
-      if (res && res.success && Array.isArray(res.data) && res.data.length > 0) {
+      if (res && res.success && Array.isArray(res.data)) {
         serverTeam = res.data;
+        saveStoredTeam(serverTeam);
+        return serverTeam;
       }
     } catch (err) {
       // Backend offline fallback handled below
-    }
-
-    if (serverTeam.length > 0) {
-      saveStoredTeam(serverTeam);
-      return serverTeam;
     }
 
     const local = getStoredTeam();

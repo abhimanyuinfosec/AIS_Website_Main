@@ -48,10 +48,10 @@ export const ContactPage = () => {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-heading">
-            Initiate Confidential <span className="ais-signature-gradient">Security Scoping</span>
+            Enterprise Security Engagement &amp; <span className="ais-signature-gradient">Advisory</span>
           </h1>
-          <p className="mt-4 text-slate-400 text-sm sm:text-base leading-relaxed">
-            All inquiries are treated under strict confidentiality protocols. Our technical triage team responds within 4 business hours.
+          <p className="mt-4 text-slate-300 text-sm sm:text-base leading-relaxed">
+            Partner with Abhimanyu InfoSec for advanced threat defense, offensive red teaming, and robust infrastructure hardening. Consult directly with our technical security team under strict confidentiality.
           </p>
         </div>
 
@@ -66,12 +66,22 @@ export const ContactPage = () => {
               <div className="space-y-4 text-xs text-slate-300">
                 <div>
                   <div className="text-slate-400">Direct Triage Channel</div>
-                  <div className="font-semibold text-brand-amber font-mono mt-0.5">contact@abhimanyuinfosec.com</div>
+                  <a
+                    href="mailto:abhimanyuinfosec@gmail.com"
+                    className="font-semibold text-brand-amber font-mono mt-0.5 hover:underline block"
+                  >
+                    abhimanyuinfosec@gmail.com
+                  </a>
                 </div>
 
                 <div>
-                  <div className="text-slate-400">Emergency Security Line</div>
-                  <div className="font-semibold text-white font-mono mt-0.5">+91 98765 43210</div>
+                  <div className="text-slate-400">Security Hotline &amp; Direct Support</div>
+                  <a
+                    href="tel:+918310306050"
+                    className="font-semibold text-white font-mono mt-0.5 hover:underline block"
+                  >
+                    +91 83103 06050
+                  </a>
                 </div>
 
                 <div>

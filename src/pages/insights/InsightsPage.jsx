@@ -4,35 +4,8 @@ import { BookOpen, FileText, ExternalLink, Code2, Database, Award, ArrowUpRight 
 import api from '../../services/api';
 import researchService from '../../services/researchService';
 
-const defaultArticles = [
-  {
-    badge: 'Web Security',
-    title: '5 Web Security Risks Every Business Should Know',
-    desc: 'Learn how common application vulnerabilities can impact your business.',
-    slug: '5-web-security-risks-every-business-should-know',
-  },
-  {
-    badge: 'SME Security',
-    title: 'Why SMEs Are Becoming Targets for Cyber Attacks',
-    desc: 'Understanding why smaller organizations need practical security controls.',
-    slug: 'why-smes-are-becoming-targets-for-cyber-attacks',
-  },
-  {
-    badge: 'Defensive Strategy',
-    title: 'What Is Attack Surface Management?',
-    desc: 'A practical introduction to discovering and reducing exposed assets.',
-    slug: 'what-is-attack-surface-management',
-  },
-  {
-    badge: 'Assessment Guide',
-    title: 'Vulnerability Assessment vs Penetration Testing',
-    desc: 'Understand the difference and when your organization needs each.',
-    slug: 'vulnerability-assessment-vs-penetration-testing',
-  },
-];
-
 const InsightsPage = () => {
-  const [articles, setArticles] = useState(defaultArticles);
+  const [articles, setArticles] = useState([]);
   const [researchPapers, setResearchPapers] = useState([]);
   const [researchLoading, setResearchLoading] = useState(true);
 
@@ -40,7 +13,7 @@ const InsightsPage = () => {
     let isMounted = true;
     api.get('/blog')
       .then((res) => {
-        if (!isMounted || !res.success || !Array.isArray(res.data) || res.data.length === 0) return;
+        if (!isMounted || !res.success || !Array.isArray(res.data)) return;
         const liveArticles = res.data.map((post) => ({
           badge: post.category?.name || 'Security Insight',
           title: post.title,
@@ -293,33 +266,43 @@ const InsightsPage = () => {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {articles.map((article) => (
-              <div
-                key={article.title}
-                className="p-7 rounded-xl bg-slate-900/60 border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-colors"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="inline-block px-2.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[11px] font-mono">
-                      {article.badge}
-                    </span>
-                    {article.readingTime && (
-                      <span className="text-[11px] font-mono text-slate-400">
-                        {article.readingTime} min read
+          {articles.length === 0 ? (
+            <div className="p-8 sm:p-12 rounded-xl bg-slate-900/40 border border-dashed border-slate-800 text-center space-y-3">
+              <FileText className="mx-auto text-slate-500" size={32} />
+              <h3 className="text-base font-semibold text-white">No Articles Published Yet</h3>
+              <p className="text-xs sm:text-sm text-slate-400 max-w-md mx-auto">
+                Our security analysts are currently drafting new threat analyses and architectural deep dives. Check back soon.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {articles.map((article) => (
+                <div
+                  key={article.title}
+                  className="p-7 rounded-xl bg-slate-900/60 border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-colors"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="inline-block px-2.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[11px] font-mono">
+                        {article.badge}
                       </span>
-                    )}
+                      {article.readingTime && (
+                        <span className="text-[11px] font-mono text-slate-400">
+                          {article.readingTime} min read
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="text-lg font-semibold text-white mb-2.5 leading-snug">
+                      {article.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                      {article.desc}
+                    </p>
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-2.5 leading-snug">
-                    {article.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    {article.desc}
-                  </p>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* 5. CALL TO ACTION BANNER */}

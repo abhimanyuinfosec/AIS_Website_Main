@@ -40,7 +40,7 @@ export const DEFAULT_PRODUCTS = [
     badge: 'THREAT INTEL',
     color: 'blue',
     icon: 'Network',
-    shortDesc: 'Decode any IP address — reputation, geolocation, ASN, hosting, and real-time threat indicators in one lookup.',
+    shortDesc: 'Decode any IP address: reputation, geolocation, ASN, hosting, and real-time threat indicators in one lookup.',
     detailedDesc: 'Global IP Threat Intelligence engine providing low-latency risk telemetry, BGP route tracing, botnet/C2 correlation, and Tor/proxy/VPN tagging for proactive defense.',
     problem: 'Security analysts face alert fatigue and delayed investigations when validating high-volume incoming connection anomalies across disparate data feeds.',
     keyFeatures: [

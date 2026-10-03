@@ -80,66 +80,84 @@ const TeamPage = () => {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {members.map((member) => (
-              <div
-                key={member.name}
-                className="p-6 rounded-xl bg-slate-900/60 border border-slate-800 flex flex-col justify-between"
-              >
-                <div>
-                  {/* Photo Space Container */}
-                  <div className="w-full aspect-square rounded-lg bg-slate-800/80 border border-slate-700 flex flex-col items-center justify-center text-center p-4 mb-5 overflow-hidden">
-                    {member.profileImage ? (
-                      <img src={member.profileImage} alt={member.name} className="w-full h-full object-cover rounded" />
-                    ) : (
-                      <>
-                        <span className="text-[11px] font-mono text-blue-400 uppercase tracking-wider font-semibold">
-                          Photo
-                        </span>
-                        <span className="text-[10px] text-slate-500 mt-1">
-                          Member Portrait
-                        </span>
-                      </>
-                    )}
-                  </div>
-
-                  {/* Name & Role */}
-                  <h3 className="text-base font-semibold text-white mb-1 leading-snug">
-                    {member.name}
-                  </h3>
-                  <div className="text-xs font-mono text-blue-400 mb-3">
-                    {member.role}
-                  </div>
-
-                  {/* Short 1-2 line description */}
-                  <p className="text-xs text-slate-300 leading-relaxed mb-5">
-                    {member.desc}
-                  </p>
-                </div>
-
-                {/* Social Links (text-based, no icons) */}
-                <div className="pt-3 border-t border-slate-800 flex items-center gap-3 text-xs font-mono">
-                  <a
-                    href={member.linkedin}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-blue-400 hover:text-blue-300 transition-colors"
-                  >
-                    LinkedIn
-                  </a>
-                  <span className="text-slate-600">•</span>
-                  <a
-                    href={member.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-blue-400 hover:text-blue-300 transition-colors"
-                  >
-                    GitHub
-                  </a>
-                </div>
+          {loading ? (
+            <div className="flex items-center justify-center py-16">
+              <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          ) : members.length === 0 ? (
+            <div className="py-16 px-6 text-center rounded-xl bg-slate-900/40 border border-dashed border-slate-800/80 max-w-xl mx-auto">
+              <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
               </div>
-            ))}
-          </div>
+              <h3 className="text-base font-semibold text-white mb-1">Team Profiles Updating</h3>
+              <p className="text-xs text-slate-400 font-mono">
+                Leadership and engineering team profiles are currently being curated and will be published shortly.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {members.map((member) => (
+                <div
+                  key={member.name}
+                  className="p-6 rounded-xl bg-slate-900/60 border border-slate-800 flex flex-col justify-between"
+                >
+                  <div>
+                    {/* Photo Space Container */}
+                    <div className="w-full aspect-square rounded-lg bg-slate-800/80 border border-slate-700 flex flex-col items-center justify-center text-center p-4 mb-5 overflow-hidden">
+                      {member.profileImage ? (
+                        <img src={member.profileImage} alt={member.name} className="w-full h-full object-cover rounded" />
+                      ) : (
+                        <>
+                          <span className="text-[11px] font-mono text-blue-400 uppercase tracking-wider font-semibold">
+                            Photo
+                          </span>
+                          <span className="text-[10px] text-slate-500 mt-1">
+                            Member Portrait
+                          </span>
+                        </>
+                      )}
+                    </div>
+
+                    {/* Name & Role */}
+                    <h3 className="text-base font-semibold text-white mb-1 leading-snug">
+                      {member.name}
+                    </h3>
+                    <div className="text-xs font-mono text-blue-400 mb-3">
+                      {member.role}
+                    </div>
+
+                    {/* Short 1-2 line description */}
+                    <p className="text-xs text-slate-300 leading-relaxed mb-5">
+                      {member.desc}
+                    </p>
+                  </div>
+
+                  {/* Social Links (text-based, no icons) */}
+                  <div className="pt-3 border-t border-slate-800 flex items-center gap-3 text-xs font-mono">
+                    <a
+                      href={member.linkedin}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-blue-400 hover:text-blue-300 transition-colors"
+                    >
+                      LinkedIn
+                    </a>
+                    <span className="text-slate-600">•</span>
+                    <a
+                      href={member.github}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-blue-400 hover:text-blue-300 transition-colors"
+                    >
+                      GitHub
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* 3. OUR CULTURE */}

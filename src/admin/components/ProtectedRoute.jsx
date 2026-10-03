@@ -20,10 +20,14 @@ export const ProtectedRoute = ({
   children,
   allowedRoles,
   requireAdmin = false,
-  redirectTo = '/',
+  redirectTo,
 }) => {
   const { isAuthenticated, isLoading, user } = useAuth();
   const location = useLocation();
+
+  const destination =
+    redirectTo ||
+    (requireAdmin || (allowedRoles && allowedRoles.length > 0) ? '/admin/login' : '/login');
 
   // ── Loading spinner ───────────────────────────────────────────────────────
   if (isLoading) {
@@ -41,7 +45,7 @@ export const ProtectedRoute = ({
 
   // ── Not authenticated at all ──────────────────────────────────────────────
   if (!isAuthenticated) {
-    return <Navigate to={redirectTo} state={{ from: location }} replace />;
+    return <Navigate to={destination} state={{ from: location }} replace />;
   }
 
   // ── Admin-level role required (catches regular USERs trying /admin/*) ─────

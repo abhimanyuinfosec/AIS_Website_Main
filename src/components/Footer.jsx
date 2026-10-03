@@ -18,11 +18,7 @@ const Footer = () => {
             <p className="text-slate-400 text-xs leading-relaxed max-w-xs font-normal">
               Next-generation autonomous cloud firewall &amp; zero-trust network perimeter. Engineered to defend distributed teams, enterprise systems, and remote endpoints.
             </p>
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center px-2.5 py-1 rounded-md border border-white/[0.08] text-[10px] bg-[#111111] text-slate-300 font-mono tracking-wide">SOC2 Type II</span>
-              <span className="inline-flex items-center px-2.5 py-1 rounded-md border border-white/[0.08] text-[10px] bg-[#111111] text-slate-300 font-mono tracking-wide">ISO 27001</span>
-              <span className="inline-flex items-center px-2.5 py-1 rounded-md border border-white/[0.08] text-[10px] bg-[#111111] text-slate-300 font-mono tracking-wide">GDPR Compliant</span>
-            </div>
+
             <div className="flex items-center gap-4 pt-1 text-xs">
               {/* LinkedIn — brand blue */}
               <a
@@ -75,11 +71,9 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="font-heading font-semibold text-white text-[11px] uppercase tracking-wider">Product</div>
             <ul className="space-y-2.5">
-              <li><Link className="hover:text-[#FFB000] transition-colors" to="/products/hybrid-ids">Hybrid IDS Engine</Link></li>
-              <li><Link className="hover:text-[#FFB000] transition-colors" to="/products/autored-apt">AutoRed APT</Link></li>
-              <li><Link className="hover:text-[#FFB000] transition-colors" to="/products/ip-intelligence">IP Intelligence</Link></li>
-              <li><Link className="hover:text-[#FFB000] transition-colors" to="/services/threat-detection">Threat Detection</Link></li>
-              <li><Link className="hover:text-[#FFB000] transition-colors" to="/contact">Security Assessment</Link></li>
+              <li><Link className="hover:text-[#FFB000] transition-colors" to="/products">Hybrid IDS Engine</Link></li>
+              <li><Link className="hover:text-[#FFB000] transition-colors" to="/products">AutoRed APT</Link></li>
+              <li><Link className="hover:text-[#FFB000] transition-colors" to="/products">IP Intelligence</Link></li>
             </ul>
           </div>
           <div className="space-y-4">

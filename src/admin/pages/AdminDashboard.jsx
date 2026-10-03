@@ -52,7 +52,7 @@ export const AdminDashboard = () => {
   }
 
   const counts = data?.counts || {};
-  let localTeamCount = 4;
+  let localTeamCount = 0;
   try {
     const raw = localStorage.getItem('ais_custom_team');
     if (raw) {

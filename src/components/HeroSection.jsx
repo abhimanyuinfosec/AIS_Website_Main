@@ -59,16 +59,12 @@ const HeroSection = () => {
           >
             <span>Get Free Assessment</span>
           </Link>
-          <a
-            href="#how-it-works"
+          <Link
+            to="/about/approach"
             className="hero-secondary-btn w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 text-sm font-semibold text-slate-800 dark:text-slate-300 hover:text-[#C1121F] dark:hover:text-white bg-white dark:bg-slate-900/60 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg border border-slate-300 dark:border-slate-700 hover:border-[#C1121F] dark:hover:border-slate-600 shadow-sm transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2"
           >
             <span className="hero-secondary-text">See How It Works</span>
-          </a>
-        </div>
-
-        {/* Trust Indicators - original text copy & style */}
-        <div className="hero-trust-bar flex flex-wrap items-center justify-center gap-x-6 gap-y-2 pt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-medium">
+          </Link>
         </div>
       </div>
     </section>

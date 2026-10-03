@@ -3,39 +3,39 @@ import React, { useState } from 'react';
 const faqs = [
   {
     number: '01',
-    q: 'What does Abhimanyu InfoSec provide?',
-    a: 'Abhimanyu InfoSec provides cybersecurity services and security solutions designed to help businesses identify vulnerabilities, detect threats, strengthen their security posture, and monitor their digital environment without enterprise complexity or cost.',
-    category: 'PEOPLE / PROCESS / PROTECTION',
+    q: 'How does Abhimanyu protect our company?',
+    a: 'Abhimanyu InfoSec provides multi-layered defenses spanning attack surface reduction, automated adversary emulation, real-time threat telemetry, and continuous zero-trust policy enforcement across distributed endpoints, cloud infrastructure, and internal networks.',
+    category: 'CONTINUOUS PROTECTION',
   },
   {
     number: '02',
-    q: 'Who is Abhimanyu InfoSec built for?',
-    a: 'We are built specifically for small to mid-sized businesses, high-growth startups, and distributed teams that require enterprise-grade security defenses without the operational complexity or extreme overhead of an in-house security operations center.',
-    category: 'TARGET / AUDIENCE / FIT',
+    q: 'Will this slow down our internet or work?',
+    a: 'No. Our lightweight security architecture operates with sub-millisecond edge inspection latency. Encrypted traffic optimization ensures remote and distributed teams experience zero noticeable performance degradation or lag.',
+    category: 'NETWORK PERFORMANCE',
   },
   {
     number: '03',
-    q: 'How does a security assessment work?',
-    a: 'Our assessment begins with non-invasive surface discovery, automated threat modeling, and adversary simulation across your cloud, web, and network perimeters. We then deliver a prioritized remediation roadmap with actionable remediation guidance.',
-    category: 'METHODOLOGY / VAPT',
+    q: 'What kind of threats do you defend against?',
+    a: 'We shield your organization from zero-day exploits, phishing and credential harvesting campaigns, ransomware outbreaks, container/API supply-chain attacks, internal lateral movement, and unauthorized cloud data exfiltration.',
+    category: 'THREAT INTELLIGENCE',
   },
   {
     number: '04',
-    q: 'Do you provide continuous monitoring?',
-    a: 'Yes. We provide continuous 24/7 telemetry monitoring, automated anomaly detection, and rapid incident containment so that suspicious behavior and emerging threat actors are neutralized before business disruption occurs.',
-    category: 'OPERATIONS / 24/7 DEFENSE',
+    q: 'How long does deployment take?',
+    a: 'Standard integration takes under 15 minutes. Our cloud-native configuration requires zero on-premise appliances, automatically syncing with your cloud workloads, identity providers, and SaaS platforms seamlessly.',
+    category: 'DEPLOYMENT & ONBOARDING',
   },
   {
     number: '05',
-    q: 'How is customer data handled?',
-    a: 'Customer privacy and operational integrity are paramount. We deploy zero-knowledge inspection protocols, cryptographic silos for remote teams, and encrypted session handling compliant with SOC2 Type II, ISO 27001, and GDPR standards.',
-    category: 'COMPLIANCE / PRIVACY / SOC2',
+    q: 'Do you help with SOC2 & ISO 27001 compliance?',
+    a: 'Yes. Abhimanyu automatically generates audit-ready compliance evidence, immutable activity logs, and technical control mappings required for SOC 2 Type II, ISO 27001, HIPAA, and GDPR certifications.',
+    category: 'REGULATORY COMPLIANCE',
   },
   {
     number: '06',
     q: 'Can you work with existing infrastructure?',
     a: 'Absolutely. Abhimanyu seamlessly integrates with your existing cloud environments (AWS, Azure, GCP), hybrid networks, and third-party SaaS tooling with zero hardware installation required and zero disruption to active business workflows.',
-    category: 'INTEGRATION / ZERO-HARDWARE',
+    category: 'INTEGRATION',
   },
 ];
 
@@ -58,16 +58,11 @@ const FAQSection = () => {
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-          <div className="flex items-center justify-center gap-2 text-xs font-mono tracking-widest text-[#FF7A00] uppercase mb-3">
-            <span>—</span>
-            <span>KNOWLEDGE BASE</span>
-            <span>—</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold tracking-tight text-white leading-tight">
+        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
             Frequently Asked <span className="ais-signature-gradient">Questions</span>
           </h2>
-          <p className="mt-3 text-sm sm:text-base text-slate-400 font-normal">
+          <p className="mt-3 text-sm sm:text-base text-slate-600 dark:text-slate-400 font-normal">
             Security, services, and everything you need to know.
           </p>
         </div>
@@ -76,7 +71,7 @@ const FAQSection = () => {
         <div className="hidden md:grid md:grid-cols-12 gap-8 lg:gap-12 items-start">
           
           {/* LEFT COLUMN: ~45% (col-span-5) */}
-          <div className="md:col-span-5 md:pr-4 lg:pr-8 border-b md:border-b-0 md:border-r border-white/[0.08] pb-8 md:pb-0">
+          <div className="md:col-span-5 md:pr-4 lg:pr-8 border-b md:border-b-0 md:border-r border-slate-200 dark:border-white/[0.08] pb-8 md:pb-0">
             <div className="space-y-0">
               {faqs.map((faq, idx) => {
                 const isActive = activeIdx === idx;
@@ -88,13 +83,13 @@ const FAQSection = () => {
                     className={`w-full text-left py-4 sm:py-4.5 flex items-center justify-between border-b transition-all duration-200 group cursor-pointer ${
                       isActive
                         ? 'border-[#C1121F]'
-                        : 'border-white/[0.08] hover:border-white/20'
+                        : 'border-slate-200 dark:border-white/[0.08] hover:border-slate-400 dark:hover:border-white/20'
                     }`}
                   >
                     <div className="flex items-center gap-4 sm:gap-5 pr-3">
                       <span
                         className={`text-xs sm:text-sm font-mono transition-colors duration-200 ${
-                          isActive ? 'text-[#FF7A00] font-bold' : 'text-slate-500 font-semibold'
+                          isActive ? 'text-[#C1121F] font-bold' : 'text-slate-500 font-semibold'
                         }`}
                       >
                         {faq.number}
@@ -102,8 +97,8 @@ const FAQSection = () => {
                       <span
                         className={`text-xs sm:text-sm leading-snug transition-colors duration-200 ${
                           isActive
-                            ? 'text-white font-semibold'
-                            : 'text-slate-400 font-medium group-hover:text-slate-200'
+                            ? 'text-slate-900 dark:text-white font-bold'
+                            : 'text-slate-600 dark:text-slate-400 font-medium group-hover:text-slate-900 dark:group-hover:text-slate-200'
                         }`}
                       >
                         {faq.q}
@@ -112,7 +107,7 @@ const FAQSection = () => {
 
                     <span
                       className={`text-sm font-mono transition-colors duration-200 shrink-0 ${
-                        isActive ? 'text-[#FF7A00]' : 'text-slate-600 group-hover:text-slate-400'
+                        isActive ? 'text-[#C1121F]' : 'text-slate-400 group-hover:text-slate-700 dark:text-slate-600 dark:group-hover:text-slate-400'
                       }`}
                     >
                       →
@@ -123,7 +118,7 @@ const FAQSection = () => {
             </div>
 
             {/* Bottom Left Subtle Accent Text */}
-            <div className="pt-8 mt-4 border-t border-white/[0.06]">
+            <div className="pt-8 mt-4 border-t border-slate-200 dark:border-white/[0.06]">
               <p className="text-[10px] font-mono tracking-widest text-slate-500 uppercase">
                 TRUSTED SECURITY PARTNER FOR A SAFER TOMORROW.
               </p>
@@ -134,30 +129,30 @@ const FAQSection = () => {
           <div className="md:col-span-7 md:pl-4 lg:pl-8 flex flex-col justify-between min-h-[380px]">
             <div>
               {/* Category & Counter Bar */}
-              <div className="flex items-center justify-between pb-5 border-b border-white/[0.08]">
+              <div className="flex items-center justify-between pb-5 border-b border-slate-200 dark:border-white/[0.08]">
                 <div className="font-mono text-sm">
-                  <span className="text-[#FF7A00] font-bold">{currentFaq.number}</span>
-                  <span className="text-slate-600 ml-1">/ 0{faqs.length}</span>
+                  <span className="text-[#C1121F] font-bold">{currentFaq.number}</span>
+                  <span className="text-slate-500 ml-1">/ 0{faqs.length}</span>
                 </div>
-                <span className="text-[10px] sm:text-[11px] font-mono tracking-widest text-[#FFB000] uppercase">
+                <span className="text-[10px] sm:text-[11px] font-mono tracking-widest text-[#D97706] dark:text-[#FFB000] uppercase font-semibold">
                   {currentFaq.category}
                 </span>
               </div>
 
               {/* Big Question Heading */}
-              <h3 className="text-2xl sm:text-3xl font-heading font-bold text-white tracking-tight leading-snug mt-6 mb-5 transition-opacity duration-200">
+              <h3 className="text-2xl sm:text-3xl font-heading font-bold text-slate-900 dark:text-white tracking-tight leading-snug mt-6 mb-5 transition-opacity duration-200">
                 {currentFaq.q}
               </h3>
 
               {/* Answer Body */}
-              <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal transition-opacity duration-200">
+              <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed font-normal transition-opacity duration-200">
                 {currentFaq.a}
               </p>
 
               {/* 3 Text Pillars */}
-              <div className="grid grid-cols-3 gap-4 pt-8 mt-8 border-t border-white/[0.08]">
+              <div className="grid grid-cols-3 gap-4 pt-8 mt-8 border-t border-slate-200 dark:border-white/[0.08]">
                 <div>
-                  <span className="block text-xs font-mono font-bold text-slate-200">
+                  <span className="block text-xs font-mono font-bold text-slate-900 dark:text-slate-200">
                     Identify Risks
                   </span>
                   <span className="block text-[11px] text-slate-500 mt-0.5 font-normal">
@@ -165,7 +160,7 @@ const FAQSection = () => {
                   </span>
                 </div>
                 <div>
-                  <span className="block text-xs font-mono font-bold text-slate-200">
+                  <span className="block text-xs font-mono font-bold text-slate-900 dark:text-slate-200">
                     Strengthen Security
                   </span>
                   <span className="block text-[11px] text-slate-500 mt-0.5 font-normal">
@@ -173,7 +168,7 @@ const FAQSection = () => {
                   </span>
                 </div>
                 <div>
-                  <span className="block text-xs font-mono font-bold text-slate-200">
+                  <span className="block text-xs font-mono font-bold text-slate-900 dark:text-slate-200">
                     Stay Resilient
                   </span>
                   <span className="block text-[11px] text-slate-500 mt-0.5 font-normal">
@@ -188,15 +183,15 @@ const FAQSection = () => {
               <button
                 onClick={handlePrev}
                 aria-label="Previous FAQ"
-                className="text-slate-500 hover:text-white transition-colors duration-150 text-sm font-mono flex items-center gap-1.5 cursor-pointer select-none"
+                className="text-slate-600 hover:text-black dark:text-slate-400 dark:hover:text-white transition-colors duration-150 text-sm font-mono flex items-center gap-1.5 cursor-pointer select-none"
               >
                 <span>←</span>
               </button>
-              <span className="text-[#C1121F]/60 font-mono text-xs select-none">────</span>
+              <span className="text-[#C1121F]/60 font-mono text-xs select-none">···</span>
               <button
                 onClick={handleNext}
                 aria-label="Next FAQ"
-                className="text-slate-500 hover:text-white transition-colors duration-150 text-sm font-mono flex items-center gap-1.5 cursor-pointer select-none"
+                className="text-slate-600 hover:text-black dark:text-slate-400 dark:hover:text-white transition-colors duration-150 text-sm font-mono flex items-center gap-1.5 cursor-pointer select-none"
               >
                 <span>→</span>
               </button>
@@ -206,7 +201,7 @@ const FAQSection = () => {
         </div>
 
         {/* Mobile Single-Column Accordion Layout */}
-        <div className="md:hidden divide-y divide-white/[0.08]">
+        <div className="md:hidden divide-y divide-slate-200 dark:divide-white/[0.08]">
           {faqs.map((faq, idx) => {
             const isOpen = mobileOpenIdx === idx;
 
@@ -218,25 +213,25 @@ const FAQSection = () => {
                   aria-expanded={isOpen}
                 >
                   <div className="flex items-start gap-3">
-                    <span className="text-xs font-mono text-[#FF7A00] font-bold shrink-0 pt-0.5">
+                    <span className="text-xs font-mono text-[#C1121F] font-bold shrink-0 pt-0.5">
                       {faq.number}
                     </span>
                     <span
                       className={`text-sm leading-snug transition-colors duration-150 ${
-                        isOpen ? 'text-white font-semibold' : 'text-slate-300 font-medium'
+                        isOpen ? 'text-slate-900 dark:text-white font-bold' : 'text-slate-700 dark:text-slate-300 font-medium'
                       }`}
                     >
                       {faq.q}
                     </span>
                   </div>
-                  <span className="text-xs font-mono text-slate-400 font-bold shrink-0 pt-0.5 select-none">
+                  <span className="text-xs font-mono text-slate-500 font-bold shrink-0 pt-0.5 select-none">
                     {isOpen ? '−' : '+'}
                   </span>
                 </button>
 
                 {isOpen && (
                   <div className="pl-7 pr-2 pt-2.5 pb-2 transition-all duration-200">
-                    <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
                       {faq.a}
                     </p>
                   </div>
