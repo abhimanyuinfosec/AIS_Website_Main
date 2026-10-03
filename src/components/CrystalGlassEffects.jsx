@@ -5,17 +5,9 @@ const CrystalGlassEffects = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const root = document.documentElement;
     const header = document.querySelector('header');
 
-    // 1. Cursor-controlled atmospheric light
-    const handlePointerMove = (e) => {
-      root.style.setProperty('--mx', `${e.clientX}px`);
-      root.style.setProperty('--my', `${e.clientY}px`);
-    };
-    window.addEventListener('pointermove', handlePointerMove, { passive: true });
-
-    // 2. Header depth on scroll
+    // 1. Header depth & shadow state on scroll
     const syncHeader = () => {
       if (header) {
         header.classList.toggle('nav-scrolled', window.scrollY > 18);
@@ -24,7 +16,7 @@ const CrystalGlassEffects = () => {
     syncHeader();
     window.addEventListener('scroll', syncHeader, { passive: true });
 
-    // 3. Lightweight 3D tilt
+    // 2. Subtle 3D tilt interaction for interactive cards
     const canTilt = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
     const cleanups = [];
     if (canTilt) {
@@ -33,9 +25,11 @@ const CrystalGlassEffects = () => {
           const r = card.getBoundingClientRect();
           const x = (e.clientX - r.left) / r.width - 0.5;
           const y = (e.clientY - r.top) / r.height - 0.5;
-          card.style.transform = `perspective(900px) rotateX(${(-y * 3.2).toFixed(2)}deg) rotateY(${(x * 3.2).toFixed(2)}deg) translateY(-7px) scale(1.008)`;
+          card.style.transform = `perspective(900px) rotateX(${(-y * 2.5).toFixed(2)}deg) rotateY(${(x * 2.5).toFixed(2)}deg) translateY(-4px)`;
         };
-        const onLeave = () => { card.style.transform = ''; };
+        const onLeave = () => {
+          card.style.transform = '';
+        };
         card.addEventListener('pointermove', onMove);
         card.addEventListener('pointerleave', onLeave);
         cleanups.push(() => {
@@ -45,19 +39,7 @@ const CrystalGlassEffects = () => {
       });
     }
 
-    // 4. Crystal scan highlight
-    document.querySelectorAll('.glass-surface, .glass-surface-interactive').forEach((el) => {
-      if (!el.classList.contains('crystal-edge')) el.classList.add('crystal-edge');
-      if (!el.querySelector(':scope > .crystal-scan')) {
-        const scan = document.createElement('span');
-        scan.className = 'crystal-scan';
-        el.appendChild(scan);
-      }
-    });
-
-    // 5. Micro-particles removed for clean enterprise presentation
-
-    // 6. Smooth active-nav feedback
+    // 3. Smooth active-nav feedback for hash sections
     const links = [...document.querySelectorAll('header a[href^="#"]')];
     const sections = links.map((a) => document.querySelector(a.getAttribute('href'))).filter(Boolean);
     let navObserver = null;
@@ -66,9 +48,9 @@ const CrystalGlassEffects = () => {
         (entries) => {
           entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
-            links.forEach((a) => a.classList.remove('text-brand-amber', 'bg-white/[0.06]'));
+            links.forEach((a) => a.classList.remove('text-brand-crimson', 'font-semibold'));
             const active = links.find((a) => a.getAttribute('href') === '#' + entry.target.id);
-            if (active) active.classList.add('text-brand-amber', 'bg-white/[0.06]');
+            if (active) active.classList.add('text-brand-crimson', 'font-semibold');
           });
         },
         { rootMargin: '-35% 0px -55% 0px' }
@@ -77,7 +59,7 @@ const CrystalGlassEffects = () => {
     }
 
     // =========================================================
-    // 7. Universal SkyFort Scroll Reveal Engine (Works on all pages & sections)
+    // 4. Universal Scroll Reveal Engine (Light & Crisp Theme)
     // =========================================================
     const animObserver = new IntersectionObserver(
       (entries) => {
@@ -123,7 +105,6 @@ const CrystalGlassEffects = () => {
       // Grid containers — stagger children
       main.querySelectorAll('.grid, [class*="grid-cols"]').forEach((grid) => {
         if (!grid.hasAttribute('data-anim-child') && !grid.hasAttribute('data-sr-stagger') && grid.children.length >= 2) {
-          // Exclude hero top grid
           if (!grid.closest('[data-purpose="hero-section"]')) {
             grid.setAttribute('data-anim-child', '');
           }
@@ -149,7 +130,6 @@ const CrystalGlassEffects = () => {
         if (el.classList.contains('anim-visible')) return;
 
         const rect = el.getBoundingClientRect();
-        // If element is already in the viewport on initial page view, reveal it smoothly
         if (rect.top < vh - 40 && rect.bottom > 10) {
           el.classList.add('anim-visible');
         } else {
@@ -158,12 +138,10 @@ const CrystalGlassEffects = () => {
       });
     };
 
-    // Run immediately and schedule scans for subsequent React mounts
     initScrollReveals();
     const timer1 = setTimeout(initScrollReveals, 60);
     const timer2 = setTimeout(initScrollReveals, 220);
 
-    // Watch for dynamic route transitions or DOM changes inside main
     const mainEl = document.querySelector('main');
     let mutationObserver = null;
     if (mainEl && window.MutationObserver) {
@@ -176,7 +154,6 @@ const CrystalGlassEffects = () => {
     }
 
     return () => {
-      window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('scroll', syncHeader);
       animObserver.disconnect();
       if (mutationObserver) mutationObserver.disconnect();

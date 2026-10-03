@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Outlet } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import AmbientBackdrop from './components/AmbientBackdrop';
 import CrystalGlassEffects from './components/CrystalGlassEffects';
 import PWAInstallPrompt from './components/PWAInstallPrompt';
 import Home from './pages/Home';
@@ -22,9 +21,6 @@ import SecurityHardeningPage from './pages/services/SecurityHardeningPage';
 // Individual Subsection Pages - Products
 import ProductsPage from './pages/products/ProductsPage';
 import ProductDetailPage from './pages/products/ProductDetailPage';
-import AutoRedAptPage from './pages/products/AutoRedAptPage';
-import IpIntelligencePage from './pages/products/IpIntelligencePage';
-import HybridIdsPage from './pages/products/HybridIdsPage';
 
 // Individual Subsection Pages - Insights
 import InsightsPage from './pages/insights/InsightsPage';
@@ -88,8 +84,7 @@ const ScrollToTop = () => {
 // Public Website Layout Shell (with Navbar and Footer)
 const PublicLayout = () => {
   return (
-    <div className="public-app-layout bg-[#080808] text-slate-200 font-sans antialiased selection:bg-brand-500 selection:text-white min-h-screen relative overflow-x-hidden transition-colors duration-300">
-      <AmbientBackdrop />
+    <div className="public-app-layout bg-[#FAFAFA] text-slate-900 font-sans antialiased selection:bg-brand-crimson selection:text-white min-h-screen relative overflow-x-hidden transition-colors duration-300">
       <CrystalGlassEffects />
       <Navbar />
       <main className="relative z-10 pt-20 md:pt-24">

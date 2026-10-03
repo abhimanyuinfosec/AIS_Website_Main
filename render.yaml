@@ -29,6 +29,10 @@ services:
         sync: false
       - key: GOOGLE_CLIENT_SECRET
         sync: false
+      - key: GITHUB_CLIENT_ID
+        sync: false
+      - key: GITHUB_CLIENT_SECRET
+        sync: false
 
   # (Optional) Frontend Static Site on Render
   # If hosting frontend on Vercel or Cloudflare, you can omit or keep this as backup

@@ -70,11 +70,21 @@ DATABASE_URL=postgresql://<user>:<password>@ep-cool-snowflake-123456-pooler.us-e
 # CORS Allowed Origins (Comma-separated if multiple, e.g. Vercel domain & custom domain)
 CORS_ORIGIN=https://ais-website.vercel.app,https://abhimanyuinfosec.com
 
-# Security & JWT (Generate strong 64-character hex strings)
-JWT_ACCESS_SECRET=your_super_secret_access_token_production_key_2026
-JWT_REFRESH_SECRET=your_super_secret_refresh_token_production_key_2026
+# Security & JWT Authentication (Generate using `npm run generate:secrets` or `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"`)
+JWT_ACCESS_SECRET=your_generated_64_character_hex_access_token_secret
+JWT_REFRESH_SECRET=your_generated_64_character_hex_refresh_token_secret
 JWT_ACCESS_EXPIRY=15m
 JWT_REFRESH_EXPIRY=7d
+
+# Google OAuth 2.0 (Google Cloud Console > Credentials > OAuth Client ID)
+# Authorized Redirect URI: https://your-backend-app.onrender.com/api/auth/google/callback
+GOOGLE_CLIENT_ID=your-google-client-id.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+
+# GitHub OAuth 2.0 (GitHub > Settings > Developer Settings > OAuth Apps)
+# Authorization Callback URL: https://your-backend-app.onrender.com/api/auth/github/callback
+GITHUB_CLIENT_ID=your-github-client-id
+GITHUB_CLIENT_SECRET=your-github-client-secret
 
 # Uploads Configuration
 UPLOAD_DIR=./uploads

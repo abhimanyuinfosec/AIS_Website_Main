@@ -32,15 +32,103 @@ const getFrontendBaseUrl = (req) => {
 };
 
 // ──────────────────────────────────────────────
+// Helper: Dev Mock OAuth Simulation
+// ──────────────────────────────────────────────
+const handleDevMockOAuth = async (req, res, provider) => {
+  const frontendUrl = getFrontendBaseUrl(req);
+  try {
+    const isGoogle = provider === 'GOOGLE';
+    const mockData = isGoogle
+      ? {
+          email: 'google.demo@abhimanyuinfosec.com',
+          name: 'Google Security Tester',
+          provider: 'GOOGLE',
+          providerId: 'mock-google-10982736451928374',
+          avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+        }
+      : {
+          email: 'github.demo@abhimanyuinfosec.com',
+          name: 'GitHub Security Researcher',
+          provider: 'GITHUB',
+          providerId: 'mock-github-987654321',
+          avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
+        };
+
+    let user = await prisma.user.findUnique({
+      where: { email: mockData.email },
+    });
+
+    if (user) {
+      if (!user.isActive) {
+        return res.redirect(`${frontendUrl}/auth/callback?error=${encodeURIComponent('Dev test account is deactivated.')}`);
+      }
+      user = await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          lastLogin: new Date(),
+          avatarUrl: user.avatarUrl || mockData.avatarUrl,
+        },
+      });
+    } else {
+      user = await prisma.user.create({
+        data: {
+          email: mockData.email,
+          name: mockData.name,
+          role: 'USER',
+          provider: mockData.provider,
+          providerId: mockData.providerId,
+          avatarUrl: mockData.avatarUrl,
+          isActive: true,
+          lastLogin: new Date(),
+        },
+      });
+    }
+
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+
+    const isProduction = process.env.NODE_ENV === 'production';
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    await logAudit({
+      userId: user.id,
+      action: 'AUTH_OAUTH_DEV_SIMULATION',
+      resourceType: 'User',
+      resourceId: user.id,
+      req,
+      result: 'SUCCESS',
+      metadata: { provider, email: mockData.email, devSimulation: true },
+    });
+
+    return res.redirect(`${frontendUrl}/auth/callback?token=${accessToken}`);
+  } catch (err) {
+    console.error('Dev Mock OAuth error:', err);
+    return res.redirect(`${frontendUrl}/auth/callback?error=${encodeURIComponent('Dev OAuth simulation failed: ' + (err.message || 'Database error'))}`);
+  }
+};
+
+// ──────────────────────────────────────────────
 // 1. GOOGLE OAUTH 2.0
 // ──────────────────────────────────────────────
 
-export const redirectToGoogle = (req, res) => {
+export const redirectToGoogle = async (req, res) => {
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const frontendUrl = getFrontendBaseUrl(req);
 
-  if (!clientId) {
-    return res.redirect(`${frontendUrl}/auth/callback?error=Google OAuth is not configured on the server.`);
+  if (!clientId || clientId.trim() === '') {
+    const isDev = process.env.NODE_ENV !== 'production';
+    const allowDevOAuth = isDev || process.env.ALLOW_DEV_OAUTH === 'true';
+
+    if (allowDevOAuth) {
+      return handleDevMockOAuth(req, res, 'GOOGLE');
+    }
+
+    return res.redirect(`${frontendUrl}/auth/callback?error=${encodeURIComponent('Google OAuth is not configured on the server. Please add GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to the server environment.')}`);
   }
 
   const backendUrl = getBackendBaseUrl(req);
@@ -168,12 +256,19 @@ export const handleGoogleCallback = async (req, res, next) => {
 // 2. GITHUB OAUTH 2.0
 // ──────────────────────────────────────────────
 
-export const redirectToGitHub = (req, res) => {
+export const redirectToGitHub = async (req, res) => {
   const clientId = process.env.GITHUB_CLIENT_ID;
   const frontendUrl = getFrontendBaseUrl(req);
 
-  if (!clientId) {
-    return res.redirect(`${frontendUrl}/auth/callback?error=GitHub OAuth is not configured on the server.`);
+  if (!clientId || clientId.trim() === '') {
+    const isDev = process.env.NODE_ENV !== 'production';
+    const allowDevOAuth = isDev || process.env.ALLOW_DEV_OAUTH === 'true';
+
+    if (allowDevOAuth) {
+      return handleDevMockOAuth(req, res, 'GITHUB');
+    }
+
+    return res.redirect(`${frontendUrl}/auth/callback?error=${encodeURIComponent('GitHub OAuth is not configured on the server. Please add GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET to the server environment.')}`);
   }
 
   const backendUrl = getBackendBaseUrl(req);
@@ -315,4 +410,32 @@ export const handleGitHubCallback = async (req, res, next) => {
     console.error('GitHub OAuth callback error:', err);
     return res.redirect(`${frontendUrl}/auth/callback?error=${encodeURIComponent(err.message || 'Authentication with GitHub failed.')}`);
   }
+};
+
+// ──────────────────────────────────────────────
+// 3. OAUTH AVAILABILITY & STATUS
+// ──────────────────────────────────────────────
+
+export const getOAuthStatus = (req, res) => {
+  const isDev = process.env.NODE_ENV !== 'production';
+  const allowDevOAuth = isDev || process.env.ALLOW_DEV_OAUTH === 'true';
+
+  const googleConfigured = Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_ID.trim());
+  const githubConfigured = Boolean(process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_ID.trim());
+
+  res.json({
+    success: true,
+    data: {
+      google: {
+        configured: googleConfigured,
+        devSimulation: !googleConfigured && allowDevOAuth,
+        enabled: googleConfigured || allowDevOAuth,
+      },
+      github: {
+        configured: githubConfigured,
+        devSimulation: !githubConfigured && allowDevOAuth,
+        enabled: githubConfigured || allowDevOAuth,
+      },
+    },
+  });
 };

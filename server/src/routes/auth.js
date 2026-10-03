@@ -6,6 +6,7 @@ import {
   handleGoogleCallback,
   redirectToGitHub,
   handleGitHubCallback,
+  getOAuthStatus,
 } from '../controllers/oauthController.js';
 import { authenticate } from '../middleware/auth.js';
 
@@ -16,6 +17,9 @@ const authLimiter = rateLimit({
   max: 30, // max 30 attempts per 15 min
   message: { success: false, message: 'Too many authentication attempts. Please try again after 15 minutes.' },
 });
+
+// OAuth Configuration & Status Check
+router.get('/oauth/status', getOAuthStatus);
 
 // Email & Password Auth (Users & Admins)
 router.post('/register', authLimiter, register);

@@ -126,7 +126,7 @@ export const LoginPage = () => {
     <div
       className="login-page-root min-h-screen w-full relative text-slate-100 flex flex-col justify-between font-sans selection:bg-brand-crimson selection:text-white overflow-x-hidden bg-cover bg-center bg-no-repeat transition-all duration-300"
       style={{
-        backgroundImage: isDark ? "url('/login.jpg')" : "url('/loginlight.png')",
+        backgroundImage: "url('/login.jpg')",
       }}
     >
       <Navbar />

@@ -91,12 +91,14 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('combined'));
 }
 
-// Global API Rate Limiter
+// Global API Rate Limiter (generous in development to prevent 429 during Vite HMR)
+const isDev = process.env.NODE_ENV === 'development';
 const globalApiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 500, // Limit each IP to 500 requests per windowMs
+  max: isDev ? 5000 : 500, // 5000 requests in dev, 500 in prod
   standardHeaders: true,
   legacyHeaders: false,
+  skip: () => isDev && process.env.DISABLE_RATE_LIMIT === 'true',
   message: {
     success: false,
     message: 'Too many requests from this IP address. Please try again after 15 minutes.',

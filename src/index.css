@@ -1345,9 +1345,9 @@ html.dark .login-page-root [class*="border-white/[0.08]"] {
   border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-/* ─── Light Theme (Uses /loginlight.png with custom Frosted Glass Card) ─── */
+/* ─── Light Theme (Uses /login.jpg with custom Frosted Glass Card) ─── */
 html.light .login-page-root {
-  background-image: url('/loginlight.png') !important;
+  background-image: url('/login.jpg') !important;
   background-color: #F1F5F9 !important;
   color: #0F172A !important;
 }
