@@ -9,7 +9,6 @@ import {
   ArrowRight,
   Eye,
   EyeOff,
-  KeyRound,
   Share2,
   ShieldCheck,
   Check,
@@ -113,13 +112,6 @@ export const LoginPage = () => {
 
   const handleOAuthGitHub = () => {
     window.location.href = `${API_BASE_URL}/auth/github`;
-  };
-
-  const handleFillDemo = () => {
-    switchMode('login');
-    setEmail('admin@abhimanyuinfosec.com');
-    setPassword('AdminSecurePassword2026!');
-    setError('');
   };
 
   return (
@@ -469,18 +461,6 @@ export const LoginPage = () => {
         </div>
       </main>
 
-      {/* Discrete Super Admin Credentials Demo Trigger */}
-      <div className="relative z-20 pb-3 pr-4 flex justify-end">
-        <button
-          type="button"
-          onClick={handleFillDemo}
-          title="Auto-fill admin demo credentials"
-          className="login-demo-btn text-[10px] font-mono text-slate-500 hover:text-slate-300 bg-black/60 hover:bg-black/90 px-2.5 py-1 rounded-md border border-white/5 transition flex items-center gap-1.5 opacity-60 hover:opacity-100 cursor-pointer"
-        >
-          <KeyRound size={11} className="text-brand-amber" />
-          <span>Demo Admin Credentials</span>
-        </button>
-      </div>
     </div>
   );
 };

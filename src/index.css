@@ -1676,19 +1676,6 @@ html.light .login-page-root label span {
   color: #475569 !important;
 }
 
-/* Demo admin trigger button */
-html.light .login-page-root .login-demo-btn {
-  background-color: rgba(255, 255, 255, 0.75) !important;
-  color: #64748B !important;
-  border-color: rgba(0, 0, 0, 0.08) !important;
-  border-radius: 10px !important;
-}
-
-html.light .login-page-root .login-demo-btn:hover {
-  background-color: #FFFFFF !important;
-  color: #0F172A !important;
-}
-
 /* ==========================================================================
    PRODUCTS PAGE & CARDS - STRICT WHITE BACKGROUND AND BLACK/DARK TEXT
    ========================================================================== */

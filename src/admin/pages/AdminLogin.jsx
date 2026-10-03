@@ -56,12 +56,6 @@ export const AdminLogin = () => {
     }
   };
 
-  const handleFillDemo = () => {
-    setEmail('admin@abhimanyuinfosec.com');
-    setPassword('AdminSecurePassword2026!');
-    setError('');
-  };
-
   return (
     <div className="min-h-screen bg-[#080808] text-slate-100 flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden font-sans selection:bg-brand-crimson selection:text-white">
       {/* Background Cyber Ambient Lights & Grid */}
@@ -273,16 +267,8 @@ export const AdminLogin = () => {
               </button>
             </form>
 
-            {/* Quick Demo Helper */}
-            <div className="pt-4 border-t border-white/10 flex flex-col items-center gap-3">
-              <button
-                type="button"
-                onClick={handleFillDemo}
-                className="w-full py-2.5 rounded-xl bg-[#111111] hover:bg-[#181818] text-brand-amber border border-white/10 hover:border-brand-amber/40 text-[11px] font-mono transition flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <KeyRound size={13} />
-                <span>Auto-Fill Super Admin Credentials</span>
-              </button>
+            {/* Security Notice */}
+            <div className="pt-4 border-t border-white/10 flex flex-col items-center">
               <span className="text-[10px] text-slate-500 text-center font-mono">
                 Unauthorized access attempts are monitored and recorded to the immutable audit ledger.
               </span>
