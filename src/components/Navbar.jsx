@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ChevronDown, User, Shield, LogOut, Sun, Moon } from 'lucide-react';
+import { ChevronDown, User, Shield, LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { useTheme } from '../context/ThemeContext';
 
 
 const navSections = [
@@ -57,7 +56,6 @@ export const Navbar = () => {
   const navigate = useNavigate();
 
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
-  const { theme, toggleTheme, isDark } = useTheme();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -87,7 +85,14 @@ export const Navbar = () => {
 
   return (
     <header
-      className="site-header-hero fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 pointer-events-auto bg-transparent border-b border-transparent backdrop-blur-none"
+      className="site-header-hero fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 pointer-events-auto"
+      style={{
+        background: 'rgba(255, 255, 255, 0.72)',
+        backdropFilter: 'blur(20px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+        borderBottom: '1px solid rgba(226, 232, 240, 0.6)',
+        boxShadow: '0 2px 24px rgba(0,0,0,0.06), 0 1px 0 rgba(255,255,255,0.8) inset'
+      }}
       data-purpose="site-header"
     >
       <div className="max-w-7xl mx-auto px-6 h-20 md:h-24 flex items-center justify-between">
@@ -99,7 +104,7 @@ export const Navbar = () => {
           data-purpose="brand-logo"
         >
           <img
-            src={isDark ? '/logodark.png' : '/lightlogo.png'}
+            src="/lightlogo.png"
             alt="Abhimanyu InfoSec"
             className="nav-logo-img h-11 sm:h-13 md:h-15 w-auto max-w-[210px] sm:max-w-[250px] md:max-w-[280px] object-contain transition-opacity duration-200 group-hover:opacity-90"
           />
@@ -108,7 +113,7 @@ export const Navbar = () => {
         {/* Navigation Links */}
         <nav
           aria-label="Primary Navigation"
-          className="primary-navbar-links hidden lg:flex items-center gap-1 text-xs font-heading font-medium tracking-wide uppercase transition-colors duration-300 px-3 py-1.5 rounded-xl border text-slate-700 dark:text-slate-200 bg-white/85 dark:bg-black/30 backdrop-blur-md border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-none"
+          className="primary-navbar-links hidden lg:flex items-center gap-1 text-xs font-heading font-medium tracking-wide uppercase transition-colors duration-300 px-3 py-1.5 rounded-xl border text-slate-700 bg-white/60 backdrop-blur-sm border-slate-200/70 shadow-sm"
         >
           {navSections.map((section) => {
             const hasDropdown = Boolean(section.items && section.items.length > 0);
@@ -251,20 +256,6 @@ export const Navbar = () => {
             </Link>
           )}
 
-          {/* Small Theme Switcher Button */}
-          <button
-            type="button"
-            onClick={toggleTheme}
-            className="nav-theme-toggle-btn w-8 h-8 rounded-lg border border-slate-200/90 hover:border-slate-300 bg-white/80 hover:bg-white text-[#C1121F] transition-all cursor-pointer flex items-center justify-center shrink-0 shadow-xs"
-            title={isDark ? "Switch to Light mode" : "Switch to Dark mode"}
-            aria-label="Toggle theme mode"
-          >
-            {isDark ? (
-              <Sun size={15} className="text-[#FFB000] hover:rotate-45 transition-transform" />
-            ) : (
-              <Moon size={15} className="text-[#C1121F] hover:-rotate-12 transition-transform" />
-            )}
-          </button>
 
           <Link
             className="nav-cta-btn px-5 py-2 text-xs font-heading font-semibold uppercase tracking-wider text-slate-900 bg-gradient-to-r from-[#C1121F] via-[#FF7A00] to-[#FFB000] hover:opacity-95 active:scale-[0.98] rounded-xl shadow-md shadow-[#C1121F]/20 border border-white/20 transition-all hidden sm:inline-flex"
@@ -383,27 +374,6 @@ export const Navbar = () => {
                 Sign In / Register
               </Link>
             )}
-            {/* Mobile Theme Toggle Row */}
-            <div className="flex items-center justify-between py-2 px-3 rounded-lg bg-[#111111] border border-white/10 text-xs">
-              <span className="text-slate-300 font-medium">Appearance</span>
-              <button
-                type="button"
-                onClick={toggleTheme}
-                className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/[0.06] hover:bg-white/[0.12] text-xs font-semibold text-slate-200 transition cursor-pointer"
-              >
-                {isDark ? (
-                  <>
-                    <Sun size={13} className="text-[#FFB000]" />
-                    <span>Dark</span>
-                  </>
-                ) : (
-                  <>
-                    <Moon size={13} className="text-[#C1121F]" />
-                    <span>Light</span>
-                  </>
-                )}
-              </button>
-            </div>
 
             <Link
               to="/contact"

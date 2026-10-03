@@ -1,43 +1,27 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const urlParams = new URLSearchParams(window.location.search);
-      const paramTheme = urlParams.get('theme');
-      if (paramTheme === 'light' || paramTheme === 'dark') {
-        return paramTheme;
-      }
-      const saved = localStorage.getItem('ais_theme');
-      return saved === 'dark' ? 'dark' : 'light';
-    }
-    return 'light';
-  });
+  // Dark theme is disabled — always light
+  const theme = 'light';
+  const isDark = false;
+  const toggleTheme = () => {}; // no-op: dark mode is disabled
 
   useEffect(() => {
     const root = document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-      root.classList.remove('light');
-    } else {
-      root.classList.add('light');
-      root.classList.remove('dark');
-    }
+    root.classList.add('light');
+    root.classList.remove('dark');
+    // Clear any saved dark preference
     try {
-      localStorage.setItem('ais_theme', theme);
+      localStorage.removeItem('ais_theme');
     } catch {
       // ignore
     }
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
+  }, []);
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, isDark: theme === 'dark' }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, isDark }}>
       {children}
     </ThemeContext.Provider>
   );
@@ -56,5 +40,3 @@ export const useTheme = () => {
 };
 
 export default ThemeContext;
-
-

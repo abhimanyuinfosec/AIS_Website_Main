@@ -1,9 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useTheme } from '../context/ThemeContext';
 
 const Footer = () => {
-  const { isDark } = useTheme();
 
   return (
     <footer className="border-t border-white/[0.08] bg-[#080808] text-slate-400 text-xs relative z-10" data-purpose="site-footer">
@@ -12,7 +10,7 @@ const Footer = () => {
           <div className="col-span-2 space-y-5">
             <Link to="/" className="inline-block group">
               <img
-                src={isDark ? '/logodark.png' : '/lightlogo.png'}
+                src="/lightlogo.png"
                 alt="Abhimanyu InfoSec"
                 className="h-11 sm:h-12 w-auto max-w-[210px] sm:max-w-[240px] object-contain transition-opacity duration-200 group-hover:opacity-90"
               />
@@ -26,11 +24,52 @@ const Footer = () => {
               <span className="inline-flex items-center px-2.5 py-1 rounded-md border border-white/[0.08] text-[10px] bg-[#111111] text-slate-300 font-mono tracking-wide">GDPR Compliant</span>
             </div>
             <div className="flex items-center gap-4 pt-1 text-xs">
-              <a href="#" className="text-slate-400 hover:text-[#FFB000] transition-colors">LinkedIn</a>
-              <span className="text-[#C1121F]/60">·</span>
-              <a href="#" className="text-slate-400 hover:text-[#FFB000] transition-colors">X (Twitter)</a>
-              <span className="text-[#C1121F]/60">·</span>
-              <a href="#" className="text-slate-400 hover:text-[#FFB000] transition-colors">GitHub</a>
+              {/* LinkedIn — brand blue */}
+              <a
+                href="https://www.linkedin.com/company/abhimanyu-infosec/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold transition-all duration-200"
+                style={{ color: '#0A66C2' }}
+                onMouseEnter={e => e.currentTarget.style.color = '#0077B5'}
+                onMouseLeave={e => e.currentTarget.style.color = '#0A66C2'}
+              >
+                LinkedIn
+              </a>
+              <span
+                className="font-bold text-sm"
+                style={{ background: 'linear-gradient(90deg,#C1121F,#FF7A00)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
+              >
+                ·
+              </span>
+              {/* X (Twitter) — brand dark/silver */}
+              <a
+                href="#"
+                className="font-semibold transition-all duration-200"
+                style={{ color: '#94A3B8' }}
+                onMouseEnter={e => e.currentTarget.style.color = '#E2E8F0'}
+                onMouseLeave={e => e.currentTarget.style.color = '#94A3B8'}
+              >
+                X (Twitter)
+              </a>
+              <span
+                className="font-bold text-sm"
+                style={{ background: 'linear-gradient(90deg,#C1121F,#FF7A00)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
+              >
+                ·
+              </span>
+              {/* GitHub — brand white/silver */}
+              <a
+                href="https://github.com/abhimanyuinfosec"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold transition-all duration-200"
+                style={{ color: '#C9D1D9' }}
+                onMouseEnter={e => e.currentTarget.style.color = '#FFFFFF'}
+                onMouseLeave={e => e.currentTarget.style.color = '#C9D1D9'}
+              >
+                GitHub
+              </a>
             </div>
           </div>
           <div className="space-y-4">

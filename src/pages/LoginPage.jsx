@@ -315,7 +315,7 @@ export const LoginPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="login-submit-btn w-full py-3 px-4 bg-gradient-to-r from-brand-crimson via-brand-bright to-brand-amber hover:brightness-110 text-white font-semibold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 shadow-[0_4px_22px_rgba(193,18,31,0.4)] hover:shadow-[0_6px_28px_rgba(255,122,0,0.4)] active:scale-[0.99] transition-all disabled:opacity-60 cursor-pointer font-heading tracking-wide"
+              className="login-submit-btn w-full py-3 px-4 bg-gradient-to-r from-[#CC2200] to-[#FF6600] hover:from-[#B31D00] hover:to-[#E55A00] text-white font-semibold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 shadow-[0_4px_22px_rgba(204,34,0,0.4)] hover:shadow-[0_6px_28px_rgba(255,102,0,0.45)] active:scale-[0.99] transition-all disabled:opacity-60 cursor-pointer font-heading tracking-wide"
             >
               {loading ? (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />

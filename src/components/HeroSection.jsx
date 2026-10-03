@@ -69,9 +69,6 @@ const HeroSection = () => {
 
         {/* Trust Indicators - original text copy & style */}
         <div className="hero-trust-bar flex flex-wrap items-center justify-center gap-x-6 gap-y-2 pt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-medium">
-          <span className="hero-trust-item">350+ Clients Protected</span>
-          <span className="hero-trust-divider hidden sm:block text-slate-400 dark:text-slate-700">|</span>
-          <span className="hero-trust-item">SOC2 &amp; ISO 27001</span>
         </div>
       </div>
     </section>

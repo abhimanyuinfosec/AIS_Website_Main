@@ -1,12 +1,10 @@
 import React from 'react';
 import HeroSection from '../components/HeroSection';
-import ClientLogosSection from '../components/ClientLogosSection';
 import SimplifiedSecuritySection from '../components/SimplifiedSecuritySection';
 import DetailedProtectionGrid from '../components/DetailedProtectionGrid';
 import ValuePropositionSection from '../components/ValuePropositionSection';
 import FeaturedProjectsSection from '../components/FeaturedProjectsSection';
 import HowItWorksArchitecture from '../components/HowItWorksArchitecture';
-import ReviewsSection from '../components/ReviewsSection';
 import FAQSection from '../components/FAQSection';
 import CallToActionBanner from '../components/CallToActionBanner';
 
@@ -15,9 +13,6 @@ const Home = () => {
     <>
       {/* 1. Hero Section */}
       <HeroSection />
-
-      {/* 2. Trust Strip */}
-      <ClientLogosSection />
 
       {/* 2.5 Security shouldn't be complicated */}
       <SimplifiedSecuritySection />
@@ -33,9 +28,6 @@ const Home = () => {
 
       {/* 5. How we Work */}
       <HowItWorksArchitecture />
-
-      {/* 5.5 Verified Client Testimonials & Reviews */}
-      <ReviewsSection />
 
       {/* 6. FAQs */}
       <FAQSection />
