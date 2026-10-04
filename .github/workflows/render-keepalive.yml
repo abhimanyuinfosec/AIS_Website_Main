@@ -1,0 +1,17 @@
+name: Keep Backend Alive
+
+on:
+  schedule:
+    # Ping every 14 minutes to keep Render Free tier active (spins down after 15 min idle)
+    - cron: '*/14 * * * *'
+  workflow_dispatch: # Allows manual run anytime from GitHub Actions tab
+
+jobs:
+  keepalive:
+    name: Ping Render Web Service
+    runs-on: ubuntu-latest
+    steps:
+      - name: Health Check Ping
+        run: |
+          echo "Sending keep-alive ping to Render..."
+          curl -f -s -S --max-time 30 "https://ais-website-main.onrender.com/api/health" || echo "Ping dispatched"

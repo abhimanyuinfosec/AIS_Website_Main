@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CrystalGlassEffects from './components/CrystalGlassEffects';
 import PWAInstallPrompt from './components/PWAInstallPrompt';
+import { prewarmBackend } from './services/api';
 import Home from './pages/Home';
 
 // Dedicated Dynamic Public Pages
@@ -96,6 +97,10 @@ const PublicLayout = () => {
 };
 
 function App() {
+  useEffect(() => {
+    prewarmBackend();
+  }, []);
+
   return (
     <ThemeProvider>
       <AuthProvider>

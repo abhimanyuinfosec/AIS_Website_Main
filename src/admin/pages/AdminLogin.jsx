@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Navbar } from '../../components/Navbar';
-import { API_BASE_URL } from '../../services/api';
+import { API_BASE_URL, prewarmBackend, initiateOAuthRedirect } from '../../services/api';
 
 export const AdminLogin = () => {
   const [email, setEmail] = useState('');
@@ -26,6 +26,8 @@ export const AdminLogin = () => {
   const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [oauthLoading, setOauthLoading] = useState(null); // 'google' | 'github' | null
+  const [oauthStatus, setOauthStatus] = useState('');
   const [time, setTime] = useState(new Date().toLocaleTimeString());
 
   const { login, isAuthenticated, isAdmin } = useAuth();
@@ -33,6 +35,11 @@ export const AdminLogin = () => {
   const location = useLocation();
 
   const from = location.state?.from?.pathname || '/admin';
+
+  // Pre-warm backend immediately when visiting admin login
+  useEffect(() => {
+    prewarmBackend();
+  }, []);
 
   useEffect(() => {
     if (isAuthenticated && isAdmin) {
@@ -63,11 +70,19 @@ export const AdminLogin = () => {
   };
 
   const handleOAuthGoogle = () => {
-    window.location.href = `${API_BASE_URL}/auth/google`;
+    setOauthLoading('google');
+    setOauthStatus('Connecting to Google identity provider...');
+    initiateOAuthRedirect('google', ({ message }) => {
+      setOauthStatus(message);
+    });
   };
 
   const handleOAuthGitHub = () => {
-    window.location.href = `${API_BASE_URL}/auth/github`;
+    setOauthLoading('github');
+    setOauthStatus('Connecting to GitHub identity provider...');
+    initiateOAuthRedirect('github', ({ message }) => {
+      setOauthStatus(message);
+    });
   };
 
   return (
@@ -88,6 +103,23 @@ export const AdminLogin = () => {
         
         {/* Left Side: Frosted Glass Auth Card */}
         <div className="login-auth-card w-full max-w-[430px] rounded-[28px] bg-[#0D0D0D]/85 backdrop-blur-xl border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.85),inset_0_1px_1px_rgba(255,255,255,0.08)] p-6 sm:p-7 text-slate-100 relative transition-all duration-300">
+          {/* OAuth Connecting / Cold Start Screen */}
+          {oauthLoading && (
+            <div className="absolute inset-0 bg-[#0B1120]/95 backdrop-blur-xl rounded-[28px] z-30 flex flex-col items-center justify-center p-6 text-center animate-in fade-in duration-200 border border-white/10">
+              <div className="w-12 h-12 rounded-full border-2 border-brand-crimson border-t-transparent animate-spin mb-4 shadow-[0_0_15px_rgba(204,34,0,0.4)]" />
+              <h3 className="text-base font-bold text-white mb-2 font-heading tracking-wide">
+                {oauthLoading === 'google' ? 'Connecting with Google' : 'Connecting with GitHub'}
+              </h3>
+              <p className="text-xs text-slate-300 max-w-xs leading-relaxed font-mono">
+                {oauthStatus || 'Initializing secure administrative handshake...'}
+              </p>
+              <div className="mt-5 flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[11px] text-slate-400">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Zero-Trust Control Channel</span>
+              </div>
+            </div>
+          )}
+
           {/* Card Header */}
           <div className="login-card-header mb-4">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-brand-crimson/10 text-brand-amber border border-brand-crimson/30 text-[10px] font-mono font-bold uppercase mb-2">
