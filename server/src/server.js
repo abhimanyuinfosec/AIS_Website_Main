@@ -1,8 +1,10 @@
+// env.js MUST be first — loads dotenv before any module reads process.env
+import './env.js';
+
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import dotenv from 'dotenv';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import { fileURLToPath } from 'url';
@@ -30,8 +32,7 @@ import usersRoutes from './routes/users.js';
 
 import { notFoundHandler, errorHandler } from './middleware/errorHandler.js';
 
-// Load environment variables
-dotenv.config();
+// Environment variables are loaded by env.js (imported first above)
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

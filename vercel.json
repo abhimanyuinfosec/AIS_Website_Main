@@ -39,5 +39,8 @@
         }
       ]
     }
-  ]
+  ],
+  "env": {
+    "VITE_API_URL": "https://ais-backend.onrender.com/api"
+  }
 }
