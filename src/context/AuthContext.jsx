@@ -18,13 +18,13 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('ais_demo_user');
   }, []);
 
-  const logout = useCallback(async () => {
+  const logout = useCallback(async (redirectTo = '/') => {
     try {
       await api.post('/auth/logout').catch(() => {});
     } finally {
       _clearSession();
-      if (typeof window !== 'undefined' && window.location.pathname !== '/') {
-        window.location.href = '/';
+      if (typeof window !== 'undefined' && redirectTo && window.location.pathname !== redirectTo) {
+        window.location.href = redirectTo;
       }
     }
   }, [_clearSession]);

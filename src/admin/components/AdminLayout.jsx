@@ -79,8 +79,7 @@ export const AdminLayout = () => {
   };
 
   const handleLogout = async () => {
-    await logout();
-    navigate('/');
+    await logout('/admin/login');
   };
 
   const currentNav = navItems.find((item) =>
@@ -126,7 +125,7 @@ export const AdminLayout = () => {
               ? location.pathname === item.path
               : location.pathname.startsWith(item.path);
 
-            if (item.role && user && !item.role.includes(user.role)) return null;
+            if (item.role && user && user.role !== 'SUPER_ADMIN' && !item.role.includes(user.role)) return null;
 
             return (
               <NavLink

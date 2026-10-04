@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Shield,
@@ -9,210 +9,652 @@ import {
   Mail,
   Star,
   Users,
+  Image,
+  UserCog,
+  History,
   ArrowUpRight,
   RefreshCw,
   Clock,
   CheckCircle2,
+  AlertCircle,
+  Activity,
+  Server,
+  Database,
+  Plus,
+  Send,
+  Building2,
+  Phone,
+  ExternalLink,
+  ChevronDown,
+  Sparkles,
+  Check,
 } from 'lucide-react';
 import api from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
+
+const STATUS_COLORS = {
+  NEW: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
+  READ: 'bg-slate-500/20 text-slate-300 border-slate-500/30',
+  CONTACTED: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+  IN_PROGRESS: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+  CONVERTED: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
+  CLOSED: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
+  SPAM: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
+};
+
+const ACTION_COLORS = {
+  USER_LOGIN: 'text-blue-400 bg-blue-500/10 border-blue-500/20',
+  USER_REGISTER: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
+  INQUIRY_SUBMIT: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
+  INQUIRY_UPDATE: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20',
+  SERVICE_CREATE: 'text-purple-400 bg-purple-500/10 border-purple-500/20',
+  BLOG_CREATE: 'text-rose-400 bg-rose-500/10 border-rose-500/20',
+  DEFAULT: 'text-slate-300 bg-slate-800 border-slate-700',
+};
 
 export const AdminDashboard = () => {
+  const { user } = useAuth();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState(null);
+  const [lastUpdated, setLastUpdated] = useState(null);
+  const [updatingInquiryId, setUpdatingInquiryId] = useState(null);
 
-  const fetchSummary = async () => {
+  const isSuperAdminOrAdmin = user?.role === 'SUPER_ADMIN' || user?.role === 'ADMIN';
+
+  const fetchSummary = useCallback(async () => {
     try {
       setRefreshing(true);
+      setError(null);
       const res = await api.get('/dashboard/summary');
-      if (res.success) {
+      if (res.success && res.data) {
         setData(res.data);
+        setLastUpdated(new Date());
+      } else {
+        throw new Error(res.message || 'Failed to retrieve telemetry data.');
       }
     } catch (err) {
       console.error('Failed to fetch dashboard summary:', err);
+      setError(err.message || 'Could not connect to the administrative telemetry service.');
     } finally {
       setLoading(false);
       setRefreshing(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchSummary();
-  }, []);
+  }, [fetchSummary]);
+
+  // Quick inquiry status updater right from the dashboard
+  const handleQuickStatusChange = async (inquiryId, newStatus) => {
+    try {
+      setUpdatingInquiryId(inquiryId);
+      const res = await api.patch(`/inquiries/${inquiryId}`, { status: newStatus });
+      if (res.success) {
+        // Optimistically update local dashboard state
+        setData((prev) => {
+          if (!prev) return prev;
+          const updatedRecent = (prev.recentInquiries || []).map((inq) =>
+            inq.id === inquiryId ? { ...inq, status: newStatus } : inq
+          );
+          return { ...prev, recentInquiries: updatedRecent };
+        });
+      }
+    } catch (err) {
+      console.error('Failed to update inquiry status:', err);
+    } finally {
+      setUpdatingInquiryId(null);
+    }
+  };
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20 text-cyan-400">
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
-          <span className="text-xs font-mono">Aggregating telemetry...</span>
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-cyan-400 space-y-4">
+        <div className="relative">
+          <div className="w-14 h-14 rounded-full border-2 border-brand-crimson/30 border-t-brand-crimson animate-spin" />
+          <Activity size={24} className="absolute inset-0 m-auto text-brand-crimson animate-pulse" />
+        </div>
+        <div className="text-center">
+          <p className="text-sm font-semibold text-white tracking-wide font-heading">
+            Establishing SOC Telemetry Uplink
+          </p>
+          <p className="text-xs text-slate-400 font-mono mt-1">
+            Aggregating platform intelligence, threat feeds & CMS metrics...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error && !data) {
+    return (
+      <div className="max-w-2xl mx-auto my-12 p-8 rounded-2xl bg-[#0D121F] border border-rose-500/30 text-center space-y-4 shadow-2xl">
+        <div className="w-12 h-12 mx-auto rounded-full bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400">
+          <AlertCircle size={26} />
+        </div>
+        <h2 className="text-lg font-bold text-white tracking-wide">SOC Telemetry Disconnected</h2>
+        <p className="text-xs text-slate-400 leading-relaxed font-mono">{error}</p>
+        <div className="pt-2">
+          <button
+            onClick={fetchSummary}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-crimson hover:bg-red-600 text-white font-semibold text-xs transition shadow-lg shadow-brand-crimson/25 cursor-pointer"
+          >
+            <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
+            <span>Retry Connection</span>
+          </button>
         </div>
       </div>
     );
   }
 
   const counts = data?.counts || {};
-  let localTeamCount = 0;
-  try {
-    const raw = localStorage.getItem('ais_custom_team');
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length > 0) localTeamCount = parsed.length;
-    }
-  } catch (e) {}
+  const system = data?.system || {};
+  const breakdown = data?.inquiriesBreakdown || {};
 
   const statCards = [
-    { label: 'Inquiries', count: counts.inquiries || 0, badge: counts.newInquiries ? `${counts.newInquiries} New` : null, icon: Mail, color: 'text-amber-400', link: '/admin/inquiries' },
-    { label: 'Active Services', count: counts.services || 0, icon: Shield, color: 'text-cyan-400', link: '/admin/services' },
-    { label: 'Security Projects', count: counts.projects || 0, icon: Briefcase, color: 'text-blue-400', link: '/admin/projects' },
-    { label: 'Products & Tools', count: counts.products || 0, icon: Cpu, color: 'text-purple-400', link: '/admin/products' },
-    { label: 'Research Papers', count: counts.research || 0, icon: BookOpen, color: 'text-emerald-400', link: '/admin/research' },
-    { label: 'Intelligence Posts', count: counts.blogs || 0, icon: FileText, color: 'text-rose-400', link: '/admin/blog' },
-    { label: 'Reviews & Feedback', count: counts.reviews || 0, badge: counts.pendingReviews ? `${counts.pendingReviews} Pending` : null, icon: Star, color: 'text-yellow-400', link: '/admin/reviews' },
-    { label: 'Team Members', count: counts.team ?? localTeamCount, icon: Users, color: 'text-sky-400', link: '/admin/team' },
+    {
+      label: 'Client Inquiries',
+      count: counts.inquiries || 0,
+      badge: counts.newInquiries ? `${counts.newInquiries} New` : null,
+      badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
+      icon: Mail,
+      color: 'text-amber-400',
+      link: '/admin/inquiries',
+      subtext: `${counts.newInquiries || 0} awaiting triage`,
+    },
+    {
+      label: 'Active Services',
+      count: counts.services || 0,
+      badge: counts.activeServices ? `${counts.activeServices} Active` : null,
+      badgeColor: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40',
+      icon: Shield,
+      color: 'text-cyan-400',
+      link: '/admin/services',
+      subtext: 'Core defensive offerings',
+    },
+    {
+      label: 'Security Projects',
+      count: counts.projects || 0,
+      icon: Briefcase,
+      color: 'text-blue-400',
+      link: '/admin/projects',
+      subtext: 'Engagements & case studies',
+    },
+    {
+      label: 'Products & Tools',
+      count: counts.products || 0,
+      icon: Cpu,
+      color: 'text-purple-400',
+      link: '/admin/products',
+      subtext: 'Proprietary security tooling',
+    },
+    {
+      label: 'Research Papers',
+      count: counts.research || 0,
+      badge: counts.publishedResearch ? `${counts.publishedResearch} Live` : null,
+      badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+      icon: BookOpen,
+      color: 'text-emerald-400',
+      link: '/admin/research',
+      subtext: 'Threat intel & vulnerability disclosures',
+    },
+    {
+      label: 'Intelligence Posts',
+      count: counts.blogs || 0,
+      badge: counts.publishedBlogs ? `${counts.publishedBlogs} Live` : null,
+      badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-500/40',
+      icon: FileText,
+      color: 'text-rose-400',
+      link: '/admin/blog',
+      subtext: 'Cyber advisory & publications',
+    },
+    {
+      label: 'Reviews & Feedback',
+      count: counts.reviews || 0,
+      badge: counts.pendingReviews ? `${counts.pendingReviews} Pending` : null,
+      badgeColor: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/40',
+      icon: Star,
+      color: 'text-yellow-400',
+      link: '/admin/reviews',
+      subtext: 'Client testimonials',
+    },
+    {
+      label: 'Team Members',
+      count: counts.team || 0,
+      icon: Users,
+      color: 'text-sky-400',
+      link: '/admin/team',
+      subtext: 'Security engineers & staff',
+    },
+    {
+      label: 'Media Assets',
+      count: counts.media || 0,
+      icon: Image,
+      color: 'text-fuchsia-400',
+      link: '/admin/media',
+      subtext: 'Encrypted storage library',
+    },
+    ...(isSuperAdminOrAdmin
+      ? [
+          {
+            label: 'System Users',
+            count: counts.users || 0,
+            badge: counts.admins ? `${counts.admins} Admins` : null,
+            badgeColor: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40',
+            icon: UserCog,
+            color: 'text-indigo-400',
+            link: '/admin/users',
+            subtext: 'Role-based access accounts',
+          },
+        ]
+      : []),
   ];
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
-      {/* Top Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-2xl bg-gradient-to-r from-cyan-950/40 via-slate-900 to-blue-950/40 border border-cyan-500/20 shadow-lg">
-        <div>
-          <h1 className="text-xl font-bold text-white tracking-wide flex items-center gap-2">
-            <span>SOC Telemetry & Command Center</span>
-          </h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Real-time management for Abhimanyu InfoSec cybersecurity content, leads, and operational tools.
-          </p>
+    <div className="space-y-8 max-w-7xl mx-auto pb-12 animate-in fade-in duration-300">
+      {/* ──────────────── Top Command Banner ──────────────── */}
+      <div className="relative overflow-hidden p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-[#0C121E] via-[#0E1526] to-[#0A0E17] border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.6)]">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-brand-crimson/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-5">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-[11px] font-mono uppercase tracking-wider text-emerald-400 font-bold">
+                SOC Command Core • Active Telemetry
+              </span>
+              {system.latencyMs !== undefined && (
+                <span className="text-[10px] font-mono text-slate-400 bg-white/5 px-2 py-0.5 rounded-full border border-white/10">
+                  {system.latencyMs}ms DB ping
+                </span>
+              )}
+            </div>
+            <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight font-heading">
+              Welcome back,{' '}
+              <span className="ais-signature-gradient">{user?.name || 'Administrator'}</span>
+            </h1>
+            <p className="text-xs text-slate-400 mt-1 max-w-2xl leading-relaxed">
+              Abhimanyu InfoSec unified operational nexus. Manage client engagements, publish defense bulletins, and audit security events in real time.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3 flex-wrap">
+            <button
+              onClick={fetchSummary}
+              disabled={refreshing}
+              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-xs text-slate-200 border border-white/10 transition active:scale-95 cursor-pointer"
+            >
+              <RefreshCw size={13} className={refreshing ? 'animate-spin text-brand-bright' : ''} />
+              <span>{refreshing ? 'Syncing...' : 'Sync Telemetry'}</span>
+            </button>
+            <a
+              href="/"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-xs text-slate-300 border border-white/10 transition"
+            >
+              <ExternalLink size={13} />
+              <span>Live Site</span>
+            </a>
+            <Link
+              to="/admin/settings"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-brand-crimson to-brand-bright hover:from-red-700 hover:to-orange-600 text-white font-semibold text-xs shadow-[0_4px_20px_rgba(204,34,0,0.35)] transition active:scale-95"
+            >
+              <span>Site CMS</span>
+            </Link>
+          </div>
         </div>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={fetchSummary}
-            disabled={refreshing}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 border border-slate-700 transition"
-          >
-            <RefreshCw size={14} className={refreshing ? 'animate-spin text-cyan-400' : ''} />
-            <span>Refresh</span>
-          </button>
+
+        {lastUpdated && (
+          <div className="relative z-10 mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500 font-mono">
+            <span>Server Session: {user?.email} ({user?.role})</span>
+            <span>Last synchronized at {lastUpdated.toLocaleTimeString()}</span>
+          </div>
+        )}
+      </div>
+
+      {/* ──────────────── Quick Launchpad (Action Shortcuts) ──────────────── */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-[#090D16] border border-white/10 space-y-3">
+        <div className="flex items-center justify-between">
+          <span className="text-[11px] font-bold text-slate-300 uppercase tracking-wider font-heading flex items-center gap-2">
+            <Sparkles size={14} className="text-brand-amber" />
+            <span>Rapid Operational Launchpad</span>
+          </span>
+          <span className="text-[10px] text-slate-500 font-mono">One-click creation workflows</span>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5">
           <Link
-            to="/admin/settings"
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-semibold text-xs shadow-[0_0_15px_rgba(6,182,212,0.3)] transition"
+            to="/admin/services"
+            className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] hover:bg-cyan-500/10 border border-white/5 hover:border-cyan-500/30 text-xs text-slate-300 hover:text-cyan-300 transition group"
           >
-            <span>Site CMS</span>
+            <Plus size={14} className="text-cyan-400 group-hover:scale-125 transition-transform" />
+            <span className="truncate">New Service</span>
+          </Link>
+
+          <Link
+            to="/admin/projects"
+            className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] hover:bg-blue-500/10 border border-white/5 hover:border-blue-500/30 text-xs text-slate-300 hover:text-blue-300 transition group"
+          >
+            <Plus size={14} className="text-blue-400 group-hover:scale-125 transition-transform" />
+            <span className="truncate">Add Project</span>
+          </Link>
+
+          <Link
+            to="/admin/products"
+            className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] hover:bg-purple-500/10 border border-white/5 hover:border-purple-500/30 text-xs text-slate-300 hover:text-purple-300 transition group"
+          >
+            <Plus size={14} className="text-purple-400 group-hover:scale-125 transition-transform" />
+            <span className="truncate">Add Product</span>
+          </Link>
+
+          <Link
+            to="/admin/blog"
+            className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] hover:bg-rose-500/10 border border-white/5 hover:border-rose-500/30 text-xs text-slate-300 hover:text-rose-300 transition group"
+          >
+            <Plus size={14} className="text-rose-400 group-hover:scale-125 transition-transform" />
+            <span className="truncate">Write Post</span>
+          </Link>
+
+          <Link
+            to="/admin/team"
+            className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] hover:bg-sky-500/10 border border-white/5 hover:border-sky-500/30 text-xs text-slate-300 hover:text-sky-300 transition group"
+          >
+            <Plus size={14} className="text-sky-400 group-hover:scale-125 transition-transform" />
+            <span className="truncate">Team Member</span>
+          </Link>
+
+          <Link
+            to="/admin/media"
+            className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] hover:bg-fuchsia-500/10 border border-white/5 hover:border-fuchsia-500/30 text-xs text-slate-300 hover:text-fuchsia-300 transition group"
+          >
+            <Plus size={14} className="text-fuchsia-400 group-hover:scale-125 transition-transform" />
+            <span className="truncate">Upload Media</span>
           </Link>
         </div>
       </div>
 
-      {/* KPI Cards Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
+      {/* ──────────────── KPI Cards Grid ──────────────── */}
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5">
         {statCards.map((card, idx) => {
           const Icon = card.icon;
           return (
             <Link
               key={idx}
               to={card.link}
-              className="p-5 rounded-xl bg-[#0b1120] border border-slate-800 hover:border-cyan-500/40 hover:shadow-[0_0_20px_rgba(6,182,212,0.1)] transition group flex flex-col justify-between"
+              className="p-4 sm:p-5 rounded-2xl bg-[#090D16] border border-white/10 hover:border-brand-crimson/50 hover:shadow-[0_4px_25px_rgba(204,34,0,0.15)] transition-all duration-200 group flex flex-col justify-between"
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{card.label}</span>
-                <Icon size={18} className={`${card.color} group-hover:scale-110 transition-transform`} />
+                <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider truncate">
+                  {card.label}
+                </span>
+                <div className="p-2 rounded-xl bg-white/[0.04] group-hover:bg-white/[0.08] transition">
+                  <Icon size={16} className={`${card.color} group-hover:scale-110 transition-transform`} />
+                </div>
               </div>
 
-              <div className="mt-4 flex items-baseline justify-between">
-                <span className="text-2xl font-bold text-white font-mono">{card.count}</span>
-                {card.badge && (
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                    {card.badge}
+              <div className="mt-4">
+                <div className="flex items-baseline justify-between gap-2">
+                  <span className="text-2xl sm:text-3xl font-bold text-white font-mono tracking-tight">
+                    {card.count}
                   </span>
-                )}
+                  {card.badge && (
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${card.badgeColor}`}
+                    >
+                      {card.badge}
+                    </span>
+                  )}
+                </div>
+                <p className="text-[10px] text-slate-500 truncate mt-1">{card.subtext}</p>
               </div>
             </Link>
           );
         })}
       </div>
 
-      {/* Main Grid: Recent Inquiries & Activity Logs */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Recent Inquiries */}
-        <div className="p-6 rounded-2xl bg-[#0b1120] border border-slate-800 flex flex-col">
-          <div className="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
-            <div className="flex items-center gap-2">
-              <Mail size={16} className="text-cyan-400" />
-              <h2 className="text-sm font-bold text-white uppercase tracking-wider">Latest Prospective Inquiries</h2>
-            </div>
-            <Link to="/admin/inquiries" className="text-xs text-cyan-400 hover:underline flex items-center gap-1 font-mono">
-              View All <ArrowUpRight size={12} />
-            </Link>
-          </div>
-
-          <div className="flex-1 space-y-3">
-            {(!data?.recentInquiries || data.recentInquiries.length === 0) ? (
-              <div className="text-center py-12 text-slate-500 text-xs">No client inquiries captured yet.</div>
-            ) : (
-              data.recentInquiries.map((inq) => (
-                <div
-                  key={inq.id}
-                  className="p-3.5 rounded-xl bg-[#070b14] border border-slate-800/80 hover:border-slate-700 flex items-center justify-between gap-4 transition"
-                >
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-semibold text-white truncate">{inq.name}</span>
-                      {inq.status === 'NEW' && (
-                        <span className="px-1.5 py-0.5 rounded text-[9px] bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-mono">
-                          NEW
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-[11px] text-slate-400 truncate mt-0.5">{inq.email} • {inq.service || 'General'}</p>
-                  </div>
-                  <Link
-                    to="/admin/inquiries"
-                    className="px-2.5 py-1 rounded bg-slate-800 hover:bg-cyan-500/20 hover:text-cyan-300 text-slate-300 text-[11px] font-mono transition"
-                  >
-                    View
-                  </Link>
+      {/* ──────────────── Main Operational Grid ──────────────── */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Left Column: Recent Prospective Inquiries & Triage (7 cols) */}
+        <div className="lg:col-span-7 space-y-6">
+          <div className="p-6 rounded-2xl bg-[#090D16] border border-white/10 shadow-lg flex flex-col">
+            <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400">
+                  <Mail size={16} />
                 </div>
-              ))
+                <div>
+                  <h2 className="text-sm font-bold text-white uppercase tracking-wider font-heading">
+                    Prospective Client Inquiries
+                  </h2>
+                  <p className="text-[11px] text-slate-400">Direct security triage from web portal</p>
+                </div>
+              </div>
+              <Link
+                to="/admin/inquiries"
+                className="text-xs text-brand-bright hover:underline flex items-center gap-1 font-mono"
+              >
+                Full Inbox <ArrowUpRight size={13} />
+              </Link>
+            </div>
+
+            {/* Inquiries Pipeline Ribbon */}
+            {breakdown.total > 0 && (
+              <div className="grid grid-cols-4 gap-2 mb-4 p-2.5 rounded-xl bg-white/[0.02] border border-white/5 text-center font-mono text-[10px]">
+                <div>
+                  <span className="text-slate-500 block">NEW</span>
+                  <span className="text-cyan-400 font-bold text-xs">{breakdown.new || 0}</span>
+                </div>
+                <div>
+                  <span className="text-slate-500 block">CONTACTED</span>
+                  <span className="text-blue-400 font-bold text-xs">{breakdown.contacted || 0}</span>
+                </div>
+                <div>
+                  <span className="text-slate-500 block">IN PROGRESS</span>
+                  <span className="text-amber-400 font-bold text-xs">{breakdown.inProgress || 0}</span>
+                </div>
+                <div>
+                  <span className="text-slate-500 block">CONVERTED</span>
+                  <span className="text-emerald-400 font-bold text-xs">{breakdown.resolved || 0}</span>
+                </div>
+              </div>
             )}
+
+            <div className="space-y-3 flex-1">
+              {!data?.recentInquiries || data.recentInquiries.length === 0 ? (
+                <div className="text-center py-14 text-slate-500 text-xs">
+                  No prospective client inquiries recorded yet.
+                </div>
+              ) : (
+                data.recentInquiries.map((inq) => {
+                  const statusClass = STATUS_COLORS[inq.status] || STATUS_COLORS.READ;
+                  const isUpdating = updatingInquiryId === inq.id;
+
+                  return (
+                    <div
+                      key={inq.id}
+                      className="p-4 rounded-xl bg-[#0C121E] border border-white/5 hover:border-white/15 transition flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                    >
+                      <div className="min-w-0 flex-1 space-y-1">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-xs font-bold text-white truncate font-heading">
+                            {inq.name}
+                          </span>
+                          <span className={`px-2 py-0.5 rounded text-[9px] font-mono border ${statusClass}`}>
+                            {inq.status}
+                          </span>
+                          {inq.organization && (
+                            <span className="text-[10px] text-slate-400 flex items-center gap-1 font-mono">
+                              <Building2 size={11} />
+                              {inq.organization}
+                            </span>
+                          )}
+                        </div>
+
+                        <p className="text-[11px] text-slate-400 truncate">
+                          {inq.email} {inq.phone ? `• ${inq.phone}` : ''} • Service:{' '}
+                          <span className="text-slate-200">{inq.service || 'General Security Inquiry'}</span>
+                        </p>
+
+                        {inq.message && (
+                          <p className="text-[11px] text-slate-300 line-clamp-1 italic bg-black/30 px-2 py-1 rounded border border-white/5">
+                            "{inq.message}"
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Quick Status and Contact Actions */}
+                      <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-white/5">
+                        <select
+                          value={inq.status}
+                          disabled={isUpdating}
+                          onChange={(e) => handleQuickStatusChange(inq.id, e.target.value)}
+                          className="bg-[#070B14] border border-white/10 text-slate-200 text-[11px] rounded-lg px-2 py-1.5 focus:border-brand-crimson outline-none cursor-pointer"
+                        >
+                          <option value="NEW">NEW</option>
+                          <option value="CONTACTED">CONTACTED</option>
+                          <option value="IN_PROGRESS">IN PROGRESS</option>
+                          <option value="CONVERTED">CONVERTED</option>
+                          <option value="CLOSED">CLOSED</option>
+                        </select>
+
+                        <a
+                          href={`mailto:${inq.email}?subject=RE: Abhimanyu InfoSec Security Consultation`}
+                          title="Reply to prospect via email"
+                          className="p-1.5 rounded-lg bg-white/5 hover:bg-brand-crimson text-slate-300 hover:text-white transition"
+                        >
+                          <Send size={13} />
+                        </a>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
           </div>
         </div>
 
-        {/* Audit Log Feed */}
-        <div className="p-6 rounded-2xl bg-[#0b1120] border border-slate-800 flex flex-col">
-          <div className="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
-            <div className="flex items-center gap-2">
-              <Clock size={16} className="text-cyan-400" />
-              <h2 className="text-sm font-bold text-white uppercase tracking-wider">Administrative Audit Stream</h2>
+        {/* Right Column: SOC Telemetry & Audit Stream (5 cols) */}
+        <div className="lg:col-span-5 space-y-6">
+          {/* SOC Telemetry Box */}
+          <div className="p-6 rounded-2xl bg-[#090D16] border border-white/10 shadow-lg space-y-4">
+            <div className="flex items-center gap-2.5 pb-3 border-b border-white/10">
+              <div className="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
+                <Database size={16} />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-white uppercase tracking-wider font-heading">
+                  Infrastructure Health
+                </h3>
+                <p className="text-[11px] text-slate-400">Live cloud telemetry status</p>
+              </div>
             </div>
-            <Link to="/admin/audit-logs" className="text-xs text-cyan-400 hover:underline flex items-center gap-1 font-mono">
-              Full Log <ArrowUpRight size={12} />
-            </Link>
+
+            <div className="space-y-2.5 text-xs font-mono">
+              <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.02] border border-white/5">
+                <span className="text-slate-400 flex items-center gap-2">
+                  <Server size={14} className="text-emerald-400" />
+                  REST API Engine
+                </span>
+                <span className="text-emerald-400 font-bold">ONLINE (Node.js)</span>
+              </div>
+
+              <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.02] border border-white/5">
+                <span className="text-slate-400 flex items-center gap-2">
+                  <Database size={14} className="text-cyan-400" />
+                  Neon Database
+                </span>
+                <span className="text-cyan-300 font-bold">
+                  {system.dbStatus || 'Connected'} ({system.latencyMs || 0}ms)
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.02] border border-white/5">
+                <span className="text-slate-400 flex items-center gap-2">
+                  <Shield size={14} className="text-brand-amber" />
+                  Identity Protocol
+                </span>
+                <span className="text-slate-200">Zero-Trust JWT (15m/7d)</span>
+              </div>
+
+              <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.02] border border-white/5">
+                <span className="text-slate-400 flex items-center gap-2">
+                  <Clock size={14} className="text-blue-400" />
+                  Server Uptime
+                </span>
+                <span className="text-slate-300">
+                  {system.uptimeSeconds
+                    ? `${Math.floor(system.uptimeSeconds / 60)}m active`
+                    : 'Active'}
+                </span>
+              </div>
+            </div>
           </div>
 
-          <div className="flex-1 space-y-2.5">
-            {(!data?.recentLogs || data.recentLogs.length === 0) ? (
-              <div className="text-center py-12 text-slate-500 text-xs">No audit records logged yet.</div>
-            ) : (
-              data.recentLogs.map((log) => (
-                <div
-                  key={log.id}
-                  className="p-3 rounded-lg bg-[#070b14] border border-slate-800/60 flex items-center justify-between text-xs"
+          {/* Audit Log Stream */}
+          <div className="p-6 rounded-2xl bg-[#090D16] border border-white/10 shadow-lg flex flex-col">
+            <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400">
+                  <History size={16} />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-white uppercase tracking-wider font-heading">
+                    Security Audit Trail
+                  </h3>
+                  <p className="text-[11px] text-slate-400">Immutable administrative activity</p>
+                </div>
+              </div>
+              {isSuperAdminOrAdmin && (
+                <Link
+                  to="/admin/audit-logs"
+                  className="text-xs text-brand-bright hover:underline flex items-center gap-1 font-mono"
                 >
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <CheckCircle2 size={14} className="text-emerald-400 flex-shrink-0" />
-                    <div className="truncate">
-                      <span className="font-mono text-cyan-300 text-[11px]">{log.action}</span>
-                      <span className="text-slate-500 mx-1.5">•</span>
-                      <span className="text-slate-400 text-[11px] truncate">
-                        {log.user?.name || 'System'}
+                  Full Trail <ArrowUpRight size={13} />
+                </Link>
+              )}
+            </div>
+
+            <div className="space-y-2 flex-1">
+              {!data?.recentLogs || data.recentLogs.length === 0 ? (
+                <div className="text-center py-10 text-slate-500 text-xs">
+                  No administrative events logged yet.
+                </div>
+              ) : (
+                data.recentLogs.map((log) => {
+                  const badgeStyle = ACTION_COLORS[log.action] || ACTION_COLORS.DEFAULT;
+
+                  return (
+                    <div
+                      key={log.id}
+                      className="p-3 rounded-xl bg-[#0C121E] border border-white/5 hover:border-white/15 transition flex items-center justify-between text-xs"
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <CheckCircle2 size={13} className="text-emerald-400 shrink-0" />
+                        <div className="truncate">
+                          <span
+                            className={`px-1.5 py-0.5 rounded text-[10px] font-mono border ${badgeStyle}`}
+                          >
+                            {log.action}
+                          </span>
+                          <span className="text-slate-400 text-[11px] ml-2 truncate">
+                            by {log.user?.name || 'System Operator'}
+                          </span>
+                        </div>
+                      </div>
+
+                      <span className="text-[10px] text-slate-500 font-mono shrink-0 ml-2">
+                        {new Date(log.createdAt).toLocaleTimeString([], {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
                       </span>
                     </div>
-                  </div>
-                  <span className="text-[10px] text-slate-500 font-mono flex-shrink-0 ml-2">
-                    {new Date(log.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </span>
-                </div>
-              ))
-            )}
+                  );
+                })
+              )}
+            </div>
           </div>
         </div>
       </div>
