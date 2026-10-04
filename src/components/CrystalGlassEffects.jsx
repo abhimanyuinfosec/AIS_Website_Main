@@ -85,9 +85,9 @@ const CrystalGlassEffects = () => {
         }
       });
 
-      // Section h2 & h3 headings outside hero
+      // Section h2 & h3 headings outside hero & interactive sections
       main.querySelectorAll(
-        'h2:not([data-purpose="hero-section"] *), .section-title:not([data-purpose="hero-section"] *), div.space-y-5 > h1:not([data-purpose="hero-section"] *)'
+        'h2:not([data-purpose="hero-section"] *):not(#how-we-work *):not([data-no-anim]), .section-title:not([data-purpose="hero-section"] *):not(#how-we-work *):not([data-no-anim]), div.space-y-5 > h1:not([data-purpose="hero-section"] *)'
       ).forEach((h) => {
         if (!h.hasAttribute('data-anim')) {
           h.setAttribute('data-anim', 'up');
@@ -95,17 +95,17 @@ const CrystalGlassEffects = () => {
       });
 
       // Paragraphs immediately after headings
-      main.querySelectorAll('h2 + p, .section-title + p').forEach((p) => {
-        if (!p.hasAttribute('data-anim') && !p.closest('[data-anim-child]')) {
+      main.querySelectorAll('h2:not(#how-we-work *) + p, .section-title:not(#how-we-work *) + p').forEach((p) => {
+        if (!p.hasAttribute('data-anim') && !p.closest('[data-anim-child]') && !p.closest('#how-we-work')) {
           p.setAttribute('data-anim', 'up');
           p.setAttribute('data-anim-delay', '100');
         }
       });
 
-      // Grid containers — stagger children
+      // Grid containers — stagger children (exclude interactive step timelines like #how-we-work)
       main.querySelectorAll('.grid, [class*="grid-cols"]').forEach((grid) => {
         if (!grid.hasAttribute('data-anim-child') && !grid.hasAttribute('data-sr-stagger') && grid.children.length >= 2) {
-          if (!grid.closest('[data-purpose="hero-section"]')) {
+          if (!grid.closest('[data-purpose="hero-section"]') && !grid.closest('#how-we-work')) {
             grid.setAttribute('data-anim-child', '');
           }
         }

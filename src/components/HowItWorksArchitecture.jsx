@@ -39,8 +39,11 @@ const HowItWorksArchitecture = () => {
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         
         {/* Header Content */}
-        <div className="text-center space-y-4 max-w-3xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
+        <div data-no-anim className="text-center space-y-4 max-w-3xl mx-auto">
+          <h2
+            data-no-anim
+            className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight"
+          >
             How We <span className="ais-signature-gradient">Work</span>
           </h2>
 
@@ -50,7 +53,7 @@ const HowItWorksArchitecture = () => {
         </div>
 
         {/* Desktop Horizontal 4-Step Journey */}
-        <div className="mt-10 sm:mt-12 hidden md:block relative">
+        <div data-no-anim className="mt-10 sm:mt-12 hidden md:block relative">
           {/* Continuous Connector Line running through the 4 points */}
           <div className="absolute top-[52px] left-[12.5%] right-[12.5%] h-[2px] bg-slate-200 dark:bg-white/[0.08] pointer-events-none" />
 
@@ -104,7 +107,9 @@ const HowItWorksArchitecture = () => {
                   {/* Subtitle */}
                   <p
                     className={`text-xs sm:text-sm font-semibold mt-1 transition-colors duration-200 ${
-                      isActive ? 'text-[#D97706]' : 'text-slate-700 dark:text-slate-300 group-hover:text-slate-900'
+                      isActive
+                        ? 'text-[#FF7A00]'
+                        : 'text-slate-800 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-white'
                     }`}
                   >
                     {step.title}
@@ -113,7 +118,9 @@ const HowItWorksArchitecture = () => {
                   {/* Description */}
                   <p
                     className={`text-xs sm:text-[13px] leading-relaxed mt-2 max-w-[240px] transition-colors duration-200 ${
-                      isActive ? 'text-slate-700 dark:text-slate-300' : 'text-slate-600 dark:text-slate-400 group-hover:text-slate-800'
+                      isActive
+                        ? 'text-slate-700 dark:text-slate-300'
+                        : 'text-slate-600 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200'
                     }`}
                   >
                     {step.desc}

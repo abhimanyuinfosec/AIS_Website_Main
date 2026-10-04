@@ -712,6 +712,19 @@
 [data-anim-delay="500"] { transition-delay: 0.5s !important; }
 [data-anim-delay="600"] { transition-delay: 0.6s !important; }
 
+/* Ensure #how-we-work section and all its headlines & interactive steps remain permanently visible */
+#how-we-work,
+#how-we-work h2,
+#how-we-work h3,
+#how-we-work p,
+#how-we-work .grid,
+#how-we-work [data-anim],
+#how-we-work [data-anim-child] > * {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
 /* SkyFort Interactive Hotspot & Connector Line Styling */
 .skyfort-node-btn {
   position: relative;
