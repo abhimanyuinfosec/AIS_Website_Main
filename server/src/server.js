@@ -31,6 +31,7 @@ import dashboardRoutes from './routes/dashboard.js';
 import usersRoutes from './routes/users.js';
 
 import { notFoundHandler, errorHandler } from './middleware/errorHandler.js';
+import { startKeepAlive, stopKeepAlive } from './utils/keepAlive.js';
 
 // Environment variables are loaded by env.js (imported first above)
 
@@ -138,11 +139,13 @@ app.use(errorHandler);
 const server = app.listen(PORT, () => {
   console.log(`🛡️ Abhimanyu InfoSec API Engine running on http://localhost:${PORT}`);
   console.log(`⚡ Environment: ${process.env.NODE_ENV || 'development'}`);
+  startKeepAlive();
 });
 
 // Graceful Shutdown for Cloud Containers (Render / Docker)
 const handleShutdown = async (signal) => {
   console.log(`\n🛑 Received ${signal}. Starting graceful shutdown...`);
+  stopKeepAlive();
   server.close(async () => {
     console.log('🔒 HTTP server closed.');
     try {

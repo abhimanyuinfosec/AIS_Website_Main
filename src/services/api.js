@@ -11,6 +11,15 @@ export const prewarmBackend = () => {
   return prewarmPromise;
 };
 
+// Active browser session keep-alive: keep server warm every 10 minutes while user is on site
+if (typeof window !== 'undefined') {
+  setInterval(() => {
+    if (document.visibilityState === 'visible') {
+      fetch(`${API_BASE_URL}/health`, { method: 'GET', keepalive: true }).catch(() => {});
+    }
+  }, 10 * 60 * 1000);
+}
+
 /**
  * Initiates an OAuth login flow without exposing the user to cold-start screens.
  * If the backend is sleeping, it holds the user on the branded interface with
