@@ -90,35 +90,40 @@ export const AdminLayout = () => {
     <div className="min-h-screen bg-[#080808] text-slate-200 flex overflow-hidden font-sans">
       {/* Sidebar */}
       <aside
-        className={`fixed md:static inset-y-0 left-0 z-50 flex flex-col transition-all duration-300 bg-[#0D0D0D] backdrop-blur border-r border-white/10 ${
+        className={`fixed md:static inset-y-0 left-0 z-50 flex flex-col transition-all duration-300 bg-[#0D0D0D] backdrop-blur border-r border-white/[0.08] ${
           sidebarOpen ? 'w-64' : 'w-20'
         }`}
       >
-        {/* Brand Header */}
-        <div className="h-16 flex items-center justify-between px-4 border-b border-white/10">
-          <Link to="/admin" className="flex items-center gap-3 overflow-hidden">
+        {/* Brand Header with Main Website Logo */}
+        <div className="h-16 flex items-center justify-between px-4 border-b border-white/[0.08] bg-[#0A0A0A]">
+          <Link to="/admin" className="flex items-center gap-3 overflow-hidden group">
             {sidebarOpen ? (
               <img
-                src="/logo.png"
+                src="/lightlogo.png"
                 alt="Abhimanyu InfoSec"
-                className="h-12 w-auto max-w-[210px] object-contain filter drop-shadow-[0_2px_14px_rgba(193,18,31,0.35)]"
+                className="h-10 w-auto max-w-[190px] object-contain transition-opacity duration-200 group-hover:opacity-90"
               />
             ) : (
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-[#C1121F] via-[#FF7A00] to-[#FFB000] flex items-center justify-center text-white font-black text-lg shadow-[0_0_15px_rgba(193,18,31,0.4)] flex-shrink-0 font-heading">
-                A
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#C1121F] via-[#FF7A00] to-[#FFB000] p-[1.5px] shadow-[0_0_15px_rgba(193,18,31,0.35)] flex-shrink-0">
+                <div className="w-full h-full rounded-[10px] bg-[#0D0D0D] flex items-center justify-center">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C1121F] via-[#FF7A00] to-[#FFB000] font-black text-sm font-heading">
+                    AIS
+                  </span>
+                </div>
               </div>
             )}
           </Link>
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition hidden md:block"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition hidden md:block"
+            title={sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
           >
             {sidebarOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
 
         {/* Navigation Items */}
-        <div className="flex-1 overflow-y-auto py-4 px-3 space-y-1 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto py-4 px-3 space-y-1.5 custom-scrollbar">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = item.exact
@@ -131,14 +136,14 @@ export const AdminLayout = () => {
               <NavLink
                 key={item.path}
                 to={item.path}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-medium transition-all ${
+                className={`group flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-heading font-medium tracking-wide transition-all select-none ${
                   isActive
-                    ? 'bg-gradient-to-r from-brand-crimson/20 via-brand-bright/10 to-transparent text-white border-l-2 border-brand-crimson shadow-[0_0_12px_rgba(193,18,31,0.15)] font-semibold'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]'
+                    ? 'bg-gradient-to-r from-[#C1121F]/20 via-[#FF7A00]/10 to-transparent text-white border-l-2 border-[#C1121F] shadow-[0_0_15px_rgba(193,18,31,0.2)] font-semibold'
+                    : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
                 }`}
                 title={!sidebarOpen ? item.label : ''}
               >
-                <Icon size={18} className={isActive ? 'text-brand-bright' : 'text-slate-400'} />
+                <Icon size={18} className={isActive ? 'text-[#FFB000]' : 'text-slate-500 group-hover:text-slate-300 transition-colors'} />
                 {sidebarOpen && <span className="truncate">{item.label}</span>}
               </NavLink>
             );
@@ -146,12 +151,12 @@ export const AdminLayout = () => {
         </div>
 
         {/* User Card & Logout */}
-        <div className="p-3 border-t border-white/10 bg-[#080808]/80">
+        <div className="p-3.5 border-t border-white/[0.08] bg-[#0A0A0A]">
           {sidebarOpen ? (
             <div className="flex items-center justify-between gap-2">
               <div className="flex flex-col min-w-0">
-                <span className="text-xs font-semibold text-white truncate">{user?.name || 'Administrator'}</span>
-                <span className="text-[10px] text-brand-amber font-mono uppercase truncate">{user?.role}</span>
+                <span className="text-xs font-semibold text-white truncate font-heading">{user?.name || 'Administrator'}</span>
+                <span className="text-[10px] text-[#FFB000] font-mono uppercase tracking-wider truncate">{user?.role}</span>
               </div>
               <button
                 onClick={handleLogout}
@@ -176,22 +181,22 @@ export const AdminLayout = () => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top Header */}
-        <header className="h-16 bg-[#0D0D0D]/90 backdrop-blur border-b border-white/10 px-6 flex items-center justify-between gap-4">
+        <header className="h-16 bg-[#0D0D0D]/90 backdrop-blur-md border-b border-white/[0.08] px-6 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-sm text-slate-400">
-            <span className="font-mono text-brand-amber text-xs font-semibold">AIS CONTROL</span>
+            <span className="font-mono text-[#FFB000] text-xs font-semibold">AIS CONTROL</span>
             <ChevronRight size={14} className="text-slate-600" />
-            <span className="text-white font-medium">{currentNav?.label || 'Administration'}</span>
+            <span className="text-white font-heading font-medium text-xs sm:text-sm">{currentNav?.label || 'Administration'}</span>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 sm:gap-4">
             {/* View live website */}
             <a
               href="/"
               target="_blank"
               rel="noreferrer"
-              className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-xs text-slate-300 transition"
+              className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-xl border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.08] text-xs font-heading font-medium text-slate-300 hover:text-white transition"
             >
-              <ExternalLink size={13} className="text-brand-amber" />
+              <ExternalLink size={13} className="text-[#FFB000]" />
               <span>Live Website</span>
             </a>
 
@@ -199,40 +204,40 @@ export const AdminLayout = () => {
             <div className="relative">
               <button
                 onClick={() => setShowNotifMenu(!showNotifMenu)}
-                className="relative p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition"
+                className="relative p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.06] transition"
               >
                 <Bell size={18} />
                 {unreadCount > 0 && (
-                  <span className="absolute top-1 right-1 w-4 h-4 bg-brand-crimson text-white text-[10px] font-black rounded-full flex items-center justify-center animate-pulse">
+                  <span className="absolute top-1 right-1 w-4 h-4 bg-[#C1121F] text-white text-[10px] font-black rounded-full flex items-center justify-center animate-pulse shadow-[0_0_8px_rgba(193,18,31,0.6)]">
                     {unreadCount}
                   </span>
                 )}
               </button>
 
               {showNotifMenu && (
-                <div className="absolute right-0 mt-2 w-80 bg-[#0D0D0D] border border-white/15 rounded-xl shadow-2xl z-50 p-3 overflow-hidden">
-                  <div className="flex items-center justify-between pb-2 border-b border-white/10">
-                    <span className="text-xs font-bold text-white uppercase tracking-wider">Notifications</span>
+                <div className="absolute right-0 mt-2 w-80 bg-[#0D0D0D] border border-white/15 rounded-2xl shadow-2xl z-50 p-3 overflow-hidden">
+                  <div className="flex items-center justify-between pb-2 border-b border-white/[0.08]">
+                    <span className="text-xs font-bold text-white uppercase tracking-wider font-heading">Notifications</span>
                     {unreadCount > 0 && (
                       <button
                         onClick={handleMarkAllRead}
-                        className="text-[11px] text-brand-amber hover:underline flex items-center gap-1"
+                        className="text-[11px] text-[#FFB000] hover:underline flex items-center gap-1 font-mono"
                       >
                         <CheckCircle size={12} /> Mark all read
                       </button>
                     )}
                   </div>
-                  <div className="max-h-64 overflow-y-auto py-2 space-y-2 text-xs">
+                  <div className="max-h-64 overflow-y-auto py-2 space-y-2 text-xs custom-scrollbar">
                     {notifications.length === 0 ? (
                       <div className="text-center py-6 text-slate-500">No alerts or inquiries.</div>
                     ) : (
                       notifications.slice(0, 8).map((n) => (
                         <div
                           key={n.id}
-                          className={`p-2.5 rounded-lg border transition ${
+                          className={`p-2.5 rounded-xl border transition ${
                             n.isRead
                               ? 'bg-white/[0.02] border-white/5 text-slate-400'
-                              : 'bg-brand-crimson/10 border-brand-crimson/30 text-slate-200'
+                              : 'bg-[#C1121F]/10 border-[#C1121F]/30 text-slate-200'
                           }`}
                         >
                           <div className="font-semibold text-white text-xs">{n.title}</div>
@@ -256,9 +261,12 @@ export const AdminLayout = () => {
           </div>
         </header>
 
-        {/* Dynamic Nested View */}
-        <main className="flex-1 overflow-y-auto p-6 bg-[#070b14]">
-          <Outlet />
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 bg-[#080808] relative">
+          {/* Ambient Cyber Glow matching main website */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(193,18,31,0.08),transparent_70%)] pointer-events-none" />
+          <div className="relative z-10">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>

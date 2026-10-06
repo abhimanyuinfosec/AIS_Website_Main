@@ -33,10 +33,10 @@ import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 
 const STATUS_COLORS = {
-  NEW: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
+  NEW: 'bg-[#FF7A00]/15 text-[#FF7A00] border-[#FF7A00]/30',
   READ: 'bg-slate-500/20 text-slate-300 border-slate-500/30',
   CONTACTED: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
-  IN_PROGRESS: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+  IN_PROGRESS: 'bg-amber-500/20 text-[#FFB000] border-amber-500/30',
   CONVERTED: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
   CLOSED: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
   SPAM: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
@@ -111,10 +111,10 @@ export const AdminDashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-cyan-400 space-y-4">
+      <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
         <div className="relative">
-          <div className="w-14 h-14 rounded-full border-2 border-brand-crimson/30 border-t-brand-crimson animate-spin" />
-          <Activity size={24} className="absolute inset-0 m-auto text-brand-crimson animate-pulse" />
+          <div className="w-14 h-14 rounded-full border-2 border-[#C1121F]/20 border-t-[#C1121F] animate-spin" />
+          <Activity size={24} className="absolute inset-0 m-auto text-[#FF7A00] animate-pulse" />
         </div>
         <div className="text-center">
           <p className="text-sm font-semibold text-white tracking-wide font-heading">
@@ -130,16 +130,16 @@ export const AdminDashboard = () => {
 
   if (error && !data) {
     return (
-      <div className="max-w-2xl mx-auto my-12 p-8 rounded-2xl bg-[#0D121F] border border-rose-500/30 text-center space-y-4 shadow-2xl">
+      <div className="max-w-2xl mx-auto my-12 p-8 rounded-2xl bg-[#0D0D0D] border border-rose-500/30 text-center space-y-4 shadow-2xl">
         <div className="w-12 h-12 mx-auto rounded-full bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400">
           <AlertCircle size={26} />
         </div>
-        <h2 className="text-lg font-bold text-white tracking-wide">SOC Telemetry Disconnected</h2>
+        <h2 className="text-lg font-bold text-white tracking-wide font-heading">SOC Telemetry Disconnected</h2>
         <p className="text-xs text-slate-400 leading-relaxed font-mono">{error}</p>
         <div className="pt-2">
           <button
             onClick={fetchSummary}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-crimson hover:bg-red-600 text-white font-semibold text-xs transition shadow-lg shadow-brand-crimson/25 cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#C1121F] via-[#FF7A00] to-[#FFB000] hover:brightness-110 text-white font-semibold text-xs transition shadow-glow-crimson cursor-pointer font-heading"
           >
             <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
             <span>Retry Connection</span>
@@ -158,9 +158,9 @@ export const AdminDashboard = () => {
       label: 'Client Inquiries',
       count: counts.inquiries || 0,
       badge: counts.newInquiries ? `${counts.newInquiries} New` : null,
-      badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
+      badgeColor: 'bg-amber-500/15 text-[#FFB000] border-amber-500/30',
       icon: Mail,
-      color: 'text-amber-400',
+      color: 'text-[#FFB000]',
       link: '/admin/inquiries',
       subtext: `${counts.newInquiries || 0} awaiting triage`,
     },
@@ -168,9 +168,9 @@ export const AdminDashboard = () => {
       label: 'Active Services',
       count: counts.services || 0,
       badge: counts.activeServices ? `${counts.activeServices} Active` : null,
-      badgeColor: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40',
+      badgeColor: 'bg-red-500/15 text-red-300 border-red-500/30',
       icon: Shield,
-      color: 'text-cyan-400',
+      color: 'text-[#C1121F]',
       link: '/admin/services',
       subtext: 'Core defensive offerings',
     },
@@ -178,7 +178,7 @@ export const AdminDashboard = () => {
       label: 'Security Projects',
       count: counts.projects || 0,
       icon: Briefcase,
-      color: 'text-blue-400',
+      color: 'text-[#FF7A00]',
       link: '/admin/projects',
       subtext: 'Engagements & case studies',
     },
@@ -186,7 +186,7 @@ export const AdminDashboard = () => {
       label: 'Products & Tools',
       count: counts.products || 0,
       icon: Cpu,
-      color: 'text-purple-400',
+      color: 'text-[#FFB000]',
       link: '/admin/products',
       subtext: 'Proprietary security tooling',
     },
@@ -194,7 +194,7 @@ export const AdminDashboard = () => {
       label: 'Research Papers',
       count: counts.research || 0,
       badge: counts.publishedResearch ? `${counts.publishedResearch} Live` : null,
-      badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+      badgeColor: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
       icon: BookOpen,
       color: 'text-emerald-400',
       link: '/admin/research',
@@ -204,9 +204,9 @@ export const AdminDashboard = () => {
       label: 'Intelligence Posts',
       count: counts.blogs || 0,
       badge: counts.publishedBlogs ? `${counts.publishedBlogs} Live` : null,
-      badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-500/40',
+      badgeColor: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
       icon: FileText,
-      color: 'text-rose-400',
+      color: 'text-[#C1121F]',
       link: '/admin/blog',
       subtext: 'Cyber advisory & publications',
     },
@@ -214,7 +214,7 @@ export const AdminDashboard = () => {
       label: 'Reviews & Feedback',
       count: counts.reviews || 0,
       badge: counts.pendingReviews ? `${counts.pendingReviews} Pending` : null,
-      badgeColor: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/40',
+      badgeColor: 'bg-yellow-500/15 text-yellow-300 border-yellow-500/30',
       icon: Star,
       color: 'text-yellow-400',
       link: '/admin/reviews',
@@ -232,7 +232,7 @@ export const AdminDashboard = () => {
       label: 'Media Assets',
       count: counts.media || 0,
       icon: Image,
-      color: 'text-fuchsia-400',
+      color: 'text-purple-400',
       link: '/admin/media',
       subtext: 'Encrypted storage library',
     },
@@ -242,9 +242,9 @@ export const AdminDashboard = () => {
             label: 'System Users',
             count: counts.users || 0,
             badge: counts.admins ? `${counts.admins} Admins` : null,
-            badgeColor: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40',
+            badgeColor: 'bg-indigo-500/15 text-indigo-300 border-indigo-500/30',
             icon: UserCog,
-            color: 'text-indigo-400',
+            color: 'text-[#FF7A00]',
             link: '/admin/users',
             subtext: 'Role-based access accounts',
           },
@@ -255,8 +255,8 @@ export const AdminDashboard = () => {
   return (
     <div className="space-y-8 max-w-7xl mx-auto pb-12 animate-in fade-in duration-300">
       {/* ──────────────── Top Command Banner ──────────────── */}
-      <div className="relative overflow-hidden p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-[#0C121E] via-[#0E1526] to-[#0A0E17] border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.6)]">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-brand-crimson/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+      <div className="relative overflow-hidden p-6 sm:p-7 rounded-2xl bg-gradient-to-br from-[#141414] via-[#0E0E0E] to-[#080808] border border-white/[0.08] shadow-[0_10px_40px_rgba(0,0,0,0.8)]">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-[#C1121F]/20 via-[#FF7A00]/10 to-transparent rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-5">
           <div>
             <div className="flex items-center gap-2 mb-2">
@@ -270,11 +270,13 @@ export const AdminDashboard = () => {
                 </span>
               )}
             </div>
-            <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight font-heading">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight font-heading">
               Welcome back,{' '}
-              <span className="ais-signature-gradient">{user?.name || 'Administrator'}</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C1121F] via-[#FF7A00] to-[#FFB000]">
+                {user?.name || 'Administrator'}
+              </span>
             </h1>
-            <p className="text-xs text-slate-400 mt-1 max-w-2xl leading-relaxed">
+            <p className="text-xs text-slate-400 mt-1.5 max-w-2xl leading-relaxed font-normal">
               Abhimanyu InfoSec unified operational nexus. Manage client engagements, publish defense bulletins, and audit security events in real time.
             </p>
           </div>
@@ -283,23 +285,23 @@ export const AdminDashboard = () => {
             <button
               onClick={fetchSummary}
               disabled={refreshing}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-xs text-slate-200 border border-white/10 transition active:scale-95 cursor-pointer"
+              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-xs font-heading font-medium text-slate-200 border border-white/10 transition active:scale-95 cursor-pointer"
             >
-              <RefreshCw size={13} className={refreshing ? 'animate-spin text-brand-bright' : ''} />
+              <RefreshCw size={13} className={refreshing ? 'animate-spin text-[#FFB000]' : ''} />
               <span>{refreshing ? 'Syncing...' : 'Sync Telemetry'}</span>
             </button>
             <a
               href="/"
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-xs text-slate-300 border border-white/10 transition"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-xs font-heading font-medium text-slate-300 hover:text-white border border-white/10 transition"
             >
-              <ExternalLink size={13} />
+              <ExternalLink size={13} className="text-[#FFB000]" />
               <span>Live Site</span>
             </a>
             <Link
               to="/admin/settings"
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-brand-crimson to-brand-bright hover:from-red-700 hover:to-orange-600 text-white font-semibold text-xs shadow-[0_4px_20px_rgba(204,34,0,0.35)] transition active:scale-95"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#C1121F] via-[#FF7A00] to-[#FFB000] hover:brightness-110 text-white font-semibold text-xs font-heading shadow-glow-crimson transition active:scale-95"
             >
               <span>Site CMS</span>
             </Link>
@@ -307,7 +309,7 @@ export const AdminDashboard = () => {
         </div>
 
         {lastUpdated && (
-          <div className="relative z-10 mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500 font-mono">
+          <div className="relative z-10 mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[11px] text-slate-500 font-mono">
             <span>Server Session: {user?.email} ({user?.role})</span>
             <span>Last synchronized at {lastUpdated.toLocaleTimeString()}</span>
           </div>
@@ -315,10 +317,10 @@ export const AdminDashboard = () => {
       </div>
 
       {/* ──────────────── Quick Launchpad (Action Shortcuts) ──────────────── */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-[#090D16] border border-white/10 space-y-3">
+      <div className="p-4 sm:p-5 rounded-2xl bg-[#0D0D0D] border border-white/[0.08] space-y-3">
         <div className="flex items-center justify-between">
           <span className="text-[11px] font-bold text-slate-300 uppercase tracking-wider font-heading flex items-center gap-2">
-            <Sparkles size={14} className="text-brand-amber" />
+            <Sparkles size={14} className="text-[#FFB000]" />
             <span>Rapid Operational Launchpad</span>
           </span>
           <span className="text-[10px] text-slate-500 font-mono">One-click creation workflows</span>
@@ -327,31 +329,31 @@ export const AdminDashboard = () => {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5">
           <Link
             to="/admin/services"
-            className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] hover:bg-cyan-500/10 border border-white/5 hover:border-cyan-500/30 text-xs text-slate-300 hover:text-cyan-300 transition group"
+            className="flex items-center gap-2 p-2.5 rounded-xl bg-[#121212] hover:bg-white/[0.05] border border-white/[0.06] hover:border-[#C1121F]/40 text-xs font-heading font-medium text-slate-300 hover:text-white transition group"
           >
-            <Plus size={14} className="text-cyan-400 group-hover:scale-125 transition-transform" />
+            <Plus size={14} className="text-[#C1121F] group-hover:scale-125 transition-transform" />
             <span className="truncate">New Service</span>
           </Link>
 
           <Link
             to="/admin/projects"
-            className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] hover:bg-blue-500/10 border border-white/5 hover:border-blue-500/30 text-xs text-slate-300 hover:text-blue-300 transition group"
+            className="flex items-center gap-2 p-2.5 rounded-xl bg-[#121212] hover:bg-white/[0.05] border border-white/[0.06] hover:border-[#FF7A00]/40 text-xs font-heading font-medium text-slate-300 hover:text-white transition group"
           >
-            <Plus size={14} className="text-blue-400 group-hover:scale-125 transition-transform" />
+            <Plus size={14} className="text-[#FF7A00] group-hover:scale-125 transition-transform" />
             <span className="truncate">Add Project</span>
           </Link>
 
           <Link
             to="/admin/products"
-            className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] hover:bg-purple-500/10 border border-white/5 hover:border-purple-500/30 text-xs text-slate-300 hover:text-purple-300 transition group"
+            className="flex items-center gap-2 p-2.5 rounded-xl bg-[#121212] hover:bg-white/[0.05] border border-white/[0.06] hover:border-[#FFB000]/40 text-xs font-heading font-medium text-slate-300 hover:text-white transition group"
           >
-            <Plus size={14} className="text-purple-400 group-hover:scale-125 transition-transform" />
+            <Plus size={14} className="text-[#FFB000] group-hover:scale-125 transition-transform" />
             <span className="truncate">Add Product</span>
           </Link>
 
           <Link
             to="/admin/blog"
-            className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] hover:bg-rose-500/10 border border-white/5 hover:border-rose-500/30 text-xs text-slate-300 hover:text-rose-300 transition group"
+            className="flex items-center gap-2 p-2.5 rounded-xl bg-[#121212] hover:bg-white/[0.05] border border-white/[0.06] hover:border-rose-500/40 text-xs font-heading font-medium text-slate-300 hover:text-white transition group"
           >
             <Plus size={14} className="text-rose-400 group-hover:scale-125 transition-transform" />
             <span className="truncate">Write Post</span>
@@ -359,7 +361,7 @@ export const AdminDashboard = () => {
 
           <Link
             to="/admin/team"
-            className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] hover:bg-sky-500/10 border border-white/5 hover:border-sky-500/30 text-xs text-slate-300 hover:text-sky-300 transition group"
+            className="flex items-center gap-2 p-2.5 rounded-xl bg-[#121212] hover:bg-white/[0.05] border border-white/[0.06] hover:border-sky-500/40 text-xs font-heading font-medium text-slate-300 hover:text-white transition group"
           >
             <Plus size={14} className="text-sky-400 group-hover:scale-125 transition-transform" />
             <span className="truncate">Team Member</span>
@@ -367,9 +369,9 @@ export const AdminDashboard = () => {
 
           <Link
             to="/admin/media"
-            className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] hover:bg-fuchsia-500/10 border border-white/5 hover:border-fuchsia-500/30 text-xs text-slate-300 hover:text-fuchsia-300 transition group"
+            className="flex items-center gap-2 p-2.5 rounded-xl bg-[#121212] hover:bg-white/[0.05] border border-white/[0.06] hover:border-purple-500/40 text-xs font-heading font-medium text-slate-300 hover:text-white transition group"
           >
-            <Plus size={14} className="text-fuchsia-400 group-hover:scale-125 transition-transform" />
+            <Plus size={14} className="text-purple-400 group-hover:scale-125 transition-transform" />
             <span className="truncate">Upload Media</span>
           </Link>
         </div>
@@ -383,31 +385,31 @@ export const AdminDashboard = () => {
             <Link
               key={idx}
               to={card.link}
-              className="p-4 sm:p-5 rounded-2xl bg-[#090D16] border border-white/10 hover:border-brand-crimson/50 hover:shadow-[0_4px_25px_rgba(204,34,0,0.15)] transition-all duration-200 group flex flex-col justify-between"
+              className="p-4 sm:p-5 rounded-2xl bg-[#0D0D0D] border border-white/[0.08] hover:border-[#C1121F]/40 hover:shadow-[0_4px_25px_rgba(193,18,31,0.2)] transition-all duration-300 group flex flex-col justify-between"
             >
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider truncate">
+                <span className="text-[11px] font-heading font-semibold text-slate-400 uppercase tracking-wider truncate">
                   {card.label}
                 </span>
-                <div className="p-2 rounded-xl bg-white/[0.04] group-hover:bg-white/[0.08] transition">
+                <div className="p-2 rounded-xl bg-white/[0.03] border border-white/[0.06] group-hover:bg-[#C1121F]/15 group-hover:border-[#C1121F]/30 transition">
                   <Icon size={16} className={`${card.color} group-hover:scale-110 transition-transform`} />
                 </div>
               </div>
 
               <div className="mt-4">
                 <div className="flex items-baseline justify-between gap-2">
-                  <span className="text-2xl sm:text-3xl font-bold text-white font-mono tracking-tight">
+                  <span className="text-2xl sm:text-3xl font-extrabold text-white font-heading tracking-tight">
                     {card.count}
                   </span>
                   {card.badge && (
                     <span
-                      className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${card.badgeColor}`}
+                      className={`px-2 py-0.5 rounded-full text-[10px] font-bold border font-mono ${card.badgeColor}`}
                     >
                       {card.badge}
                     </span>
                   )}
                 </div>
-                <p className="text-[10px] text-slate-500 truncate mt-1">{card.subtext}</p>
+                <p className="text-[11px] text-slate-500 truncate mt-1">{card.subtext}</p>
               </div>
             </Link>
           );
@@ -418,10 +420,10 @@ export const AdminDashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column: Recent Prospective Inquiries & Triage (7 cols) */}
         <div className="lg:col-span-7 space-y-6">
-          <div className="p-6 rounded-2xl bg-[#090D16] border border-white/10 shadow-lg flex flex-col">
-            <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
+          <div className="p-6 rounded-2xl bg-[#0D0D0D] border border-white/[0.08] shadow-glass-card flex flex-col">
+            <div className="flex items-center justify-between pb-4 border-b border-white/[0.08] mb-4">
               <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400">
+                <div className="p-2 rounded-lg bg-amber-500/10 border border-amber-500/20 text-[#FFB000]">
                   <Mail size={16} />
                 </div>
                 <div>
@@ -433,7 +435,7 @@ export const AdminDashboard = () => {
               </div>
               <Link
                 to="/admin/inquiries"
-                className="text-xs text-brand-bright hover:underline flex items-center gap-1 font-mono"
+                className="text-xs text-[#FFB000] hover:underline flex items-center gap-1 font-mono"
               >
                 Full Inbox <ArrowUpRight size={13} />
               </Link>
@@ -441,10 +443,10 @@ export const AdminDashboard = () => {
 
             {/* Inquiries Pipeline Ribbon */}
             {breakdown.total > 0 && (
-              <div className="grid grid-cols-4 gap-2 mb-4 p-2.5 rounded-xl bg-white/[0.02] border border-white/5 text-center font-mono text-[10px]">
+              <div className="grid grid-cols-4 gap-2 mb-4 p-2.5 rounded-xl bg-[#121212] border border-white/[0.06] text-center font-mono text-[10px]">
                 <div>
                   <span className="text-slate-500 block">NEW</span>
-                  <span className="text-cyan-400 font-bold text-xs">{breakdown.new || 0}</span>
+                  <span className="text-[#FF7A00] font-bold text-xs">{breakdown.new || 0}</span>
                 </div>
                 <div>
                   <span className="text-slate-500 block">CONTACTED</span>
@@ -452,7 +454,7 @@ export const AdminDashboard = () => {
                 </div>
                 <div>
                   <span className="text-slate-500 block">IN PROGRESS</span>
-                  <span className="text-amber-400 font-bold text-xs">{breakdown.inProgress || 0}</span>
+                  <span className="text-[#FFB000] font-bold text-xs">{breakdown.inProgress || 0}</span>
                 </div>
                 <div>
                   <span className="text-slate-500 block">CONVERTED</span>
@@ -474,7 +476,7 @@ export const AdminDashboard = () => {
                   return (
                     <div
                       key={inq.id}
-                      className="p-4 rounded-xl bg-[#0C121E] border border-white/5 hover:border-white/15 transition flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                      className="p-4 rounded-xl bg-[#121212]/90 border border-white/[0.06] hover:border-white/15 transition flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                     >
                       <div className="min-w-0 flex-1 space-y-1">
                         <div className="flex items-center gap-2 flex-wrap">
@@ -498,7 +500,7 @@ export const AdminDashboard = () => {
                         </p>
 
                         {inq.message && (
-                          <p className="text-[11px] text-slate-300 line-clamp-1 italic bg-black/30 px-2 py-1 rounded border border-white/5">
+                          <p className="text-[11px] text-slate-300 line-clamp-1 italic bg-black/40 px-2.5 py-1 rounded border border-white/5">
                             "{inq.message}"
                           </p>
                         )}
@@ -510,7 +512,7 @@ export const AdminDashboard = () => {
                           value={inq.status}
                           disabled={isUpdating}
                           onChange={(e) => handleQuickStatusChange(inq.id, e.target.value)}
-                          className="bg-[#070B14] border border-white/10 text-slate-200 text-[11px] rounded-lg px-2 py-1.5 focus:border-brand-crimson outline-none cursor-pointer"
+                          className="bg-[#0A0A0A] border border-white/10 text-slate-200 text-[11px] rounded-lg px-2.5 py-1.5 focus:border-[#C1121F] outline-none cursor-pointer"
                         >
                           <option value="NEW">NEW</option>
                           <option value="CONTACTED">CONTACTED</option>
@@ -522,7 +524,7 @@ export const AdminDashboard = () => {
                         <a
                           href={`mailto:${inq.email}?subject=RE: Abhimanyu InfoSec Security Consultation`}
                           title="Reply to prospect via email"
-                          className="p-1.5 rounded-lg bg-white/5 hover:bg-brand-crimson text-slate-300 hover:text-white transition"
+                          className="p-1.5 rounded-lg bg-white/5 hover:bg-[#C1121F] text-slate-300 hover:text-white transition"
                         >
                           <Send size={13} />
                         </a>
@@ -538,9 +540,9 @@ export const AdminDashboard = () => {
         {/* Right Column: SOC Telemetry & Audit Stream (5 cols) */}
         <div className="lg:col-span-5 space-y-6">
           {/* SOC Telemetry Box */}
-          <div className="p-6 rounded-2xl bg-[#090D16] border border-white/10 shadow-lg space-y-4">
-            <div className="flex items-center gap-2.5 pb-3 border-b border-white/10">
-              <div className="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
+          <div className="p-6 rounded-2xl bg-[#0D0D0D] border border-white/[0.08] shadow-glass-card space-y-4">
+            <div className="flex items-center gap-2.5 pb-3 border-b border-white/[0.08]">
+              <div className="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-[#FFB000]">
                 <Database size={16} />
               </div>
               <div>
@@ -552,7 +554,7 @@ export const AdminDashboard = () => {
             </div>
 
             <div className="space-y-2.5 text-xs font-mono">
-              <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.02] border border-white/5">
+              <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#121212]/90 border border-white/[0.06]">
                 <span className="text-slate-400 flex items-center gap-2">
                   <Server size={14} className="text-emerald-400" />
                   REST API Engine
@@ -560,27 +562,27 @@ export const AdminDashboard = () => {
                 <span className="text-emerald-400 font-bold">ONLINE (Node.js)</span>
               </div>
 
-              <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.02] border border-white/5">
+              <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#121212]/90 border border-white/[0.06]">
                 <span className="text-slate-400 flex items-center gap-2">
-                  <Database size={14} className="text-cyan-400" />
+                  <Database size={14} className="text-[#FFB000]" />
                   Neon Database
                 </span>
-                <span className="text-cyan-300 font-bold">
+                <span className="text-[#FFB000] font-bold">
                   {system.dbStatus || 'Connected'} ({system.latencyMs || 0}ms)
                 </span>
               </div>
 
-              <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.02] border border-white/5">
+              <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#121212]/90 border border-white/[0.06]">
                 <span className="text-slate-400 flex items-center gap-2">
-                  <Shield size={14} className="text-brand-amber" />
+                  <Shield size={14} className="text-[#FF7A00]" />
                   Identity Protocol
                 </span>
                 <span className="text-slate-200">Zero-Trust JWT (15m/7d)</span>
               </div>
 
-              <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.02] border border-white/5">
+              <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#121212]/90 border border-white/[0.06]">
                 <span className="text-slate-400 flex items-center gap-2">
-                  <Clock size={14} className="text-blue-400" />
+                  <Clock size={14} className="text-sky-400" />
                   Server Uptime
                 </span>
                 <span className="text-slate-300">
@@ -593,10 +595,10 @@ export const AdminDashboard = () => {
           </div>
 
           {/* Audit Log Stream */}
-          <div className="p-6 rounded-2xl bg-[#090D16] border border-white/10 shadow-lg flex flex-col">
-            <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
+          <div className="p-6 rounded-2xl bg-[#0D0D0D] border border-white/[0.08] shadow-glass-card flex flex-col">
+            <div className="flex items-center justify-between pb-4 border-b border-white/[0.08] mb-4">
               <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400">
+                <div className="p-2 rounded-lg bg-blue-500/10 border border-blue-500/20 text-[#FF7A00]">
                   <History size={16} />
                 </div>
                 <div>
@@ -609,7 +611,7 @@ export const AdminDashboard = () => {
               {isSuperAdminOrAdmin && (
                 <Link
                   to="/admin/audit-logs"
-                  className="text-xs text-brand-bright hover:underline flex items-center gap-1 font-mono"
+                  className="text-xs text-[#FFB000] hover:underline flex items-center gap-1 font-mono"
                 >
                   Full Trail <ArrowUpRight size={13} />
                 </Link>
@@ -628,7 +630,7 @@ export const AdminDashboard = () => {
                   return (
                     <div
                       key={log.id}
-                      className="p-3 rounded-xl bg-[#0C121E] border border-white/5 hover:border-white/15 transition flex items-center justify-between text-xs"
+                      className="p-3 rounded-xl bg-[#121212]/90 border border-white/[0.06] hover:border-white/15 transition flex items-center justify-between text-xs"
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
                         <CheckCircle2 size={13} className="text-emerald-400 shrink-0" />
