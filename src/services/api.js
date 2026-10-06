@@ -11,13 +11,13 @@ export const prewarmBackend = () => {
   return prewarmPromise;
 };
 
-// Active browser session keep-alive: keep server warm every 10 minutes while user is on site
+// Active browser session keep-alive: keep server warm every 4 minutes while user is on site
 if (typeof window !== 'undefined') {
   setInterval(() => {
     if (document.visibilityState === 'visible') {
       fetch(`${API_BASE_URL}/health`, { method: 'GET', keepalive: true }).catch(() => {});
     }
-  }, 10 * 60 * 1000);
+  }, 4 * 60 * 1000);
 }
 
 /**

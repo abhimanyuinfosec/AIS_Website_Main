@@ -14,16 +14,18 @@ export const startKeepAlive = () => {
     'https://ais-website-main.onrender.com'
   ).trim().replace(/\/$/, '');
 
-  const intervalMs = 10 * 60 * 1000; // 10 minutes (well under the 15m idle limit)
+  const intervalMs = 5 * 60 * 1000; // 5 minutes (well under Render's 15m idle limit)
   const isProduction = process.env.NODE_ENV === 'production';
+  const isRender = process.env.RENDER === 'true';
   const isExplicitlyEnabled = process.env.ENABLE_KEEP_ALIVE === 'true';
+  const isExplicitlyDisabled = process.env.ENABLE_KEEP_ALIVE === 'false';
 
-  if (!isProduction && !isExplicitlyEnabled) {
-    console.log('ℹ️ Keep-Alive daemon is idle (enabled only in production or with ENABLE_KEEP_ALIVE=true).');
+  if (isExplicitlyDisabled || (!isProduction && !isRender && !isExplicitlyEnabled)) {
+    console.log('ℹ️ Keep-Alive daemon is idle (enabled in production, on Render, or with ENABLE_KEEP_ALIVE=true).');
     return;
   }
 
-  console.log(`📡 Initializing Render Keep-Alive daemon -> target: ${backendUrl}/api/health (every 10m)`);
+  console.log(`📡 Initializing Render Keep-Alive daemon -> target: ${backendUrl}/api/health (every 5m)`);
 
   const ping = async () => {
     try {
@@ -32,7 +34,7 @@ export const startKeepAlive = () => {
       const res = await fetch(pingUrl, {
         method: 'GET',
         headers: {
-          'User-Agent': 'AIS-Self-KeepAlive-Daemon/1.0',
+          'User-Agent': 'AIS-Self-KeepAlive-Daemon/2.0',
           'Cache-Control': 'no-cache',
         },
         signal: AbortSignal.timeout(20000),
@@ -42,21 +44,23 @@ export const startKeepAlive = () => {
       if (res.ok) {
         console.log(`💚 [Keep-Alive] Heartbeat OK (${res.status} in ${duration}ms) -> ${pingUrl}`);
       } else {
-        console.warn(`⚠️ [Keep-Alive] Heartbeat HTTP ${res.status} in ${duration}ms`);
+        console.warn(`⚠️ [Keep-Alive] Heartbeat HTTP ${res.status} in ${duration}ms -> scheduling retry in 30s`);
+        setTimeout(ping, 30000);
       }
     } catch (err) {
-      console.warn(`⚠️ [Keep-Alive] Heartbeat ping notice: ${err.message}`);
+      console.warn(`⚠️ [Keep-Alive] Heartbeat ping notice: ${err.message} -> scheduling retry in 30s`);
+      setTimeout(ping, 30000);
     }
   };
 
-  // Send first ping 2 minutes after boot, then every 10 minutes
+  // Send first ping 15 seconds after boot, then every 5 minutes
   setTimeout(() => {
     ping();
     keepAliveInterval = setInterval(ping, intervalMs);
     if (keepAliveInterval && keepAliveInterval.unref) {
       keepAliveInterval.unref(); // Do not block clean process exit
     }
-  }, 2 * 60 * 1000);
+  }, 15 * 1000);
 };
 
 export const stopKeepAlive = () => {
