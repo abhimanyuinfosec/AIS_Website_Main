@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CrystalGlassEffects from './components/CrystalGlassEffects';
 import PWAInstallPrompt from './components/PWAInstallPrompt';
+import SmoothScroll from './components/SmoothScroll';
 import { prewarmBackend } from './services/api';
 import Home from './pages/Home';
 
@@ -105,9 +106,10 @@ function App() {
     <ThemeProvider>
       <AuthProvider>
         <BrowserRouter>
-          <PWAInstallPrompt />
-          <ScrollToTop />
-          <Routes>
+          <SmoothScroll>
+            <PWAInstallPrompt />
+            <ScrollToTop />
+            <Routes>
             {/* Public Website Routes */}
             <Route element={<PublicLayout />}>
               <Route path="/" element={<Home />} />
@@ -241,6 +243,7 @@ function App() {
               />
             </Route>
           </Routes>
+          </SmoothScroll>
         </BrowserRouter>
       </AuthProvider>
     </ThemeProvider>
