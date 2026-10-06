@@ -21,66 +21,11 @@ if (typeof window !== 'undefined') {
 }
 
 /**
- * Initiates an OAuth login flow without exposing the user to cold-start screens.
- * If the backend is sleeping, it holds the user on the branded interface with
- * progress feedback while the container spins up, then redirects seamlessly.
+ * Initiates an OAuth login flow by directly navigating to the provider auth endpoint.
  */
-export const initiateOAuthRedirect = async (provider, onProgress) => {
+export const initiateOAuthRedirect = (provider) => {
   const targetUrl = `${API_BASE_URL}/auth/${provider}`;
-
-  const notify = (status, message) => {
-    if (typeof onProgress === 'function') {
-      onProgress({ status, message });
-    }
-  };
-
-  notify('checking', 'Connecting to secure authentication service...');
-
-  // 1. Fast check if server is already awake
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2000);
-    const res = await fetch(`${API_BASE_URL}/health`, {
-      method: 'GET',
-      signal: controller.signal,
-      cache: 'no-store',
-    });
-    clearTimeout(timeoutId);
-    if (res.ok) {
-      notify('redirecting', 'Redirecting to identity provider...');
-      window.location.href = targetUrl;
-      return () => {};
-    }
-  } catch (_) {
-    // Timeout or network error — server is likely cold-starting
-  }
-
-  // 2. Server is sleeping on cold start (Render free tier spin-down)
-  notify('waking', 'Secure cloud engine is waking up (cold start)... Redirecting shortly.');
-
-  const startTime = Date.now();
-  const maxWaitMs = 65000;
-
-  const pollInterval = setInterval(async () => {
-    try {
-      const res = await fetch(`${API_BASE_URL}/health`, { cache: 'no-store' });
-      if (res.ok) {
-        clearInterval(pollInterval);
-        notify('ready', 'Authentication engine online! Redirecting...');
-        setTimeout(() => {
-          window.location.href = targetUrl;
-        }, 400);
-      }
-    } catch (_) {
-      if (Date.now() - startTime >= maxWaitMs) {
-        clearInterval(pollInterval);
-        // Fallback: navigate directly
-        window.location.href = targetUrl;
-      }
-    }
-  }, 2500);
-
-  return () => clearInterval(pollInterval);
+  window.location.href = targetUrl;
 };
 
 class ApiClient {

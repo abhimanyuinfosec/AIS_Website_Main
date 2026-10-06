@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Navbar } from '../../components/Navbar';
-import { API_BASE_URL, prewarmBackend, initiateOAuthRedirect } from '../../services/api';
+import { API_BASE_URL, prewarmBackend } from '../../services/api';
 
 export const AdminLogin = () => {
   const [email, setEmail] = useState('');
@@ -27,7 +27,6 @@ export const AdminLogin = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [oauthLoading, setOauthLoading] = useState(null); // 'google' | 'github' | null
-  const [oauthStatus, setOauthStatus] = useState('');
   const [time, setTime] = useState(new Date().toLocaleTimeString());
 
   const { login, isAuthenticated, isAdmin } = useAuth();
@@ -71,18 +70,12 @@ export const AdminLogin = () => {
 
   const handleOAuthGoogle = () => {
     setOauthLoading('google');
-    setOauthStatus('Connecting to Google identity provider...');
-    initiateOAuthRedirect('google', ({ message }) => {
-      setOauthStatus(message);
-    });
+    window.location.href = `${API_BASE_URL}/auth/google`;
   };
 
   const handleOAuthGitHub = () => {
     setOauthLoading('github');
-    setOauthStatus('Connecting to GitHub identity provider...');
-    initiateOAuthRedirect('github', ({ message }) => {
-      setOauthStatus(message);
-    });
+    window.location.href = `${API_BASE_URL}/auth/github`;
   };
 
   return (
@@ -103,22 +96,6 @@ export const AdminLogin = () => {
         
         {/* Left Side: Frosted Glass Auth Card */}
         <div className="login-auth-card w-full max-w-[430px] rounded-[28px] bg-[#0D0D0D]/85 backdrop-blur-xl border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.85),inset_0_1px_1px_rgba(255,255,255,0.08)] p-6 sm:p-7 text-slate-100 relative transition-all duration-300">
-          {/* OAuth Connecting / Cold Start Screen */}
-          {oauthLoading && (
-            <div className="absolute inset-0 bg-[#0B1120]/95 backdrop-blur-xl rounded-[28px] z-30 flex flex-col items-center justify-center p-6 text-center animate-in fade-in duration-200 border border-white/10">
-              <div className="w-12 h-12 rounded-full border-2 border-brand-crimson border-t-transparent animate-spin mb-4 shadow-[0_0_15px_rgba(204,34,0,0.4)]" />
-              <h3 className="text-base font-bold text-white mb-2 font-heading tracking-wide">
-                {oauthLoading === 'google' ? 'Connecting with Google' : 'Connecting with GitHub'}
-              </h3>
-              <p className="text-xs text-slate-300 max-w-xs leading-relaxed font-mono">
-                {oauthStatus || 'Initializing secure administrative handshake...'}
-              </p>
-              <div className="mt-5 flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[11px] text-slate-400">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>Zero-Trust Control Channel</span>
-              </div>
-            </div>
-          )}
 
           {/* Card Header */}
           <div className="login-card-header mb-4">
@@ -231,38 +208,58 @@ export const AdminLogin = () => {
             <button
               type="button"
               onClick={handleOAuthGitHub}
-              className="login-social-btn login-github-btn w-full py-2.5 px-4 rounded-xl bg-[#111111] hover:bg-[#1a1a1a] border border-white/10 hover:border-brand-crimson/50 text-white text-xs font-medium transition flex items-center justify-center gap-2.5 cursor-pointer"
+              disabled={oauthLoading !== null}
+              className="login-social-btn login-github-btn w-full py-2.5 px-4 rounded-xl bg-[#111111] hover:bg-[#1a1a1a] border border-white/10 hover:border-brand-crimson/50 text-white text-xs font-medium transition flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <svg className="login-github-icon w-3.5 h-3.5 fill-white shrink-0" viewBox="0 0 24 24">
-                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-              </svg>
-              <span>Authorize with GitHub</span>
+              {oauthLoading === 'github' ? (
+                <>
+                  <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin shrink-0" />
+                  <span>Redirecting to GitHub...</span>
+                </>
+              ) : (
+                <>
+                  <svg className="login-github-icon w-3.5 h-3.5 fill-white shrink-0" viewBox="0 0 24 24">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                  </svg>
+                  <span>Authorize with GitHub</span>
+                </>
+              )}
             </button>
 
             <button
               type="button"
               onClick={handleOAuthGoogle}
-              className="login-social-btn login-google-btn w-full py-2.5 px-4 rounded-xl bg-[#111111] hover:bg-[#1a1a1a] border border-white/10 hover:border-brand-crimson/50 text-white text-xs font-medium transition flex items-center justify-center gap-2.5 cursor-pointer"
+              disabled={oauthLoading !== null}
+              className="login-social-btn login-google-btn w-full py-2.5 px-4 rounded-xl bg-[#111111] hover:bg-[#1a1a1a] border border-white/10 hover:border-brand-crimson/50 text-white text-xs font-medium transition flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <svg className="login-google-icon w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
-                <path
-                  fill="#4285F4"
-                  d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.14z"
-                />
-                <path
-                  fill="#34A853"
-                  d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.24v3.15C3.26 21.36 7.33 24 12 24z"
-                />
-                <path
-                  fill="#FBBC05"
-                  d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.24C.45 8.15 0 9.92 0 12s.45 3.85 1.24 5.42l4.04-3.15z"
-                />
-                <path
-                  fill="#EA4335"
-                  d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.24 6.58l4.04 3.15c.95-2.83 3.6-4.98 6.72-4.98z"
-                />
-              </svg>
-              <span>Authorize with Google</span>
+              {oauthLoading === 'google' ? (
+                <>
+                  <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin shrink-0" />
+                  <span>Redirecting to Google...</span>
+                </>
+              ) : (
+                <>
+                  <svg className="login-google-icon w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
+                    <path
+                      fill="#4285F4"
+                      d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.14z"
+                    />
+                    <path
+                      fill="#34A853"
+                      d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.24v3.15C3.26 21.36 7.33 24 12 24z"
+                    />
+                    <path
+                      fill="#FBBC05"
+                      d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.24C.45 8.15 0 9.92 0 12s.45 3.85 1.24 5.42l4.04-3.15z"
+                    />
+                    <path
+                      fill="#EA4335"
+                      d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.24 6.58l4.04 3.15c.95-2.83 3.6-4.98 6.72-4.98z"
+                    />
+                  </svg>
+                  <span>Authorize with Google</span>
+                </>
+              )}
             </button>
           </div>
 
