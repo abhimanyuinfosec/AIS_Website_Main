@@ -29,6 +29,13 @@ export const SmoothScroll = ({ children }) => {
       touchMultiplier: 1.5,
       infinite: false,
       autoResize: true,
+      prevent: (node) => {
+        return (
+          window.location.pathname.startsWith('/admin') ||
+          node?.hasAttribute?.('data-lenis-prevent') ||
+          Boolean(node?.closest?.('[data-lenis-prevent], .admin-layout-root'))
+        );
+      },
     });
 
     lenisRef.current = lenis;
@@ -58,12 +65,14 @@ export const SmoothScroll = ({ children }) => {
     const isAdminRoute = location.pathname.startsWith('/admin');
 
     if (isAdminRoute) {
-      // Defer to native overflow scrolling in admin control rooms
-      lenis.stop();
+      // In admin routes, native overflow scrolling must operate unimpeded.
+      // Do NOT call lenis.stop() because in Lenis, stop() blocks all wheel and touch events with preventDefault()!
       return;
     }
 
-    lenis.start();
+    if (lenis.isStopped) {
+      lenis.start();
+    }
 
     // Smooth anchor navigation (e.g. #how-we-work, #services)
     if (location.hash) {

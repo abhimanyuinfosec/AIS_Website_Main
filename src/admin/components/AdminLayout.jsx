@@ -87,15 +87,27 @@ export const AdminLayout = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#080808] text-slate-800 dark:text-slate-200 flex overflow-hidden font-sans">
+    <div
+      data-lenis-prevent
+      className="h-screen max-h-screen h-[100dvh] bg-[#F8FAFC] dark:bg-[#080808] text-slate-800 dark:text-slate-200 flex overflow-hidden font-sans admin-layout-root"
+    >
+      {/* Mobile sidebar backdrop */}
+      {sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 bg-black/40 backdrop-blur-xs z-40 md:hidden"
+        />
+      )}
+
       {/* Sidebar */}
       <aside
-        className={`fixed md:static inset-y-0 left-0 z-50 flex flex-col transition-all duration-300 bg-white dark:bg-[#0D0D0D] border-r border-slate-200 dark:border-white/[0.08] shadow-sm ${
+        data-lenis-prevent
+        className={`fixed md:static inset-y-0 left-0 z-50 flex flex-col h-full transition-all duration-300 bg-white dark:bg-[#0D0D0D] border-r border-slate-200 dark:border-white/[0.08] shadow-sm ${
           sidebarOpen ? 'w-64' : 'w-20'
         }`}
       >
         {/* Brand Header with Main Website Logo */}
-        <div className="h-16 flex items-center justify-between px-4 border-b border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#0A0A0A]">
+        <div className="h-16 flex-shrink-0 flex items-center justify-between px-4 border-b border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#0A0A0A]">
           <Link to="/admin" className="flex items-center gap-3 overflow-hidden group">
             {sidebarOpen ? (
               <img
@@ -123,7 +135,7 @@ export const AdminLayout = () => {
         </div>
 
         {/* Navigation Items */}
-        <div className="flex-1 overflow-y-auto py-4 px-3 space-y-1.5 custom-scrollbar">
+        <div className="flex-1 min-h-0 overflow-y-auto py-4 px-3 space-y-1.5 custom-scrollbar">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = item.exact
@@ -151,7 +163,7 @@ export const AdminLayout = () => {
         </div>
 
         {/* User Card & Logout */}
-        <div className="p-3.5 border-t border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-[#0A0A0A]">
+        <div className="p-3.5 flex-shrink-0 border-t border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-[#0A0A0A]">
           {sidebarOpen ? (
             <div className="flex items-center justify-between gap-2">
               <div className="flex flex-col min-w-0">
@@ -179,10 +191,17 @@ export const AdminLayout = () => {
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
         {/* Top Header */}
-        <header className="h-16 bg-white/95 dark:bg-[#0D0D0D]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/[0.08] px-6 flex items-center justify-between gap-4 shadow-2xs">
+        <header className="h-16 flex-shrink-0 bg-white/95 dark:bg-[#0D0D0D]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/[0.08] px-4 sm:px-6 flex items-center justify-between gap-4 shadow-2xs z-20">
           <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-1.5 -ml-1 mr-1 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-white/[0.06] transition md:hidden"
+              title="Toggle Menu"
+            >
+              <Menu size={18} />
+            </button>
             <span className="font-mono text-[#C1121F] dark:text-[#FFB000] text-xs font-semibold">AIS CONTROL</span>
             <ChevronRight size={14} className="text-slate-400 dark:text-slate-600" />
             <span className="text-slate-900 dark:text-white font-heading font-medium text-xs sm:text-sm">{currentNav?.label || 'Administration'}</span>
@@ -261,7 +280,11 @@ export const AdminLayout = () => {
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 bg-[#F8FAFC] dark:bg-[#080808] relative">
+        <main
+          data-lenis-prevent
+          className="flex-1 min-h-0 overflow-y-auto overscroll-contain p-4 sm:p-6 md:p-8 bg-[#F8FAFC] dark:bg-[#080808] relative custom-scrollbar focus:outline-none"
+          tabIndex={-1}
+        >
           {/* Ambient Cyber Glow matching main website */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(193,18,31,0.08),transparent_70%)] pointer-events-none" />
           <div className="relative z-10">
