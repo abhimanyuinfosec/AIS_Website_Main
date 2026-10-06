@@ -40,12 +40,12 @@ const TeamPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-slate-200 pt-12 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      <div className="max-w-6xl mx-auto relative z-10 space-y-16">
+    <div className="min-h-screen bg-black text-slate-200 pt-8 sm:pt-12 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <div className="max-w-6xl mx-auto relative z-10 space-y-12 sm:space-y-16">
         
         {/* Navigation Header & Quick Tabs */}
-        <div className="space-y-6">
-          <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
+        <div className="space-y-4 sm:space-y-6">
+          <div className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-mono text-slate-400">
             <Link to="/" className="hover:text-blue-400 transition-colors">Home</Link>
             <span>/</span>
             <span className="text-slate-500">About Us</span>
@@ -57,8 +57,8 @@ const TeamPage = () => {
         </div>
 
         {/* 1. HERO SECTION */}
-        <div className="space-y-6 max-w-3xl">
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.15]">
+        <div className="space-y-4 sm:space-y-6 max-w-3xl">
+          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-tight sm:leading-[1.15]">
             Meet the people behind Abhimanyu InfoSec.
           </h1>
           <p className="text-slate-300 text-base sm:text-lg leading-relaxed font-normal">
