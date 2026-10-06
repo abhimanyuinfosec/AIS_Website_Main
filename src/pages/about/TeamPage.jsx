@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import teamService from '../../services/teamService';
+import AboutSubnav from '../../components/AboutSubnav';
 
 const TeamPage = () => {
   const [members, setMembers] = useState([]);
@@ -40,15 +41,19 @@ const TeamPage = () => {
 
   return (
     <div className="min-h-screen bg-black text-slate-200 pt-12 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      <div className="max-w-6xl mx-auto relative z-10 space-y-20">
+      <div className="max-w-6xl mx-auto relative z-10 space-y-16">
         
-        {/* Navigation Breadcrumb */}
-        <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
-          <Link to="/" className="hover:text-blue-400 transition-colors">Home</Link>
-          <span>/</span>
-          <span className="text-slate-500">About Us</span>
-          <span>/</span>
-          <span className="text-blue-400">Team</span>
+        {/* Navigation Header & Quick Tabs */}
+        <div className="space-y-6">
+          <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
+            <Link to="/" className="hover:text-blue-400 transition-colors">Home</Link>
+            <span>/</span>
+            <span className="text-slate-500">About Us</span>
+            <span>/</span>
+            <span className="text-blue-400">Team</span>
+          </div>
+
+          <AboutSubnav />
         </div>
 
         {/* 1. HERO SECTION */}
