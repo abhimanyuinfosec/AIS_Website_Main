@@ -1127,11 +1127,15 @@ html.light .social-proof-fade-right {
   background: linear-gradient(to left, #F8FAFC, rgba(248, 250, 252, 0.85), transparent) !important;
 }
 
-/* 6. Card Containers Across ALL Pages (DetailedProtectionGrid, Reviews, Projects, Services, Products, Contact, Portal) */
+/* 6. Card Containers Across ALL Pages (DetailedProtectionGrid, Reviews, Projects, Services, Products, Contact, Portal, Admin) */
 html.light :not(.login-page-root) [class*="bg-[#0D0D0D]"],
 html.light :not(.login-page-root) [class*="bg-[#111111]"],
+html.light :not(.login-page-root) [class*="bg-[#141414]"],
 html.light :not(.login-page-root) [class*="bg-[#151515]"],
 html.light :not(.login-page-root) [class*="bg-[#161616]"],
+html.light :not(.login-page-root) [class*="bg-[#0A0A0A]"],
+html.light :not(.login-page-root) [class*="bg-[#0E0E0E]"],
+html.light :not(.login-page-root) [class*="bg-[#0b1120]"],
 html.light :not(.login-page-root) [class*="bg-slate-900/60"],
 html.light :not(.login-page-root) [class*="bg-slate-900/70"],
 html.light :not(.login-page-root) [class*="bg-slate-900/80"],
@@ -1148,6 +1152,31 @@ html.light .glass-dashboard-panel {
   border-color: rgba(0, 0, 0, 0.08) !important;
   box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
   color: #0F172A !important;
+}
+
+/* Clear dark gradients on containers so every box displays as a clean card in light mode */
+html.light :not(.login-page-root) [class*="from-[#141414]"],
+html.light :not(.login-page-root) [class*="from-[#121212]"],
+html.light :not(.login-page-root) [class*="from-[#0A0A0A]"],
+html.light :not(.login-page-root) [class*="from-[#0D0D0D]"],
+html.light :not(.login-page-root) [class*="from-[#0b1120]"] {
+  background-image: none !important;
+  background-color: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Action shortcut buttons, sub-cards, table headers, and rows in Light Mode */
+html.light :not(.login-page-root) [class*="bg-[#121212]"],
+html.light :not(.login-page-root) [class*="bg-[#070b14]"] {
+  background-color: #F8FAFC !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  color: #0F172A !important;
+}
+
+html.light :not(.login-page-root) [class*="bg-[#121212]"]:hover,
+html.light :not(.login-page-root) [class*="bg-[#070b14]"]:hover {
+  background-color: #F1F5F9 !important;
 }
 
 html.light .glass-pricing-pro {
