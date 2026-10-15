@@ -11,6 +11,8 @@ import Home from './pages/Home';
 // Dedicated Dynamic Public Pages
 import ContactPage from './pages/ContactPage';
 import NotFoundPage from './pages/NotFoundPage';
+import PricingPage from './pages/PricingPage';
+import DocsPage from './pages/DocsPage';
 
 // Individual Subsection Pages - Services
 import VulnerabilityAssessmentPage from './pages/services/VulnerabilityAssessmentPage';
@@ -180,6 +182,10 @@ function App() {
               <Route path="/about/approach" element={<OurApproachPage />} />
               <Route path="/about/why-ais" element={<WhyAisPage />} />
               <Route path="/about/team" element={<TeamPage />} />
+
+              {/* Pricing & Docs Routes */}
+              <Route path="/pricing" element={<PricingPage />} />
+              <Route path="/docs" element={<DocsPage />} />
 
               {/* Contact / How to Buy */}
               <Route path="/contact" element={<ContactPage />} />

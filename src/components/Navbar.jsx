@@ -1,88 +1,81 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ChevronDown, User, Shield, LogOut } from 'lucide-react';
+import { ChevronDown, ChevronRight, User, Shield, LogOut, Menu, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-
-
-const navSections = [
-  {
-    name: 'Home',
-    href: '/',
-  },
-  {
-    name: 'Services',
-    href: '/services/vulnerability-assessment',
-    items: [
-      { name: 'Vulnerability Assessment', href: '/services/vulnerability-assessment' },
-      { name: 'Web Security', href: '/services/web-security' },
-      { name: 'Network Security', href: '/services/network-security' },
-      { name: 'Penetration Testing', href: '/services/penetration-testing' },
-      { name: 'Threat Detection', href: '/services/threat-detection' },
-      { name: 'Security Hardening', href: '/services/security-hardening' },
-    ],
-  },
-  {
-    name: 'Products',
-    href: '/products',
-  },
-  {
-    name: 'Insights',
-    href: '/insights',
-  },
-  {
-    name: 'About Us',
-    href: '/about/mission',
-    items: [
-      { name: 'Our Mission', href: '/about/mission' },
-      { name: 'Our Approach', href: '/about/approach' },
-      { name: 'Why AIS', href: '/about/why-ais' },
-      { name: 'Team', href: '/about/team' },
-    ],
-  },
-  {
-    name: 'How to Buy',
-    href: '/contact',
-  },
-];
+import PlatformMegaMenu from './PlatformMegaMenu';
+import { platformCategories } from '../config/platformMenuData';
 
 export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [mobileExpandedSection, setMobileExpandedSection] = useState(null);
-  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [mobilePlatformExpanded, setMobilePlatformExpanded] = useState(true);
+  const [mobileExpandedCategory, setMobileExpandedCategory] = useState('assessment');
+  const [isPlatformOpen, setIsPlatformOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
-  const dropdownTimeoutRef = useRef(null);
+
+  const platformTimeoutRef = useRef(null);
+  const platformWrapperRef = useRef(null);
   const userDropdownRef = useRef(null);
+
   const location = useLocation();
   const navigate = useNavigate();
 
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
   const firstName = user?.name ? user.name.trim().split(/\s+/)[0] : '';
 
+  // Close menus on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) {
         setUserDropdownOpen(false);
+      }
+      if (platformWrapperRef.current && !platformWrapperRef.current.contains(event.target)) {
+        setIsPlatformOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Close dropdowns on route navigation
   useEffect(() => {
     setMobileMenuOpen(false);
-    setActiveDropdown(null);
+    setIsPlatformOpen(false);
+    setUserDropdownOpen(false);
   }, [location.pathname, location.hash, location.search]);
 
-  const handleMouseEnter = (name) => {
-    if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
-    setActiveDropdown(name);
+  // Platform Mega Menu hover handlers
+  const handlePlatformMouseEnter = () => {
+    if (platformTimeoutRef.current) clearTimeout(platformTimeoutRef.current);
+    setIsPlatformOpen(true);
   };
 
-  const handleMouseLeave = () => {
-    dropdownTimeoutRef.current = setTimeout(() => {
-      setActiveDropdown(null);
-    }, 180);
+  const handlePlatformMouseLeave = () => {
+    platformTimeoutRef.current = setTimeout(() => {
+      setIsPlatformOpen(false);
+    }, 200);
   };
+
+  const handlePlatformClick = () => {
+    if (platformTimeoutRef.current) clearTimeout(platformTimeoutRef.current);
+    setIsPlatformOpen((prev) => !prev);
+  };
+
+  // Active route helpers
+  const isHomeActive = location.pathname === '/';
+  const isPlatformActive =
+    isPlatformOpen ||
+    ['/services', '/products', '/insights', '/about'].some((path) =>
+      location.pathname.startsWith(path)
+    );
+  const isPricingActive = location.pathname === '/pricing';
+  const isDocsActive = location.pathname === '/docs';
+
+  const getNavLinkClasses = (isActive) =>
+    `flex items-center gap-1.5 px-3.5 py-2 rounded-lg font-heading text-xs font-semibold tracking-wide uppercase transition-all duration-150 select-none cursor-pointer ${
+      isActive
+        ? 'text-[#C1121F] bg-white border border-[#C1121F]/25 shadow-xs font-bold'
+        : 'text-black hover:text-[#C1121F] hover:bg-red-50/40'
+    }`;
 
   return (
     <header
@@ -92,11 +85,11 @@ export const Navbar = () => {
         backdropFilter: 'blur(16px) saturate(180%)',
         WebkitBackdropFilter: 'blur(16px) saturate(180%)',
         borderBottom: '1px solid rgba(226, 232, 240, 0.6)',
-        boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.04)'
+        boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.04)',
       }}
       data-purpose="site-header"
     >
-      <div className="max-w-7xl mx-auto px-6 h-20 md:h-24 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 h-20 md:h-24 flex items-center justify-between relative">
         {/* Brand Logo */}
         <Link
           to="/"
@@ -111,78 +104,61 @@ export const Navbar = () => {
           />
         </Link>
 
-        {/* Navigation Links */}
+        {/* Desktop Primary Navigation Bar (4 Links: Home, Platform, Pricing, Docs with generous gap and identical font) */}
         <nav
           aria-label="Primary Navigation"
-          className="primary-navbar-links hidden lg:flex items-center gap-1 text-xs font-heading font-medium tracking-wide uppercase transition-colors duration-300 px-3 py-1.5 rounded-xl border text-slate-700 bg-white/60 backdrop-blur-sm border-slate-200/70 shadow-sm"
+          className="primary-navbar-links hidden lg:flex items-center gap-2.5 lg:gap-3.5 text-xs font-heading font-semibold tracking-wide uppercase transition-colors duration-300 px-4 py-1.5 rounded-xl border text-slate-700 bg-white/60 backdrop-blur-sm border-slate-200/70 shadow-sm relative"
         >
-          {navSections.map((section) => {
-            const hasDropdown = Boolean(section.items && section.items.length > 0);
-            const isSectionActive = section.href === '/'
-              ? location.pathname === '/'
-              : location.pathname.startsWith(section.href);
-            const isNormalOpen = activeDropdown === section.name;
+          {/* 1. Home */}
+          <Link to="/" className={getNavLinkClasses(isHomeActive)}>
+            <span className="nav-item-label">Home</span>
+          </Link>
 
-            return (
-              <div
-                key={section.name}
-                className="relative"
-                onMouseEnter={() => hasDropdown && handleMouseEnter(section.name)}
-                onMouseLeave={() => hasDropdown && handleMouseLeave()}
-              >
-                {/* Top-level Nav Link */}
-                <Link
-                  to={section.href}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-all duration-150 select-none ${
-                    isSectionActive
-                      ? 'text-[#C1121F] dark:text-white bg-slate-100 dark:bg-[#151515] border border-[#C1121F]/30 dark:border-[#C1121F]/40 shadow-xs dark:shadow-none font-semibold'
-                      : 'text-slate-600 dark:text-slate-300 hover:text-[#C1121F] dark:hover:text-[#FFB000] hover:bg-slate-100/70 dark:hover:bg-white/[0.04]'
-                  } ${isNormalOpen ? 'text-[#C1121F] dark:text-[#FFB000] bg-slate-100 dark:bg-[#151515]' : ''}`}
-                >
-                  <span className="nav-item-label">{section.name}</span>
-                  {hasDropdown && (
-                    <span className="text-[9px] text-slate-400 dark:text-slate-500">▾</span>
-                  )}
-                </Link>
+          {/* 2. Platform (Mega Menu Trigger) */}
+          <div
+            ref={platformWrapperRef}
+            className="relative"
+            onMouseEnter={handlePlatformMouseEnter}
+            onMouseLeave={handlePlatformMouseLeave}
+          >
+            <button
+              type="button"
+              aria-expanded={isPlatformOpen}
+              aria-haspopup="menu"
+              onClick={handlePlatformClick}
+              className={getNavLinkClasses(isPlatformActive)}
+            >
+              <span className="nav-item-label">Platform</span>
+              <ChevronDown
+                size={12}
+                className={`transition-transform duration-200 ${
+                  isPlatformOpen ? 'rotate-180 text-[#C1121F]' : 'text-black'
+                }`}
+              />
+            </button>
 
-                {/* Desktop Dropdown Flyout */}
-                {hasDropdown && (
-                  <div
-                    className={`absolute top-full left-0 mt-2 transition-all duration-150 z-50 ${
-                      isNormalOpen
-                        ? 'opacity-100 translate-y-0 pointer-events-auto visible'
-                        : 'opacity-0 -translate-y-2 pointer-events-none invisible'
-                    }`}
-                    style={{ minWidth: '240px' }}
-                  >
-                    <div className="absolute -top-3 left-0 right-0 h-3" />
+            {/* Invisible hover bridge to keep menu active while moving mouse */}
+            <div className="absolute top-full left-1/2 -translate-x-1/2 w-full h-4" />
 
-                    <div className="nav-dropdown-menu p-2 rounded-xl bg-[#0B0B0B] border border-white/[0.08] shadow-2xl">
-                      <div className="space-y-0.5">
-                        {section.items.map((subItem) => (
-                          <Link
-                            key={subItem.name}
-                            to={subItem.href}
-                            className="flex items-center justify-between px-3.5 py-2.5 rounded-lg hover:bg-white/[0.04] transition-colors group"
-                          >
-                            <span className="text-xs font-normal normal-case text-slate-300 group-hover:text-white transition-colors">
-                              {subItem.name}
-                            </span>
-                            <span className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-[#FF7A00] text-xs font-mono">
-                              →
-                            </span>
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+            {/* Mega Menu Dropdown */}
+            <PlatformMegaMenu
+              isOpen={isPlatformOpen}
+              onClose={() => setIsPlatformOpen(false)}
+            />
+          </div>
+
+          {/* 3. Pricing */}
+          <Link to="/pricing" className={getNavLinkClasses(isPricingActive)}>
+            <span className="nav-item-label">Pricing</span>
+          </Link>
+
+          {/* 4. Docs */}
+          <Link to="/docs" className={getNavLinkClasses(isDocsActive)}>
+            <span className="nav-item-label">Docs</span>
+          </Link>
         </nav>
 
-        {/* Right Actions: Auth & Assessment CTA */}
+        {/* Right Actions: Auth, User Avatar & Assessment CTA */}
         <div className="flex items-center gap-2.5 sm:gap-3" data-purpose="nav-actions">
           {isAuthenticated ? (
             <div className="relative" ref={userDropdownRef}>
@@ -203,8 +179,15 @@ export const Navbar = () => {
                     {user?.name?.charAt(0).toUpperCase() || 'U'}
                   </div>
                 )}
-                <span className="max-w-[100px] truncate hidden sm:inline text-slate-800 font-semibold">{firstName || user?.name}</span>
-                <ChevronDown size={12} className={`transition-transform text-slate-500 ${userDropdownOpen ? 'rotate-180 text-[#FF7A00]' : ''}`} />
+                <span className="max-w-[100px] truncate hidden sm:inline text-slate-800 font-semibold">
+                  {firstName || user?.name}
+                </span>
+                <ChevronDown
+                  size={12}
+                  className={`transition-transform text-slate-500 ${
+                    userDropdownOpen ? 'rotate-180 text-[#FF7A00]' : ''
+                  }`}
+                />
               </button>
 
               {userDropdownOpen && (
@@ -258,7 +241,6 @@ export const Navbar = () => {
             </Link>
           )}
 
-
           <Link
             className="nav-cta-btn px-5 py-2 text-xs font-heading font-semibold uppercase tracking-wider text-slate-900 bg-gradient-to-r from-[#C1121F] via-[#FF7A00] to-[#FFB000] hover:opacity-95 active:scale-[0.98] rounded-xl shadow-md shadow-[#C1121F]/20 border border-white/20 transition-all hidden sm:inline-flex"
             to="/contact"
@@ -266,83 +248,140 @@ export const Navbar = () => {
             Start Here
           </Link>
 
-          {/* Mobile menu toggle */}
+          {/* Mobile menu toggle button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden px-3 py-1.5 rounded-lg border border-slate-700 text-xs font-semibold text-slate-300 hover:text-white bg-[#111111] transition-colors"
+            className="lg:hidden p-2 rounded-xl border border-slate-300 text-slate-700 hover:text-slate-900 bg-white/90 shadow-xs transition-colors"
             aria-label="Toggle navigation menu"
           >
-            {mobileMenuOpen ? 'Close' : 'Menu'}
+            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Drawer Navigation (Accordion Style) */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-slate-800 bg-black/95 px-5 py-5 space-y-3 max-h-[82vh] overflow-y-auto">
-          <div className="flex flex-col gap-1.5">
-            {navSections.map((section) => {
-              const hasDropdown = Boolean(section.items && section.items.length > 0);
-              const isSectionActive = section.href === '/'
-                ? location.pathname === '/'
-                : location.pathname.startsWith(section.href);
-              const isExpanded = mobileExpandedSection === section.name;
+        <div className="lg:hidden border-t border-slate-200/90 bg-white/95 backdrop-blur-xl px-5 py-5 space-y-3.5 max-h-[85vh] overflow-y-auto shadow-2xl animate-in fade-in duration-200">
+          <div className="flex flex-col gap-2">
+            {/* 1. Mobile Home */}
+            <Link
+              to="/"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
+                isHomeActive
+                  ? 'bg-rose-50 text-[#C1121F] border border-[#C1121F]/20'
+                  : 'text-slate-800 hover:bg-slate-50'
+              }`}
+            >
+              Home
+            </Link>
 
-              return (
-                <div key={section.name} className="rounded-lg border border-slate-800 overflow-hidden bg-slate-900/40">
-                  <div className="flex items-center justify-between">
-                    <Link
-                      to={section.href}
-                      onClick={() => !hasDropdown && setMobileMenuOpen(false)}
-                      className={`flex-1 px-4 py-2.5 text-sm font-medium transition-colors ${
-                        isSectionActive ? 'text-white font-semibold' : 'text-slate-300'
-                      }`}
-                    >
-                      {section.name}
-                    </Link>
+            {/* 2. Mobile Platform Accordion */}
+            <div className="rounded-xl border border-slate-200/90 overflow-hidden bg-slate-50/70">
+              <button
+                type="button"
+                onClick={() => setMobilePlatformExpanded(!mobilePlatformExpanded)}
+                className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-slate-900 bg-slate-100/80 transition-colors"
+              >
+                <span className="flex items-center gap-2">
+                  <span className="text-[#C1121F] font-bold">Platform</span>
+                </span>
+                <ChevronDown
+                  size={16}
+                  className={`text-slate-500 transition-transform duration-200 ${
+                    mobilePlatformExpanded ? 'rotate-180 text-[#C1121F]' : ''
+                  }`}
+                />
+              </button>
 
-                    {hasDropdown && (
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setMobileExpandedSection(isExpanded ? null : section.name)
-                        }
-                        className="px-4 py-2.5 text-slate-400 hover:text-white text-sm font-mono"
-                        aria-label={`Expand ${section.name}`}
+              {mobilePlatformExpanded && (
+                <div className="p-2.5 space-y-2 bg-white">
+                  {platformCategories.map((cat) => {
+                    const isCatOpen = mobileExpandedCategory === cat.id;
+                    const CatIcon = cat.sidebarIcon;
+
+                    return (
+                      <div
+                        key={cat.id}
+                        className="rounded-lg border border-slate-200/70 overflow-hidden"
                       >
-                        {isExpanded ? '−' : '+'}
-                      </button>
-                    )}
-                  </div>
-
-                  {/* Subsections accordion */}
-                  {hasDropdown && isExpanded && (
-                    <div className="px-3 pb-3 pt-1 space-y-1 bg-black/40 border-t border-white/[0.08]">
-                      {section.items.map((subItem) => (
-                        <Link
-                          key={subItem.name}
-                          to={subItem.href}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs text-slate-300 hover:text-white hover:bg-white/[0.05] transition-colors"
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setMobileExpandedCategory(isCatOpen ? null : cat.id)
+                          }
+                          className="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-slate-800 bg-slate-50 hover:bg-slate-100 transition-colors"
                         >
-                          <span>{subItem.name}</span>
-                          <span className="text-[#FF7A00] font-mono text-[10px]">→</span>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
+                          <span>{cat.name}</span>
+                          <ChevronDown
+                            size={13}
+                            className={`text-slate-400 transition-transform ${
+                              isCatOpen ? 'rotate-180 text-[#FF7A00]' : ''
+                            }`}
+                          />
+                        </button>
+
+                        {isCatOpen && (
+                          <div className="p-2 space-y-1 bg-white">
+                            {cat.groups.flatMap((g) => g.items).map((item) => (
+                              <Link
+                                key={item.name}
+                                to={item.href}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-50 transition-colors group"
+                              >
+                                <span className="text-xs font-semibold text-slate-800 group-hover:text-[#C1121F] transition-colors">
+                                  {item.name}
+                                </span>
+                                <span className="text-[#C1121F] font-mono text-xs font-bold">
+                                  →
+                                </span>
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
-              );
-            })}
+              )}
+            </div>
+
+            {/* 3. Mobile Price */}
+            <Link
+              to="/pricing"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
+                isPricingActive
+                  ? 'bg-rose-50 text-[#C1121F] border border-[#C1121F]/20'
+                  : 'text-slate-800 hover:bg-slate-50'
+              }`}
+            >
+              Price
+            </Link>
+
+            {/* 4. Mobile Docs */}
+            <Link
+              to="/docs"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
+                isDocsActive
+                  ? 'bg-rose-50 text-[#C1121F] border border-[#C1121F]/20'
+                  : 'text-slate-800 hover:bg-slate-50'
+              }`}
+            >
+              Docs
+            </Link>
           </div>
 
-          <div className="pt-3 border-t border-white/[0.08] space-y-2">
+          {/* Mobile Bottom Actions */}
+          <div className="pt-3 border-t border-slate-200/80 space-y-2">
             {isAuthenticated ? (
               <div className="space-y-1.5">
                 <Link
                   to="/portal"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full py-2.5 text-center text-xs font-semibold uppercase tracking-wider text-[#FFB000] bg-[#111111] border border-[#C1121F]/30 rounded-lg"
+                  className="block w-full py-2.5 text-center text-xs font-semibold uppercase tracking-wider text-slate-800 bg-slate-100 border border-slate-200 rounded-xl"
                 >
                   My Account ({user?.name})
                 </Link>
@@ -350,7 +389,7 @@ export const Navbar = () => {
                   <Link
                     to="/admin"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block w-full py-2.5 text-center text-xs font-semibold uppercase tracking-wider text-white bg-[#151515] border border-white/10 rounded-lg"
+                    className="block w-full py-2.5 text-center text-xs font-semibold uppercase tracking-wider text-white bg-slate-900 rounded-xl"
                   >
                     Admin Console
                   </Link>
@@ -362,7 +401,7 @@ export const Navbar = () => {
                     await logout();
                     navigate('/');
                   }}
-                  className="block w-full py-2 text-center text-xs text-rose-400 hover:bg-rose-500/10 rounded-lg"
+                  className="block w-full py-2 text-center text-xs text-rose-500 hover:bg-rose-50 rounded-xl"
                 >
                   Sign Out
                 </button>
@@ -371,7 +410,7 @@ export const Navbar = () => {
               <Link
                 to="/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block w-full py-2.5 text-center text-xs font-semibold uppercase tracking-wider text-slate-200 bg-[#111111] border border-white/10 rounded-lg"
+                className="block w-full py-2.5 text-center text-xs font-semibold uppercase tracking-wider text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition"
               >
                 Sign In / Register
               </Link>
@@ -380,7 +419,7 @@ export const Navbar = () => {
             <Link
               to="/contact"
               onClick={() => setMobileMenuOpen(false)}
-              className="block w-full py-2.5 text-center text-xs font-heading font-semibold uppercase tracking-wider text-white bg-gradient-to-r from-[#C1121F] via-[#FF7A00] to-[#FFB000] hover:opacity-90 rounded-lg shadow-md shadow-[#C1121F]/20"
+              className="block w-full py-3 text-center text-xs font-heading font-semibold uppercase tracking-wider text-white bg-gradient-to-r from-[#C1121F] via-[#FF7A00] to-[#FFB000] hover:opacity-95 rounded-xl shadow-md shadow-[#C1121F]/20"
             >
               Start Here
             </Link>
