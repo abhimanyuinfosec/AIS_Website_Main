@@ -56,6 +56,7 @@ export const Navbar = () => {
   const navigate = useNavigate();
 
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
+  const firstName = user?.name ? user.name.trim().split(/\s+/)[0] : '';
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -87,11 +88,11 @@ export const Navbar = () => {
     <header
       className="site-header-hero fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 pointer-events-auto"
       style={{
-        background: 'rgba(255, 255, 255, 0.72)',
-        backdropFilter: 'blur(20px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+        background: 'rgba(255, 255, 255, 0.5)',
+        backdropFilter: 'blur(16px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(16px) saturate(180%)',
         borderBottom: '1px solid rgba(226, 232, 240, 0.6)',
-        boxShadow: '0 2px 24px rgba(0,0,0,0.06), 0 1px 0 rgba(255,255,255,0.8) inset'
+        boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.04)'
       }}
       data-purpose="site-header"
     >
@@ -188,6 +189,7 @@ export const Navbar = () => {
               <button
                 type="button"
                 onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                title={user?.name || 'My Account'}
                 className="nav-user-pill flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/85 hover:bg-white border border-[#C1121F]/25 text-slate-800 text-xs font-medium transition select-none shadow-xs"
               >
                 {user?.avatarUrl ? (
@@ -201,7 +203,7 @@ export const Navbar = () => {
                     {user?.name?.charAt(0).toUpperCase() || 'U'}
                   </div>
                 )}
-                <span className="max-w-[120px] truncate hidden sm:inline text-slate-800 font-semibold">{user?.name}</span>
+                <span className="max-w-[100px] truncate hidden sm:inline text-slate-800 font-semibold">{firstName || user?.name}</span>
                 <ChevronDown size={12} className={`transition-transform text-slate-500 ${userDropdownOpen ? 'rotate-180 text-[#FF7A00]' : ''}`} />
               </button>
 
