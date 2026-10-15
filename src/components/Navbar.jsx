@@ -79,17 +79,19 @@ export const Navbar = () => {
 
   return (
     <header
-      className="site-header-hero fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 pointer-events-auto"
+      className={`site-header-hero fixed top-3 sm:top-4 md:top-5 left-1/2 -translate-x-1/2 w-[calc(100%-1.5rem)] sm:w-[calc(100%-2.5rem)] max-w-7xl z-50 transition-all duration-300 pointer-events-auto ${
+        mobileMenuOpen ? 'mobile-open rounded-2xl sm:rounded-3xl' : 'rounded-full'
+      }`}
       style={{
         background: 'rgba(255, 255, 255, 0.5)',
         backdropFilter: 'blur(16px) saturate(180%)',
         WebkitBackdropFilter: 'blur(16px) saturate(180%)',
-        borderBottom: '1px solid rgba(226, 232, 240, 0.6)',
-        boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.04)',
+        border: '1px solid rgba(226, 232, 240, 0.8)',
+        boxShadow: '0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(255, 255, 255, 0.6) inset',
       }}
       data-purpose="site-header"
     >
-      <div className="max-w-7xl mx-auto px-6 h-20 md:h-24 flex items-center justify-between relative">
+      <div className="mx-auto px-4 sm:px-7 lg:px-8 h-16 md:h-20 flex items-center justify-between relative">
         {/* Brand Logo */}
         <Link
           to="/"
@@ -100,7 +102,7 @@ export const Navbar = () => {
           <img
             src="/lightlogo.png"
             alt="Abhimanyu InfoSec"
-            className="nav-logo-img h-11 sm:h-13 md:h-15 w-auto max-w-[210px] sm:max-w-[250px] md:max-w-[280px] object-contain transition-opacity duration-200 group-hover:opacity-90"
+            className="nav-logo-img h-9 sm:h-11 md:h-12 w-auto max-w-[190px] sm:max-w-[230px] md:max-w-[260px] object-contain transition-opacity duration-200 group-hover:opacity-90"
           />
         </Link>
 
@@ -261,7 +263,7 @@ export const Navbar = () => {
 
       {/* Mobile Drawer Navigation (Accordion Style) */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-slate-200/90 bg-white/95 backdrop-blur-xl px-5 py-5 space-y-3.5 max-h-[85vh] overflow-y-auto shadow-2xl animate-in fade-in duration-200">
+        <div className="lg:hidden border-t border-slate-200/90 bg-white/95 backdrop-blur-xl px-5 py-5 space-y-3.5 max-h-[85vh] overflow-y-auto shadow-2xl animate-in fade-in duration-200 rounded-b-2xl sm:rounded-b-3xl">
           <div className="flex flex-col gap-2">
             {/* 1. Mobile Home */}
             <Link
