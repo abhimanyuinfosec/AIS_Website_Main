@@ -38,15 +38,17 @@ const Footer = () => {
               >
                 ·
               </span>
-              {/* X (Twitter) — brand dark/silver */}
+              {/* Instagram — brand magenta/rose */}
               <a
-                href="#"
+                href="https://www.instagram.com/abhimanyuinfosec2026/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="font-semibold transition-all duration-200"
-                style={{ color: '#94A3B8' }}
-                onMouseEnter={e => e.currentTarget.style.color = '#E2E8F0'}
-                onMouseLeave={e => e.currentTarget.style.color = '#94A3B8'}
+                style={{ color: '#E1306C' }}
+                onMouseEnter={e => e.currentTarget.style.color = '#FD1D1D'}
+                onMouseLeave={e => e.currentTarget.style.color = '#E1306C'}
               >
-                X (Twitter)
+                Instagram
               </a>
               <span
                 className="font-bold text-sm"
@@ -54,15 +56,15 @@ const Footer = () => {
               >
                 ·
               </span>
-              {/* GitHub — brand white/silver */}
+              {/* GitHub — brand purple */}
               <a
                 href="https://github.com/abhimanyuinfosec"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-semibold transition-all duration-200"
-                style={{ color: '#C9D1D9' }}
-                onMouseEnter={e => e.currentTarget.style.color = '#FFFFFF'}
-                onMouseLeave={e => e.currentTarget.style.color = '#C9D1D9'}
+                style={{ color: '#1d0943ff' }}
+                onMouseEnter={e => e.currentTarget.style.color = '#A371F7'}
+                onMouseLeave={e => e.currentTarget.style.color = '#8957E5'}
               >
                 GitHub
               </a>

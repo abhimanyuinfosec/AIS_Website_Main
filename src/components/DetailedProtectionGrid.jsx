@@ -74,18 +74,12 @@ const DetailedProtectionGrid = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {services.map((service, index) => (
+          {services.map((service) => (
             <div
               key={service.title}
               className="bg-[#0D0D0D] border border-white/[0.08] hover:border-[#C1121F]/40 p-7 rounded-xl flex flex-col justify-between group transition-all duration-300 hover:shadow-lg hover:shadow-[#C1121F]/10"
             >
               <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-mono font-semibold px-2.5 py-0.5 rounded bg-[#151515] text-[#FFB000] border border-[#C1121F]/25">
-                    0{index + 1}
-                  </span>
-                </div>
-
                 <h3 className="text-base font-heading font-bold text-white mb-2.5 leading-snug group-hover:text-slate-100 transition-colors">
                   {service.title}
                 </h3>
@@ -96,17 +90,6 @@ const DetailedProtectionGrid = () => {
               </div>
 
               <div className="pt-4 border-t border-white/[0.06]">
-                <div className="flex flex-wrap gap-1.5 mb-4">
-                  {service.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#111111] text-slate-400 border border-white/[0.06]"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
                 <Link
                   to={service.link}
                   className="inline-flex items-center text-xs font-heading font-semibold text-[#FF7A00] hover:text-[#FFB000] transition-colors"
