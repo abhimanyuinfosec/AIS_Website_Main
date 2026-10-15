@@ -48,7 +48,7 @@ export const ContactPage = () => {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-heading">
-            Enterprise Security Engagement &amp; <span className="ais-signature-gradient">Advisory</span>
+            Engage &amp; <span className="ais-signature-gradient">Secure</span>
           </h1>
           <p className="mt-4 text-slate-300 text-sm sm:text-base leading-relaxed">
             Partner with Abhimanyu InfoSec for advanced threat defense, offensive red teaming, and robust infrastructure hardening. Consult directly with our technical security team under strict confidentiality.

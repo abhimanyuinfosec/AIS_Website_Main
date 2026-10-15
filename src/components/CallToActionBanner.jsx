@@ -13,7 +13,7 @@ const CallToActionBanner = () => {
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white tracking-tight relative z-10 leading-tight">
-            Ready to strengthen your enterprise <span className="ais-signature-gradient">cyber defense?</span>
+            Ready to strengthen <span className="ais-signature-gradient">business ?</span>
           </h2>
 
           <p className="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto relative z-10 font-normal leading-relaxed">

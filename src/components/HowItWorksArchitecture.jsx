@@ -54,10 +54,7 @@ const HowItWorksArchitecture = () => {
 
         {/* Desktop Horizontal 4-Step Journey */}
         <div data-no-anim className="mt-10 sm:mt-12 hidden md:block relative">
-          {/* Continuous Connector Line running through the 4 points */}
-          <div className="absolute top-[52px] left-[12.5%] right-[12.5%] h-[2px] bg-slate-200 dark:bg-white/[0.08] pointer-events-none" />
-
-          <div className="grid grid-cols-4 gap-6 lg:gap-8">
+          <div className="grid grid-cols-4 gap-0">
             {steps.map((step, idx) => {
               const isActive = activeStep === idx;
 
@@ -65,39 +62,65 @@ const HowItWorksArchitecture = () => {
                 <div
                   key={step.code}
                   onMouseEnter={() => setActiveStep(idx)}
-                  className="flex flex-col items-center text-center cursor-pointer group transition-all duration-300"
+                  onClick={() => setActiveStep(idx)}
+                  className="flex flex-col items-center text-center cursor-pointer group transition-all duration-300 px-3 lg:px-5 relative"
                 >
                   {/* Step Number */}
                   <span
-                    className={`text-xs font-mono font-bold transition-colors duration-200 ${
+                    className={`text-xs font-mono font-bold tracking-wider transition-colors duration-200 ${
                       isActive ? 'text-[#C1121F]' : 'text-slate-500 group-hover:text-slate-700 dark:text-slate-400'
                     }`}
                   >
                     {step.number}
                   </span>
 
-                  {/* Node point sitting on the connector line */}
-                  <div className="h-10 flex items-center justify-center my-1.5">
-                    <div
-                      className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300 ${
-                        isActive
-                          ? 'bg-[#C1121F]/15 border-2 border-[#FF7A00] ring-4 ring-[#C1121F]/10'
-                          : 'bg-white dark:bg-black border border-slate-300 dark:border-slate-700/80 group-hover:border-[#C1121F]/40'
-                      }`}
-                    >
+                  {/* Node & Connecting Line Row */}
+                  <div className="w-full relative flex items-center justify-center my-3 h-10">
+                    {/* Left Connector Line (connects from left column edge to node center) */}
+                    {idx > 0 && (
                       <div
-                        className={`w-2.5 h-2.5 rounded-full transition-colors duration-300 ${
-                          isActive
-                            ? 'bg-[#FF7A00] shadow-[0_0_8px_rgba(255,122,0,0.6)]'
-                            : 'bg-slate-400 dark:bg-slate-600 group-hover:bg-slate-600'
+                        className={`absolute left-0 right-1/2 h-[2px] top-1/2 -translate-y-1/2 transition-colors duration-300 ${
+                          idx <= activeStep
+                            ? 'bg-gradient-to-r from-[#FF7A00] to-[#C1121F]'
+                            : 'bg-slate-200 dark:bg-white/[0.1]'
                         }`}
                       />
+                    )}
+
+                    {/* Right Connector Line (connects from node center to right column edge) */}
+                    {idx < steps.length - 1 && (
+                      <div
+                        className={`absolute left-1/2 right-0 h-[2px] top-1/2 -translate-y-1/2 transition-colors duration-300 ${
+                          idx < activeStep
+                            ? 'bg-gradient-to-r from-[#C1121F] to-[#FF7A00]'
+                            : 'bg-slate-200 dark:bg-white/[0.1]'
+                        }`}
+                      />
+                    )}
+
+                    {/* Node Circle sitting cleanly on top with protective halo buffer so line never overlaps */}
+                    <div className="relative z-10 p-2 bg-[#F8FAFC] dark:bg-[#080808] rounded-full transition-all duration-300">
+                      <div
+                        className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300 bg-white dark:bg-slate-900 ${
+                          isActive
+                            ? 'border-2 border-[#FF7A00] ring-4 ring-[#FF7A00]/20 shadow-[0_0_12px_rgba(255,122,0,0.35)]'
+                            : 'border border-slate-300 dark:border-slate-700 group-hover:border-[#C1121F]/40 shadow-xs'
+                        }`}
+                      >
+                        <div
+                          className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                            isActive
+                              ? 'bg-[#FF7A00] scale-110 shadow-[0_0_8px_rgba(255,122,0,0.8)]'
+                              : 'bg-slate-400 dark:bg-slate-600 group-hover:bg-[#C1121F]'
+                          }`}
+                        />
+                      </div>
                     </div>
                   </div>
 
                   {/* Step Title - Fixed high-contrast text color for light theme */}
                   <h3
-                    className={`text-sm sm:text-base font-heading font-bold tracking-wider uppercase mt-2 transition-colors duration-200 ${
+                    className={`text-sm sm:text-base font-heading font-bold tracking-wider uppercase mt-1 transition-colors duration-200 ${
                       isActive ? 'text-[#C1121F]' : 'text-slate-900 dark:text-white group-hover:text-[#C1121F]'
                     }`}
                   >
@@ -132,7 +155,7 @@ const HowItWorksArchitecture = () => {
         </div>
 
         {/* Mobile Vertical 4-Step Journey */}
-        <div className="mt-8 md:hidden relative pl-6 space-y-6 border-l border-slate-200 dark:border-white/[0.08] ml-4">
+        <div className="mt-8 md:hidden relative pl-6 space-y-6 border-l-2 border-slate-200 dark:border-white/[0.08] ml-4">
           {steps.map((step, idx) => {
             const isActive = activeStep === idx;
 
@@ -142,19 +165,21 @@ const HowItWorksArchitecture = () => {
                 onClick={() => setActiveStep(idx)}
                 className="relative pl-6 cursor-pointer"
               >
-                {/* Node point on the vertical line */}
-                <div
-                  className={`absolute -left-[31px] top-0 w-6 h-6 rounded-full flex items-center justify-center transition-all ${
-                    isActive
-                      ? 'bg-[#C1121F]/20 border border-[#FF7A00]'
-                      : 'bg-white dark:bg-black border border-slate-300 dark:border-slate-700'
-                  }`}
-                >
+                {/* Node point on the vertical line with protective halo */}
+                <div className="absolute -left-[33px] top-0.5 p-1 bg-[#F8FAFC] dark:bg-[#080808] rounded-full z-10">
                   <div
-                    className={`w-2 h-2 rounded-full ${
-                      isActive ? 'bg-[#FF7A00]' : 'bg-slate-400 dark:bg-slate-600'
+                    className={`w-6 h-6 rounded-full flex items-center justify-center transition-all bg-white dark:bg-slate-900 ${
+                      isActive
+                        ? 'border-2 border-[#FF7A00] ring-4 ring-[#FF7A00]/20 shadow-[0_0_10px_rgba(255,122,0,0.3)]'
+                        : 'border border-slate-300 dark:border-slate-700'
                     }`}
-                  />
+                  >
+                    <div
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        isActive ? 'bg-[#FF7A00]' : 'bg-slate-400 dark:bg-slate-600'
+                      }`}
+                    />
+                  </div>
                 </div>
 
                 <div className="space-y-1">

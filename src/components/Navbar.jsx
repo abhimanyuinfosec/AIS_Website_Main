@@ -83,14 +83,17 @@ export const Navbar = () => {
         mobileMenuOpen ? 'mobile-open rounded-2xl sm:rounded-3xl' : 'rounded-full'
       }`}
       style={{
-        background: 'rgba(255, 255, 255, 0.5)',
-        backdropFilter: 'blur(16px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(16px) saturate(180%)',
-        border: '1px solid rgba(226, 232, 240, 0.8)',
-        boxShadow: '0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(255, 255, 255, 0.6) inset',
+        background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.20) 45%, rgba(255, 255, 255, 0.28) 100%)',
+        backdropFilter: 'blur(20px) saturate(190%) contrast(102%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(190%) contrast(102%)',
+        border: '1px solid rgba(255, 255, 255, 0.75)',
+        boxShadow: '0 12px 32px -4px rgba(0, 0, 0, 0.06), 0 4px 12px -2px rgba(0, 0, 0, 0.03), inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 1px 0 rgba(255, 255, 255, 0.35)',
       }}
       data-purpose="site-header"
     >
+      {/* Specular hairline top gloss highlight */}
+      <div className="absolute inset-x-8 top-0 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent pointer-events-none opacity-90 rounded-t-full" />
+
       <div className="mx-auto px-4 sm:px-7 lg:px-8 h-16 md:h-20 flex items-center justify-between relative">
         {/* Brand Logo */}
         <Link
