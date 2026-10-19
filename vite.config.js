@@ -16,7 +16,7 @@ export default defineConfig({
       manifest: {
         name: 'Abhimanyu — Next-Gen Autonomous Cyber Defense',
         short_name: 'Abhimanyu',
-        description: 'Autonomous zero-trust machine intelligence with zero latency cloud-firewall.',
+        description: 'We help you identify vulnerabilities, detect threats, harden your security posture, and build resilient digital infrastructure without enterprise complexity or cost.',
         theme_color: '#F8FAFC',
         background_color: '#F8FAFC',
         display: 'standalone',
