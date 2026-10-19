@@ -3,141 +3,212 @@ export const platformCategories = [
     id: 'assessment',
     name: 'Security Assessment',
     title: 'Security Assessment',
-    subtitle: 'Find and fix weaknesses before attackers do.',
+    subtitle: 'Find and fix vulnerabilities before attackers exploit them.',
     exploreLink: '/services/vulnerability-assessment',
-    groups: [
+    items: [
       {
-        groupTitle: 'ASSESSMENT CAPABILITIES',
-        items: [
-          {
-            name: 'Vulnerability Assessment',
-            href: '/services/vulnerability-assessment',
-            description: 'Identify and prioritize infrastructure security flaws.',
-          },
-          {
-            name: 'Web Security',
-            href: '/services/web-security',
-            description: 'Protect web apps & APIs against OWASP Top 10 vulnerabilities.',
-          },
-          {
-            name: 'Network Security',
-            href: '/services/network-security',
-            description: 'Harden perimeter routers, switches, and zero-trust zones.',
-          },
-          {
-            name: 'Penetration Testing',
-            href: '/services/penetration-testing',
-            description: 'Simulated real-world cyberattacks testing your defense.',
-          },
-          {
-            name: 'Threat Detection',
-            href: '/services/threat-detection',
-            description: 'Real-time telemetry analysis and continuous active monitoring.',
-          },
-          {
-            name: 'Security Hardening',
-            href: '/services/security-hardening',
-            description: 'Systematic OS, cloud baseline, and server configuration lockdown.',
-          },
-        ],
+        name: 'Vulnerability Assessment',
+        href: '/services/vulnerability-assessment',
+        description: 'Systematic scans across cloud, systems, and codebases to locate weaknesses.',
+      },
+      {
+        name: 'Web Application Security',
+        href: '/services/web-security',
+        description: 'Comprehensive OWASP Top 10 and business logic auditing for web apps and APIs.',
+      },
+      {
+        name: 'Penetration Testing',
+        href: '/services/penetration-testing',
+        description: 'Simulated real-world adversary operations testing defensive depth and response.',
+      },
+      {
+        name: 'Network Security',
+        href: '/services/network-security',
+        description: 'In-depth assessment of perimeter routing, firewall policies, and zero-trust segmentation.',
+      },
+      {
+        name: 'Threat Detection',
+        href: '/services/threat-detection',
+        description: 'Continuous telemetry monitoring, anomaly detection, and rapid breach containment.',
+      },
+      {
+        name: 'Security Hardening',
+        href: '/services/security-hardening',
+        description: 'Systematic OS, container, cloud baseline, and server configuration lockdown.',
       },
     ],
+    featured: {
+      label: 'FEATURED SERVICE',
+      title: 'Web Application Security',
+      description: 'Comprehensive OWASP Top 10 auditing, business logic flaw detection, and API security testing to protect critical web applications.',
+      exploreLink: '/services/web-security',
+      exploreText: 'Explore Service',
+      ctaLink: '/contact',
+      ctaText: 'Request an Assessment',
+    },
   },
   {
     id: 'products',
     name: 'Security Products',
+    badge: 'Coming Soon',
     title: 'Security Products',
-    subtitle: 'Autonomous cloud firewall and zero-trust protection.',
+    subtitle: 'Our cybersecurity products are coming soon.',
     exploreLink: '/products',
-    groups: [
+    isComingSoon: true,
+    comingSoonText: 'Our proprietary cybersecurity software products are currently under development and will be launching soon.',
+    items: [],
+    featured: {
+      label: 'PRODUCTS',
+      title: 'Coming Soon',
+      description: 'Our proprietary cybersecurity products are currently under development and will be launching soon.',
+      exploreLink: '/products',
+      exploreText: 'Learn More',
+      ctaLink: '/services/vulnerability-assessment',
+      ctaText: 'Explore Active Services',
+    },
+  },
+  {
+    id: 'threat-intelligence',
+    name: 'Threat Intelligence',
+    title: 'Threat Intelligence',
+    subtitle: 'Real-time telemetry feeds, adversary tracking, and IOC feeds.',
+    exploreLink: '/services/threat-detection',
+    items: [
       {
-        groupTitle: 'CORE SECURITY PLATFORMS',
-        items: [
-          {
-            name: 'Hybrid IDS Engine',
-            href: '/products',
-            description: 'eBPF-driven real-time packet inspection and threat isolation.',
-          },
-          {
-            name: 'AutoRed APT',
-            href: '/products',
-            description: 'Automated adversary emulation discovering breach paths.',
-          },
-          {
-            name: 'IP Intelligence',
-            href: '/products',
-            description: 'Global reputation telemetry and dynamic malicious IP blocking.',
-          },
-        ],
+        name: 'Global Threat Feeds',
+        href: '/services/threat-detection',
+        description: 'High-fidelity contextual telemetry streaming active attacker indicators.',
+      },
+      {
+        name: 'IOC Database',
+        href: '/services/threat-detection',
+        description: 'Curated repository of malicious IPs, domains, hashes, and signatures.',
+      },
+      {
+        name: 'Adversary Tracking',
+        href: '/services/threat-detection',
+        description: 'Continuous profiling of nation-state and cybercriminal APT tactics.',
+      },
+      {
+        name: 'Ransomware Surveillance',
+        href: '/services/threat-detection',
+        description: 'Early warning monitoring of dark web leaks and extortion groups.',
+      },
+      {
+        name: 'Vulnerability Advisories',
+        href: '/insights',
+        description: 'Actionable exploit analysis and severity metrics for newly disclosed CVEs.',
+      },
+      {
+        name: 'Attack Surface Mapping',
+        href: '/services/vulnerability-assessment',
+        description: 'External digital footprint discovery uncovering exposed assets.',
       },
     ],
+    featured: {
+      label: 'FEATURED INTELLIGENCE',
+      title: 'Global Threat Telemetry',
+      description: 'Continuous monitoring across attack vectors providing verified threat indicators to harden your digital perimeter.',
+      exploreLink: '/services/threat-detection',
+      exploreText: 'Explore Telemetry',
+      ctaLink: '/contact',
+      ctaText: 'Request Threat Briefing',
+    },
   },
   {
     id: 'insights',
     name: 'Insights',
     title: 'Insights',
-    subtitle: 'Cutting-edge cyber research, vulnerability advisories, and security intelligence.',
+    subtitle: 'Cyber research, vulnerability advisories, and technical reports.',
     exploreLink: '/insights',
-    groups: [
+    items: [
       {
-        groupTitle: 'KNOWLEDGE & INTELLIGENCE',
-        items: [
-          {
-            name: 'Security Insights & Articles',
-            href: '/insights',
-            description: 'Deep-dive analysis on current CVEs, exploits, and defense patterns.',
-          },
-          {
-            name: 'Research Papers',
-            href: '/research',
-            description: 'Peer-reviewed innovations in autonomous kernel security.',
-          },
-          {
-            name: 'Client Projects & Case Studies',
-            href: '/projects',
-            description: 'Field results from enterprise threat mitigations and audits.',
-          },
-        ],
+        name: 'Security Insights & Articles',
+        href: '/insights',
+        description: 'Technical breakdowns of contemporary exploits and defense mechanisms.',
+      },
+      {
+        name: 'Research Papers',
+        href: '/research',
+        description: 'Peer-reviewed innovations in autonomous kernel and cloud security.',
+      },
+      {
+        name: 'Client Projects & Audits',
+        href: '/projects',
+        description: 'Field results from enterprise threat mitigations and security audits.',
+      },
+      {
+        name: 'Threat Landscape Reports',
+        href: '/insights',
+        description: 'Quarterly strategic analysis of emerging cyber attack vectors.',
+      },
+      {
+        name: 'Technical Whitepapers',
+        href: '/docs',
+        description: 'Engineering guides on implementing zero-trust security postures.',
+      },
+      {
+        name: 'Security Documentation',
+        href: '/docs',
+        description: 'Implementation frameworks, verification guidelines, and best practices.',
       },
     ],
+    featured: {
+      label: 'FEATURED RESEARCH',
+      title: '2026 Threat Landscape',
+      description: 'In-depth analysis of autonomous adversary behaviors, kernel bypass techniques, and cloud security mitigations.',
+      exploreLink: '/insights',
+      exploreText: 'Read Publications',
+      ctaLink: '/contact',
+      ctaText: 'Request Executive Summary',
+    },
   },
   {
     id: 'about',
-    name: 'About Us',
-    title: 'About Us',
-    subtitle: 'The minds and mission defending modern critical infrastructure.',
+    name: 'About AIS',
+    title: 'About AIS',
+    subtitle: 'The engineering team defending modern critical infrastructure.',
     exploreLink: '/about/mission',
-    groups: [
+    items: [
       {
-        groupTitle: 'COMPANY & CULTURE',
-        items: [
-          {
-            name: 'Our Mission',
-            href: '/about/mission',
-            description: 'Building an invincible digital perimeter for resilient enterprises.',
-          },
-          {
-            name: 'Our Approach',
-            href: '/about/approach',
-            description: 'Zero-trust architecture with autonomous threat containment.',
-          },
-          {
-            name: 'Why AIS',
-            href: '/about/why-ais',
-            description: 'Why leading businesses trust Abhimanyu for mission-critical security.',
-          },
-          {
-            name: 'Leadership & Team',
-            href: '/about/team',
-            description: 'Meet our security researchers, engineers, and offensive analysts.',
-          },
-          {
-            name: 'Contact Support',
-            href: '/contact',
-            description: 'Connect with our 24/7 security operations center.',
-          },
-        ],
+        name: 'Our Mission',
+        href: '/about/mission',
+        description: 'Building resilient digital security infrastructure without enterprise complexity.',
+      },
+      {
+        name: 'Our Approach',
+        href: '/about/approach',
+        description: 'Offense-informed security engineering with autonomous defense architecture.',
+      },
+      {
+        name: 'Why AIS',
+        href: '/about/why-ais',
+        description: 'Why fast-growing companies trust Abhimanyu for enterprise cyber resilience.',
+      },
+      {
+        name: 'Leadership & Team',
+        href: '/about/team',
+        description: 'Meet our security researchers, offensive analysts, and engineers.',
+      },
+      {
+        name: 'Security Operations',
+        href: '/contact',
+        description: 'Continuous threat response and dedicated defensive specialists.',
+      },
+      {
+        name: 'Contact & Advisory',
+        href: '/contact',
+        description: 'Direct communication channel for audits, assessments, and emergencies.',
       },
     ],
+    featured: {
+      label: 'OUR PROMISE',
+      title: 'Zero Enterprise Complexity',
+      description: 'Dedicated security capability, continuous visibility, and hardened posture tailored for growing businesses.',
+      exploreLink: '/about/mission',
+      exploreText: 'About Our Mission',
+      ctaLink: '/contact',
+      ctaText: 'Speak with an Engineer',
+    },
   },
 ];

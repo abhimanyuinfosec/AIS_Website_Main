@@ -71,11 +71,16 @@ const Footer = () => {
             </div>
           </div>
           <div className="space-y-4">
-            <div className="font-heading font-semibold text-white text-[11px] uppercase tracking-wider">Product</div>
+            <div className="font-heading font-semibold text-white text-[11px] uppercase tracking-wider">Products</div>
             <ul className="space-y-2.5">
-              <li><Link className="hover:text-[#FFB000] transition-colors" to="/products">Hybrid IDS Engine</Link></li>
-              <li><Link className="hover:text-[#FFB000] transition-colors" to="/products">AutoRed APT</Link></li>
-              <li><Link className="hover:text-[#FFB000] transition-colors" to="/products">IP Intelligence</Link></li>
+              <li>
+                <Link className="hover:text-[#FFB000] transition-colors inline-flex items-center gap-1.5" to="/products">
+                  <span>Products</span>
+                  <span className="text-[9.5px] font-mono px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-semibold">
+                    Coming Soon
+                  </span>
+                </Link>
+              </li>
             </ul>
           </div>
           <div className="space-y-4">

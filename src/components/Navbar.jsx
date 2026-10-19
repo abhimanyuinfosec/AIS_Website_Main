@@ -14,6 +14,7 @@ export const Navbar = () => {
 
   const platformTimeoutRef = useRef(null);
   const platformWrapperRef = useRef(null);
+  const platformMenuWrapperRef = useRef(null);
   const userDropdownRef = useRef(null);
 
   const location = useLocation();
@@ -28,7 +29,12 @@ export const Navbar = () => {
       if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) {
         setUserDropdownOpen(false);
       }
-      if (platformWrapperRef.current && !platformWrapperRef.current.contains(event.target)) {
+      if (
+        platformWrapperRef.current &&
+        !platformWrapperRef.current.contains(event.target) &&
+        platformMenuWrapperRef.current &&
+        !platformMenuWrapperRef.current.contains(event.target)
+      ) {
         setIsPlatformOpen(false);
       }
     };
@@ -78,79 +84,85 @@ export const Navbar = () => {
     }`;
 
   return (
-    <header
-      className={`site-header-hero fixed top-3 sm:top-4 md:top-5 left-1/2 -translate-x-1/2 w-[calc(100%-1.5rem)] sm:w-[calc(100%-2.5rem)] max-w-7xl z-50 transition-all duration-300 pointer-events-auto ${
-        mobileMenuOpen ? 'mobile-open rounded-2xl sm:rounded-3xl' : 'rounded-full'
-      }`}
-      style={{
-        background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.20) 45%, rgba(255, 255, 255, 0.28) 100%)',
-        backdropFilter: 'blur(20px) saturate(190%) contrast(102%)',
-        WebkitBackdropFilter: 'blur(20px) saturate(190%) contrast(102%)',
-        border: '1px solid rgba(255, 255, 255, 0.75)',
-        boxShadow: '0 12px 32px -4px rgba(0, 0, 0, 0.06), 0 4px 12px -2px rgba(0, 0, 0, 0.03), inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 1px 0 rgba(255, 255, 255, 0.35)',
-      }}
-      data-purpose="site-header"
-    >
-      {/* Specular hairline top gloss highlight */}
-      <div className="absolute inset-x-8 top-0 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent pointer-events-none opacity-90 rounded-t-full" />
+    <>
+      {/* Subtle page backdrop overlay while mega menu is open */}
+      {isPlatformOpen && (
+        <div
+          onClick={() => setIsPlatformOpen(false)}
+          className="fixed inset-0 bg-slate-950/25 backdrop-blur-[2px] z-40 transition-opacity duration-200"
+          aria-hidden="true"
+        />
+      )}
 
-      <div className="mx-auto px-4 sm:px-7 lg:px-8 h-16 md:h-20 flex items-center justify-between relative">
-        {/* Brand Logo */}
-        <Link
-          to="/"
-          aria-label="Abhimanyu Cyber Defense Home"
-          className="nav-brand-logo-container flex items-center gap-3 group py-1"
-          data-purpose="brand-logo"
-        >
-          <img
-            src="/lightlogo.png"
-            alt="Abhimanyu InfoSec"
-            className="nav-logo-img h-9 sm:h-11 md:h-12 w-auto max-w-[190px] sm:max-w-[230px] md:max-w-[260px] object-contain transition-opacity duration-200 group-hover:opacity-90"
-          />
-        </Link>
+      <header
+        className={`site-header-hero fixed top-3 sm:top-4 md:top-5 left-1/2 -translate-x-1/2 w-[calc(100%-1.5rem)] sm:w-[calc(100%-2.5rem)] max-w-7xl z-50 transition-all duration-300 pointer-events-auto ${
+          mobileMenuOpen ? 'mobile-open rounded-2xl sm:rounded-3xl' : 'rounded-full'
+        }`}
+        style={{
+          background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.20) 45%, rgba(255, 255, 255, 0.28) 100%)',
+          backdropFilter: 'blur(20px) saturate(190%) contrast(102%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(190%) contrast(102%)',
+          border: '1px solid rgba(255, 255, 255, 0.75)',
+          boxShadow: '0 12px 32px -4px rgba(0, 0, 0, 0.06), 0 4px 12px -2px rgba(0, 0, 0, 0.03), inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 1px 0 rgba(255, 255, 255, 0.35)',
+        }}
+        data-purpose="site-header"
+      >
+        {/* Specular hairline top gloss highlight */}
+        <div className="absolute inset-x-8 top-0 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent pointer-events-none opacity-90 rounded-t-full" />
 
-        {/* Desktop Primary Navigation Bar (4 Links: Home, Platform, Pricing, Docs with generous gap and identical font) */}
-        <nav
-          aria-label="Primary Navigation"
-          className="primary-navbar-links hidden lg:flex items-center gap-2.5 lg:gap-3.5 text-xs font-heading font-semibold tracking-wide uppercase transition-colors duration-300 px-4 py-1.5 rounded-xl border text-slate-700 bg-white/60 backdrop-blur-sm border-slate-200/70 shadow-sm relative"
-        >
-          {/* 1. Home */}
-          <Link to="/" className={getNavLinkClasses(isHomeActive)}>
-            <span className="nav-item-label">Home</span>
+        <div className="mx-auto px-4 sm:px-7 lg:px-8 h-16 md:h-20 flex items-center justify-between relative">
+          {/* Brand Logo */}
+          <Link
+            to="/"
+            aria-label="Abhimanyu Cyber Defense Home"
+            className="nav-brand-logo-container flex items-center gap-3 group py-1"
+            data-purpose="brand-logo"
+          >
+            <img
+              src="/lightlogo.png"
+              alt="Abhimanyu InfoSec"
+              className="nav-logo-img h-9 sm:h-11 md:h-12 w-auto max-w-[190px] sm:max-w-[230px] md:max-w-[260px] object-contain transition-opacity duration-200 group-hover:opacity-90"
+            />
           </Link>
 
-          {/* 2. Platform (Mega Menu Trigger) */}
-          <div
-            ref={platformWrapperRef}
-            className="relative"
-            onMouseEnter={handlePlatformMouseEnter}
-            onMouseLeave={handlePlatformMouseLeave}
+          {/* Desktop Primary Navigation Bar (4 Links: Home, Platform, Pricing, Docs with generous gap and identical font) */}
+          <nav
+            aria-label="Primary Navigation"
+            className="primary-navbar-links hidden lg:flex items-center gap-2.5 lg:gap-3.5 text-xs font-heading font-semibold tracking-wide uppercase transition-colors duration-300 px-4 py-1.5 rounded-xl border text-slate-700 bg-white/60 backdrop-blur-sm border-slate-200/70 shadow-sm relative"
           >
-            <button
-              type="button"
-              aria-expanded={isPlatformOpen}
-              aria-haspopup="menu"
-              onClick={handlePlatformClick}
-              className={getNavLinkClasses(isPlatformActive)}
+            {/* 1. Home */}
+            <Link to="/" className={getNavLinkClasses(isHomeActive)}>
+              <span className="nav-item-label">Home</span>
+            </Link>
+
+            {/* 2. Platform (Mega Menu Trigger) */}
+            <div
+              ref={platformWrapperRef}
+              className="relative"
+              onMouseEnter={handlePlatformMouseEnter}
+              onMouseLeave={handlePlatformMouseLeave}
             >
-              <span className="nav-item-label">Platform</span>
-              <ChevronDown
-                size={12}
-                className={`transition-transform duration-200 ${
-                  isPlatformOpen ? 'rotate-180 text-[#C1121F]' : 'text-black'
-                }`}
-              />
-            </button>
+              <button
+                type="button"
+                aria-expanded={isPlatformOpen}
+                aria-haspopup="menu"
+                onClick={handlePlatformClick}
+                className={getNavLinkClasses(isPlatformActive)}
+              >
+                <span className="nav-item-label">Platform</span>
+                <span
+                  className={`font-mono text-xs transition-transform duration-200 ${
+                    isPlatformOpen ? 'rotate-180 text-[#C1121F]' : 'text-slate-700'
+                  }`}
+                  aria-hidden="true"
+                >
+                  ▾
+                </span>
+              </button>
 
-            {/* Invisible hover bridge to keep menu active while moving mouse */}
-            <div className="absolute top-full left-1/2 -translate-x-1/2 w-full h-4" />
-
-            {/* Mega Menu Dropdown */}
-            <PlatformMegaMenu
-              isOpen={isPlatformOpen}
-              onClose={() => setIsPlatformOpen(false)}
-            />
-          </div>
+              {/* Invisible hover bridge to keep menu active while moving mouse */}
+              <div className="absolute top-full left-1/2 -translate-x-1/2 w-full h-6" />
+            </div>
 
           {/* 3. Pricing */}
           <Link to="/pricing" className={getNavLinkClasses(isPricingActive)}>
@@ -264,6 +276,19 @@ export const Navbar = () => {
         </div>
       </div>
 
+      {/* Desktop Mega Menu Dropdown: Aligned to the entire header width across laptop screen */}
+      <div
+        ref={platformMenuWrapperRef}
+        onMouseEnter={handlePlatformMouseEnter}
+        onMouseLeave={handlePlatformMouseLeave}
+        className="hidden lg:block absolute top-full left-0 right-0 w-full pt-2.5 pointer-events-none"
+      >
+        <PlatformMegaMenu
+          isOpen={isPlatformOpen}
+          onClose={() => setIsPlatformOpen(false)}
+        />
+      </div>
+
       {/* Mobile Drawer Navigation (Accordion Style) */}
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-slate-200/90 bg-white/95 backdrop-blur-xl px-5 py-5 space-y-3.5 max-h-[85vh] overflow-y-auto shadow-2xl animate-in fade-in duration-200 rounded-b-2xl sm:rounded-b-3xl">
@@ -291,19 +316,21 @@ export const Navbar = () => {
                 <span className="flex items-center gap-2">
                   <span className="text-[#C1121F] font-bold">Platform</span>
                 </span>
-                <ChevronDown
-                  size={16}
-                  className={`text-slate-500 transition-transform duration-200 ${
-                    mobilePlatformExpanded ? 'rotate-180 text-[#C1121F]' : ''
+                <span
+                  className={`font-mono text-xs transition-transform duration-200 ${
+                    mobilePlatformExpanded ? 'rotate-180 text-[#C1121F]' : 'text-slate-500'
                   }`}
-                />
+                  aria-hidden="true"
+                >
+                  ▾
+                </span>
               </button>
 
               {mobilePlatformExpanded && (
                 <div className="p-2.5 space-y-2 bg-white">
                   {platformCategories.map((cat) => {
                     const isCatOpen = mobileExpandedCategory === cat.id;
-                    const CatIcon = cat.sidebarIcon;
+                    const items = cat.items || (cat.groups ? cat.groups.flatMap((g) => g.items) : []);
 
                     return (
                       <div
@@ -315,34 +342,61 @@ export const Navbar = () => {
                           onClick={() =>
                             setMobileExpandedCategory(isCatOpen ? null : cat.id)
                           }
-                          className="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-slate-800 bg-slate-50 hover:bg-slate-100 transition-colors"
+                          className="w-full flex items-center justify-between px-3.5 py-3 text-xs font-semibold text-slate-800 bg-slate-50 hover:bg-slate-100 transition-colors"
                         >
-                          <span>{cat.name}</span>
-                          <ChevronDown
-                            size={13}
-                            className={`text-slate-400 transition-transform ${
-                              isCatOpen ? 'rotate-180 text-[#FF7A00]' : ''
+                          <span className={isCatOpen ? 'text-[#C1121F] font-bold' : ''}>{cat.name}</span>
+                          <span
+                            className={`text-[#C1121F] font-mono text-xs transition-transform duration-200 ${
+                              isCatOpen ? 'rotate-90' : ''
                             }`}
-                          />
+                            aria-hidden="true"
+                          >
+                            →
+                          </span>
                         </button>
 
                         {isCatOpen && (
                           <div className="p-2 space-y-1 bg-white">
-                            {cat.groups.flatMap((g) => g.items).map((item) => (
-                              <Link
-                                key={item.name}
-                                to={item.href}
-                                onClick={() => setMobileMenuOpen(false)}
-                                className="flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-50 transition-colors group"
-                              >
-                                <span className="text-xs font-semibold text-slate-800 group-hover:text-[#C1121F] transition-colors">
-                                  {item.name}
+                            {cat.isComingSoon ? (
+                              <div className="text-center py-3 px-2 space-y-2">
+                                <span className="inline-block px-2.5 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200 text-[10px] font-mono font-semibold uppercase">
+                                  Coming Soon
                                 </span>
-                                <span className="text-[#C1121F] font-mono text-xs font-bold">
-                                  →
-                                </span>
-                              </Link>
-                            ))}
+                                <p className="text-xs text-slate-500">
+                                  Our cybersecurity products are currently in development and will be available soon.
+                                </p>
+                                <Link
+                                  to="/services/vulnerability-assessment"
+                                  onClick={() => setMobileMenuOpen(false)}
+                                  className="inline-block text-xs font-semibold text-[#C1121F] pt-1"
+                                >
+                                  Explore Active Services →
+                                </Link>
+                              </div>
+                            ) : (
+                              items.map((item) => (
+                                <Link
+                                  key={item.name}
+                                  to={item.href}
+                                  onClick={() => setMobileMenuOpen(false)}
+                                  className="flex flex-col p-3 rounded-lg hover:bg-slate-50 transition-colors group"
+                                >
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-xs font-semibold text-slate-800 group-hover:text-[#C1121F] transition-colors">
+                                      {item.name}
+                                    </span>
+                                    <span className="text-[#C1121F] font-mono text-xs font-bold" aria-hidden="true">
+                                      →
+                                    </span>
+                                  </div>
+                                  {item.description && (
+                                    <span className="text-[11px] text-slate-500 mt-1 line-clamp-1">
+                                      {item.description}
+                                    </span>
+                                  )}
+                                </Link>
+                              ))
+                            )}
                           </div>
                         )}
                       </div>
@@ -432,6 +486,7 @@ export const Navbar = () => {
         </div>
       )}
     </header>
+  </>
   );
 };
 
