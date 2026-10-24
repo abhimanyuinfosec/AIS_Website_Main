@@ -4,199 +4,199 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <url>
-    <loc>https://www.abhimanyuinfosec.com/</loc>
+    <loc>https://www.abhimanyuinfosec.in/</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/about</loc>
+    <loc>https://www.abhimanyuinfosec.in/about</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/about/mission</loc>
+    <loc>https://www.abhimanyuinfosec.in/about/mission</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/about/approach</loc>
+    <loc>https://www.abhimanyuinfosec.in/about/approach</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/about/why-ais</loc>
+    <loc>https://www.abhimanyuinfosec.in/about/why-ais</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/about/team</loc>
+    <loc>https://www.abhimanyuinfosec.in/about/team</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/pricing</loc>
+    <loc>https://www.abhimanyuinfosec.in/pricing</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/docs</loc>
+    <loc>https://www.abhimanyuinfosec.in/docs</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/contact</loc>
+    <loc>https://www.abhimanyuinfosec.in/contact</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/services</loc>
+    <loc>https://www.abhimanyuinfosec.in/services</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/services/vulnerability-assessment</loc>
+    <loc>https://www.abhimanyuinfosec.in/services/vulnerability-assessment</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/services/web-security</loc>
+    <loc>https://www.abhimanyuinfosec.in/services/web-security</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/services/network-security</loc>
+    <loc>https://www.abhimanyuinfosec.in/services/network-security</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/services/penetration-testing</loc>
+    <loc>https://www.abhimanyuinfosec.in/services/penetration-testing</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/services/threat-detection</loc>
+    <loc>https://www.abhimanyuinfosec.in/services/threat-detection</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/services/security-hardening</loc>
+    <loc>https://www.abhimanyuinfosec.in/services/security-hardening</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/products</loc>
+    <loc>https://www.abhimanyuinfosec.in/products</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/technology</loc>
+    <loc>https://www.abhimanyuinfosec.in/technology</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/products/autored-apt</loc>
+    <loc>https://www.abhimanyuinfosec.in/products/autored-apt</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/products/ip-intelligence</loc>
+    <loc>https://www.abhimanyuinfosec.in/products/ip-intelligence</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/products/hybrid-ids</loc>
+    <loc>https://www.abhimanyuinfosec.in/products/hybrid-ids</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/products/sanjay-url-detector</loc>
+    <loc>https://www.abhimanyuinfosec.in/products/sanjay-url-detector</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/projects</loc>
+    <loc>https://www.abhimanyuinfosec.in/projects</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/projects/banking-swift-gateway-red-team</loc>
+    <loc>https://www.abhimanyuinfosec.in/projects/banking-swift-gateway-red-team</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/projects/cloud-devsecops-container-security</loc>
+    <loc>https://www.abhimanyuinfosec.in/projects/cloud-devsecops-container-security</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/projects/scada-ics-critical-infrastructure-audit</loc>
+    <loc>https://www.abhimanyuinfosec.in/projects/scada-ics-critical-infrastructure-audit</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/research</loc>
+    <loc>https://www.abhimanyuinfosec.in/research</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/insights</loc>
+    <loc>https://www.abhimanyuinfosec.in/insights</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/insights/5-web-security-risks-every-business-should-know</loc>
+    <loc>https://www.abhimanyuinfosec.in/insights/5-web-security-risks-every-business-should-know</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/insights/why-smes-are-becoming-targets-for-cyber-attacks</loc>
+    <loc>https://www.abhimanyuinfosec.in/insights/why-smes-are-becoming-targets-for-cyber-attacks</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/insights/what-is-attack-surface-management</loc>
+    <loc>https://www.abhimanyuinfosec.in/insights/what-is-attack-surface-management</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/insights/vulnerability-assessment-vs-penetration-testing</loc>
+    <loc>https://www.abhimanyuinfosec.in/insights/vulnerability-assessment-vs-penetration-testing</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.abhimanyuinfosec.com/login</loc>
+    <loc>https://www.abhimanyuinfosec.in/login</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>

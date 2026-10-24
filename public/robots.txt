@@ -10,4 +10,4 @@ Disallow: /auth/
 Disallow: /api/
 
 # Sitemap location
-Sitemap: https://www.abhimanyuinfosec.com/sitemap.xml
+Sitemap: https://www.abhimanyuinfosec.in/sitemap.xml
